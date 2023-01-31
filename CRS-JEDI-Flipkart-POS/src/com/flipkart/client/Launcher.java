@@ -10,7 +10,6 @@ public class Launcher {
     	System.out.println("2. Registration of the Student");
     	System.out.println("3. Update Password");
     	System.out.println("4. Exit");
-//    	Scanner sc= new Scanner(System.in);    //System.in is a standard input stream 
     	System.out.println("Enter your choice: ");
     	Scanner sc= new Scanner(System.in);
     	int choice= sc.nextInt(); 
