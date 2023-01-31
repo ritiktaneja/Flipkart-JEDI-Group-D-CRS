@@ -1,7 +1,7 @@
 package com.flipkart.client;
 import java.util.*;  
 
-public class Launcher {
+public class CRSApplication {
 
 
     public static void main(String[] args) {
@@ -9,7 +9,7 @@ public class Launcher {
     	System.out.println("1. Login");
     	System.out.println("2. Registration of the Student");
     	System.out.println("3. Update Password");
-    	System.out.println("4. Exit");
+    	System.out.println("4. Logout");
     	System.out.println("Enter your choice: ");
     	Scanner sc= new Scanner(System.in);
     	int choice= sc.nextInt(); 
@@ -29,21 +29,21 @@ public class Launcher {
 		    		if(role==1)
 		    		{
 		    			System.out.println("Welcome to Student Menu: ");
-		    			StudentMenu stuobj = new StudentMenu();
+		    			CRSStudentMenu stuobj = new CRSStudentMenu();
 						stuobj.createMenu();
 		    			break;
 		    		}
 		    		else if(role==2)
 		    		{
 		    			System.out.println("Welcome to Admin Menu: ");
-		    			AdminMenu stuobj = new AdminMenu();
+		    			CRSAdminMenu stuobj = new CRSAdminMenu();
 						stuobj.createMenu();
 		    			break;
 		    		}
 		    		else if(role==3)
 		    		{
 		    			System.out.println("Welcome to Professor Menu: ");
-		    			ProfessorMenu stuobj = new ProfessorMenu();
+		    			CRSProfessorMenu stuobj = new CRSProfessorMenu();
 						stuobj.createMenu();
 		    			break;
 		    		}

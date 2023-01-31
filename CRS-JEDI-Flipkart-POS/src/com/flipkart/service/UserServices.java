@@ -1,6 +1,6 @@
 package com.flipkart.service;
 
-public interface UserInterface {
+public interface UserServices {
 
     public boolean updatePassword(String oldPassword, String newPassword);
 

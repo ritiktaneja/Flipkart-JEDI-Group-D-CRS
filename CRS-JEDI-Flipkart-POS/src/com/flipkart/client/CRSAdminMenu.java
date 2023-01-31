@@ -2,7 +2,7 @@ package com.flipkart.client;
 
 import java.util.Scanner;
 
-public class AdminMenu {
+public class CRSAdminMenu {
 
     public void createMenu() {
         System.out.println("********************* Welcome Admin *********************");
@@ -13,9 +13,7 @@ public class AdminMenu {
             System.out.println("3. Add Admin");
             System.out.println("4. Approve Student");
             System.out.println("5. Delete Course from catalog");
-            System.out.println("6. Assign Course to professor");
-            System.out.println("7. View Pending Admission");
-            System.out.println("8. Exit");
+            System.out.println("6. Logout");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();

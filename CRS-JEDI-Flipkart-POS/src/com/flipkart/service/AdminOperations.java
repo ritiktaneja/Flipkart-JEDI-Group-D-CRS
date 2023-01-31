@@ -1,13 +1,12 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.Course;
-import com.flipkart.bean.CourseCatalog;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 
 import java.util.List;
 
-public class AdminOperations implements AdminInterface {
+public class AdminOperations implements AdminServices {
 
     public void addCourse(Course course, String catalogId) {
         // DAO Operation

@@ -2,20 +2,20 @@ package com.flipkart.client;
 
 import java.util.Scanner;
 
-public class StudentMenu {
+public class CRSStudentMenu {
 
     public void createMenu() {
         System.out.println("********************* Welcome Student *********************");
         while (true) {
             System.out.println("********************** Student Menu **********************");
-            System.out.println("1. Register for courses");
+            System.out.println("1. Semester Registration");
             System.out.println("2. Add Course");
             System.out.println("3. Drop Course");
             System.out.println("4. View Available courses");
             System.out.println("5. View Registered Courses");
-            System.out.println("6. View Gradecard");
+            System.out.println("6. View Grade Card");
             System.out.println("7. Pay fees");
-            System.out.println("8. Exit");
+            System.out.println("8. Logout");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();

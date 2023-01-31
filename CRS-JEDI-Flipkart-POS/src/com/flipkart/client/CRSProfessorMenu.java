@@ -2,7 +2,7 @@ package com.flipkart.client;
 
 import java.util.Scanner;
 
-public class ProfessorMenu {
+public class CRSProfessorMenu {
 
     public void createMenu() {
 
@@ -11,8 +11,8 @@ public class ProfessorMenu {
             System.out.println("********************** Professor Menu **********************");
             System.out.println("1. View Enrolled Students");
             System.out.println("2. Add Grade");
-            System.out.println("3. View Assigned Courses");
-            System.out.println("4. Exit");
+            System.out.println("3. Register for Courses");
+            System.out.println("4. Logout");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
