@@ -5,6 +5,7 @@ import java.util.List;
 
 public class CourseCatalog {
 
+    private String catalogId;
     private List<Course> courses;
 
     public  void addCourse(Course course) {
