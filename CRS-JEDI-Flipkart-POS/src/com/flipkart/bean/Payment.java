@@ -1,12 +1,26 @@
 package com.flipkart.bean;
+
+import com.flipkart.constants.ModeOfPayment;
+
 public class Payment {
 
     private Student student;
     private String referenceId;
     private float amount;
     private boolean status;
+    private ModeOfPayment modeOfPayment;
+    //mode of payment -> online and offline
+    //Type of payment using either option
+    
+    public ModeOfPayment getModeOfPayment() {
+		return modeOfPayment;
+	}
 
-    public Student getStudent() {
+	public void setModeOfPayment(ModeOfPayment modeOfPayment) {
+		this.modeOfPayment = modeOfPayment;
+	}
+
+	public Student getStudent() {
         return student;
     }
 
