@@ -36,6 +36,7 @@ public class Launcher {
 		    		{
 		    			System.out.println("Welcome to Admin Menu: ");
 		    			AdminMenu stuobj = new AdminMenu();
+						stuobj.createMenu();
 		    			break;
 		    		}
 		    		else if(role==3)
