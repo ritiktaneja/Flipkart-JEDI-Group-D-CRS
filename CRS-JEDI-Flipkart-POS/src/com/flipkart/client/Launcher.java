@@ -30,6 +30,7 @@ public class Launcher {
 		    		{
 		    			System.out.println("Welcome to Student Menu: ");
 		    			StudentMenu stuobj = new StudentMenu();
+						stuobj.createMenu();
 		    			break;
 		    		}
 		    		else if(role==2)
@@ -43,6 +44,7 @@ public class Launcher {
 		    		{
 		    			System.out.println("Welcome to Professor Menu: ");
 		    			ProfessorMenu stuobj = new ProfessorMenu();
+						stuobj.createMenu();
 		    			break;
 		    		}
 		    		else
