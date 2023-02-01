@@ -1,12 +1,11 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.Course;
-import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 
 import java.util.List;
 
-public interface AdminServices {
+public interface AdminServices extends UserServices{
 
     void addCourse(Course course, String catalogId) throws Exception;
     void deleteCourse(String courseCode) throws Exception;

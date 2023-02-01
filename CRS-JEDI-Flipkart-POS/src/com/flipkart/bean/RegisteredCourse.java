@@ -2,8 +2,6 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.Grade;
 
-import java.util.List;
-
 public class RegisteredCourse {
     public int semester;
 

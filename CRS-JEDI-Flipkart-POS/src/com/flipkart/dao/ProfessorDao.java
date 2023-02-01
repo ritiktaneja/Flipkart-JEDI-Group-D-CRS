@@ -1,22 +1,24 @@
 package com.flipkart.dao;
 
+import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.Department;
+import com.flipkart.constants.Designation;
 import com.flipkart.utils.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDao implements DaoInterface<Student>  {
+public class ProfessorDao implements DaoInterface<Professor>  {
 
-    private static final String DELETE = "DELETE FROM student WHERE id=?";
-    private static final String GET_ALL = "SELECT * FROM student ORDER BY id";
-    private static final String GET_BY_ID = "SELECT * FROM student WHERE id=?";
-    private static final String INSERT = "INSERT INTO student(studentId, name, password, batch, department) VALUES(?, ?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE student SET name=?, password=?, batch=?, department=? WHERE studentId=?";
+    private static final String DELETE = "DELETE FROM professor WHERE id=?";
+    private static final String GET_ALL = "SELECT * FROM professor ORDER BY id";
+    private static final String GET_BY_ID = "SELECT * FROM professor WHERE id=?";
+    private static final String INSERT = "INSERT INTO professor(facultyId, name, password, department, designation) VALUES(?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE professor SET name=?, password=?, department=?, designation=? WHERE professorId=?";
     @Override
-    public Student get(String id) {
+    public Professor get(String id) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
@@ -24,12 +26,12 @@ public class StudentDao implements DaoInterface<Student>  {
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
-                Student.StudentBuilder builder = new Student.StudentBuilder();
-                builder.setStudentId(rs.getString("studentId"));
+                Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
+                builder.setFacultyId(rs.getString("facultyId"));
                 builder.setName(rs.getString("name"));
                 builder.setPassword(rs.getString("password"));
-                builder.setBatch(rs.getInt("batch"));
                 builder.setDepartment(Department.values()[rs.getInt("department")]);
+                builder.setDesignation(Designation.values()[rs.getInt("designation")]);
                 return builder.build();
             } else {
                 throw new SQLException("Student Not Found");
@@ -42,23 +44,23 @@ public class StudentDao implements DaoInterface<Student>  {
     }
 
     @Override
-    public List<Student> getAll() {
+    public List<Professor> getAll() {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
-        List<Student> studentList = new ArrayList<>();
+        List<Professor> professorList = new ArrayList<>();
         try {
             stmt = connection.prepareStatement(GET_ALL);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
-                Student.StudentBuilder builder = new Student.StudentBuilder();
-                builder.setStudentId(rs.getString("studentId"));
+                Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
+                builder.setFacultyId(rs.getString("facultyId"));
                 builder.setName(rs.getString("name"));
                 builder.setPassword(rs.getString("password"));
-                builder.setBatch(rs.getInt("batch"));
+                builder.setDesignation(Designation.values()[rs.getInt("designation")]);
                 builder.setDepartment(Department.values()[rs.getInt("department")]);
-                studentList.add(builder.build());
+                professorList.add(builder.build());
             }
-            return studentList;
+            return professorList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -67,16 +69,16 @@ public class StudentDao implements DaoInterface<Student>  {
         }
     }
 
-    public int insert(Student student) {
+    public int insert(Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, student.getStudentId());
-            stmt.setString(2, student.getName());
-            stmt.setString(3, student.getPassword());
-            stmt.setInt(4, student.getBatch());
-            stmt.setInt(5, student.getDepartment().getValue());
+            stmt.setString(1, professor.getFacultyId());
+            stmt.setString(2, professor.getName());
+            stmt.setString(3, professor.getPassword());
+            stmt.setInt(4, professor.getDepartment().getValue());
+            stmt.setInt(5, professor.getDesignation().getValue());
             int result = stmt.executeUpdate();
             return result;
         } catch (SQLException e) {
@@ -85,15 +87,15 @@ public class StudentDao implements DaoInterface<Student>  {
             DBConnection.closeConnection(connection);
         }
     }
-    public int update(String id, Student student) {
+    public int update(String id, Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(UPDATE);
-            stmt.setString(1, student.getName());
-            stmt.setString(2, student.getPassword());
-            stmt.setInt(3, student.getBatch());
-            stmt.setInt(4, student.getDepartment().getValue());
+            stmt.setString(1, professor.getName());
+            stmt.setString(2, professor.getPassword());
+            stmt.setInt(3, professor.getDepartment().getValue());
+            stmt.setInt(4, professor.getDesignation().getValue());
             stmt.setString(5, id);
             return stmt.executeUpdate();
         } catch(SQLException e) {
@@ -102,12 +104,12 @@ public class StudentDao implements DaoInterface<Student>  {
             DBConnection.closeConnection(connection);
         }
     }
-    public int delete(Student student) {
+    public int delete(Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(DELETE);
-            stmt.setString(1, student.getStudentId());
+            stmt.setString(1, professor.getFacultyId());
             return stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -116,9 +118,15 @@ public class StudentDao implements DaoInterface<Student>  {
         }
     }
 
+
+
 }
 
 
 /**
  * CRUD -> Create, Read,
  */
+
+
+
+

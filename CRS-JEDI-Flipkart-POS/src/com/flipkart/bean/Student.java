@@ -3,15 +3,13 @@ package com.flipkart.bean;
 import com.flipkart.constants.Department;
 
 public class Student extends User{
-    private String studentId;
+
     private Department department;
     private int batch;
     public String getStudentId() {
-        return studentId;
+        return super.getUserId();
     }
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
+
     public Department getDepartment() {
         return department;
     }
@@ -27,12 +25,12 @@ public class Student extends User{
 
     private Student(StudentBuilder builder) {
         super(builder.studentId, builder.name, builder.password);
-        this.studentId = builder.studentId;
         this.batch = builder.batch;
         this.department = builder.department;
     }
 
-    public class StudentBuilder {
+
+    public static class StudentBuilder {
         private String studentId, name, password;
         private int batch;
         private Department department;

@@ -6,11 +6,7 @@ import com.flipkart.bean.Student;
 
 import java.util.List;
 
-<<<<<<< HEAD:CRS-JEDI-Flipkart-POS/src/com/flipkart/service/ProfessorOperations.java
-public class ProfessorOperations implements ProfessorServices {
-=======
-public class ProfessorImpl extends UserOperations implements ProfessorInterface {
->>>>>>> 9234335 (Extended sub user Service clases with user operations class):CRS-JEDI-Flipkart-POS/src/com/flipkart/service/ProfessorImpl.java
+public class ProfessorOperations extends UserOperations implements ProfessorServices {
 
     private static volatile ProfessorOperations instance = null;
 
@@ -26,7 +22,6 @@ public class ProfessorImpl extends UserOperations implements ProfessorInterface 
         }
         return instance;
     }
-
 
     @Override
     public boolean addGrade(RegisteredCourse course) throws Exception{

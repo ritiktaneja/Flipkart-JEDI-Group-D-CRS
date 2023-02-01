@@ -17,13 +17,17 @@ public class Admin extends User{
 
     }
 
-    private Admin(AdminBuilder builder) {
-        super(builder.userId, builder.name, builder.password);
+    public String getAdminId() {
+        return super.getUserId();
     }
-    public class AdminBuilder {
-        private String userId, name, password;
 
-        public AdminBuilder setUserId(String userId) {this.userId = userId; return this;}
+    private Admin(AdminBuilder builder) {
+        super(builder.adminId, builder.name, builder.password);
+    }
+    public static class AdminBuilder {
+        private String adminId, name, password;
+
+        public AdminBuilder setAdminId(String adminId) {this.adminId = adminId; return this;}
         public AdminBuilder setName(String name) {this.name = name; return this;}
         public AdminBuilder setPassword(String password) {this.password = password; return this;}
 

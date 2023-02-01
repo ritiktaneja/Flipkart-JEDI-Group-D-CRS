@@ -6,8 +6,7 @@ import com.flipkart.bean.Student;
 
 import java.util.List;
 
-public interface ProfessorServices {
-
+public interface ProfessorServices extends UserServices {
 
     public boolean addGrade(RegisteredCourse course) throws Exception;
     public List<Student> viewEnrolledStudents(Course course) throws Exception;
