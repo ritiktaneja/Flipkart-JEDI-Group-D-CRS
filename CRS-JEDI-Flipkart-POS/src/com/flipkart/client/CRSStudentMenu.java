@@ -67,31 +67,31 @@ public class CRSStudentMenu {
 
         Scanner sc = Scanner(System.in);
         System.out.println("Give the Student ID: ");
-        String Id = sc.next();
+        String studentId = sc.next();
 
-        Student student = null;
-        student = StudentOperations.getStudentfronId(Id);
+        System.out.println("Give the semester: ");
+        String semeter = sc.next();
 
-        Semester semester = null;
+        System.out.println("Give the Course Code: ");
+        String courseCode = sc.next();
 
-        Course course = null;
-        addCourse(Student student, Semester semester, Course course);
-        System.out.println("Course Added to Student with Student ID: " + id);
+        if(addCourse(studentId, semester, courseCode))
+            System.out.println("Course Added!");
+        else
+            System.out.println("Course could not be Added!");
 
     }
 
     public void dropCourse() {
+
         Scanner sc = Scanner(System.in);
-
-        System.out.println("Give the Student ID: ");
+        System.out.println("Give the Registered Course ID: ");
         String Id = sc.next();
+        if(dropCourse(Id));
+            System.out.println("Course Dropped!");
+        else
+            System.out.println("Course could not be Dropped!");
 
-        Student student = null;
-        student = StudentOperations.getStudentfronId(Id);
-
-        dropCourse(RegisteredCourse registeredCourse);
-
-//        System.out.println( Student with Student ID: " + id);
     }
 
     public void viewAvailableCourses() {
@@ -99,24 +99,32 @@ public class CRSStudentMenu {
         Scanner sc = Scanner(System.in);
         System.out.println("Give the Catalog ID: ");
         String catalogId = sc.next();
-        StudentServices.viewCourses(catalogId);
+
+        List<Course> ls = StudentServices.viewCourses(catalogId);
+        for(Course c : ls) {
+            System.out.println(c.getName());
+        }
     }
 
     public void viewRegisteredCourses() {
 
         Scanner sc = Scanner(System.in);
         System.out.println("Give the Student ID: ");
-        String Id = sc.next();
+        String  studentId = sc.next();
 
-        Student student = null;
-        student = StudentOperations.getStudentfronId(Id);
+        System.out.println("Give the semester: ");
+        String semester = sc.next();
 
-        Semester semester = null;
-        viewRegisteredCourses(Student student, Semester semester)
+        List<RegisteredCourse> ls = viewRegisteredCourses(studentId, semester);
+
+        for(RegisteredCourse c : ls) {
+            System.out.println(c.getcourse().getName());
+        }
+
     }
 
     public void viewGradesCard() {
-
+        // NOT YET IMPLEMENTED!
     }
 
     public void payFees() {
@@ -124,9 +132,7 @@ public class CRSStudentMenu {
         System.out.println("Give the Student ID: ");
         String Id = sc.next();
 
-        Student student = null;
-        student = StudentOperations.getStudentfronId(Id);
-        long fee = calculateFee(Student student);
+        long fee = calculateFee(Id);
         System.out.println("The total fee for the Student with Student ID: " + id + " is " + fee);
 
         // TODO : update the fee paid status somewhere in DB
