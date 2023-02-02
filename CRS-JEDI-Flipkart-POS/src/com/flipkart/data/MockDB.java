@@ -18,7 +18,6 @@ public class MockDB {
 
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
         ArrayList<String> names = new ArrayList<>(Arrays.asList("Geeks", "Jean", "John", "Francis", "Daniel", "Dave", "Seth", "Wade", "Miles", "Brain", "Ben", "parker"));
-        ArrayList<String> Co = new ArrayList<>(Arrays.asList("Geeks", "Jean", "John", "Francis", "Daniel", "Dave", "Seth", "Wade", "Miles", "Brain", "Ben", "parker"));
         ArrayList<Department> departments = new ArrayList<>(Arrays.asList(Department.IT, Department.CIVIL, Department.CSE, Department.CIVIL, Department.EEE, Department.MECH));
 
         int id = 20231010;
@@ -26,7 +25,7 @@ public class MockDB {
             studentBuilder.setName(names.get(i));
             studentBuilder.setBatch(2023);
             studentBuilder.setDepartment(departments.get(i % departments.size()));
-            studentBuilder.setStudentId("ST-" + id + i);
+            studentBuilder.setStudentId("ST-" + (id + i));
             students.add(studentBuilder.build());
         }
 
@@ -43,15 +42,15 @@ public class MockDB {
         int catalogID = 1001;
         for (int j = 0; j < 3; j++) {
             CourseCatalog catalog = new CourseCatalog();
-            catalog.setCatalogId("CT-" + catalogID + j);
+            catalog.setCatalogId("CT-" + (catalogID + j));
             for (int i = 0; i < cousesList.size(); i++) {
                 Course course = new Course();
-                course.setCourseCode("CS-" + couseId + i);
+                course.setCourseCode("CS-" + (couseId + i));
                 course.setName(cousesList.get(i));
                 professorBuilder.setDepartment(departments.get(i % departments.size()));
                 professorBuilder.setDesignation(desiginations.get(i % desiginations.size()));
                 professorBuilder.setName(profNames.get(i));
-                professorBuilder.setFacultyId("PR-" + facutltyId + i);
+                professorBuilder.setFacultyId("PR-" + (facutltyId + i));
                 course.setProfessor(professorBuilder.build());
                 catalog.addCourse(course);
             }

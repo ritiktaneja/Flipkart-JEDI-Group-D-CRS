@@ -20,7 +20,7 @@ public class Admin extends User {
 
     @Override
     public String toString() {
-        return "Admin name = " + this.getName() + " -- id = " + this.getAdminId();
+        return "Admin name = " + this.getName() + ", id = " + this.getAdminId();
 
     }
 
