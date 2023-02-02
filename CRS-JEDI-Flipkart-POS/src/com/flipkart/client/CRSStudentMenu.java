@@ -12,6 +12,7 @@ import com.flipkart.service.StudentOperations;
 
 public class CRSStudentMenu {
 
+	Scanner sc= new Scanner(System.in);
     public void createMenu() {
         System.out.println("********************* Welcome Student *********************");
         while (true) {
@@ -64,13 +65,11 @@ public class CRSStudentMenu {
     }
 
     public void addCourse() {
-
-        Scanner sc = Scanner(System.in);
         System.out.println("Give the Student ID: ");
         String studentId = sc.next();
 
         System.out.println("Give the semester: ");
-        String semeter = sc.next();
+        String semester = sc.next();
 
         System.out.println("Give the Course Code: ");
         String courseCode = sc.next();
@@ -84,7 +83,6 @@ public class CRSStudentMenu {
 
     public void dropCourse() {
 
-        Scanner sc = Scanner(System.in);
         System.out.println("Give the Registered Course ID: ");
         String Id = sc.next();
         if(dropCourse(Id));
@@ -96,7 +94,6 @@ public class CRSStudentMenu {
 
     public void viewAvailableCourses() {
 
-        Scanner sc = Scanner(System.in);
         System.out.println("Give the Catalog ID: ");
         String catalogId = sc.next();
 
@@ -108,7 +105,6 @@ public class CRSStudentMenu {
 
     public void viewRegisteredCourses() {
 
-        Scanner sc = Scanner(System.in);
         System.out.println("Give the Student ID: ");
         String  studentId = sc.next();
 
@@ -128,12 +124,11 @@ public class CRSStudentMenu {
     }
 
     public void payFees() {
-        Scanner sc = Scanner(System.in);
         System.out.println("Give the Student ID: ");
         String Id = sc.next();
 
         long fee = calculateFee(Id);
-        System.out.println("The total fee for the Student with Student ID: " + id + " is " + fee);
+        System.out.println("The total fee for the Student with Student ID: " + Id + " is " + fee);
 
         // TODO : update the fee paid status somewhere in DB
 
