@@ -1,6 +1,7 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.*;
+import com.flipkart.constants.Grade;
 import com.flipkart.data.MockDB;
 
 import java.awt.dnd.DragGestureEvent;
@@ -27,21 +28,20 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     @Override
-    public boolean addGrade(RegisteredCourse course) throws Exception {
-
+    public boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
+        course.setGrade(grade);
         return true;
     }
 
     public List<Student> viewEnrolledStudents(Course course) throws Exception {
         List<Student> students = new ArrayList<>();
 
-        for (Map.Entry<Semester, Map<Student, Set<RegisteredCourse>>> e : MockDB.registeredCourses.entrySet()) {
-            for (Map.Entry<Student, Set<RegisteredCourse>> y : e.getValue().entrySet()) {
-                if (y.getValue().contains(course)) {
-                    students.add(y.getKey());
-                }
+        for (Map.Entry<Student, Set<RegisteredCourse>> y : MockDB.registeredCourses.entrySet()) {
+            if (y.getValue().contains(course)) {
+                students.add(y.getKey());
             }
         }
+
         return students;
     }
 

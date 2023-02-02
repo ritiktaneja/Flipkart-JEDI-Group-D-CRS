@@ -1,5 +1,6 @@
 package com.flipkart.client;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.flipkart.bean.Course;
@@ -8,9 +9,9 @@ import com.flipkart.service.*;
 
 public class CRSStudentMenu {
 
-	Scanner sc= new Scanner(System.in);
-	StudentServices obj = new StudentOperations();
-	
+    Scanner sc = new Scanner(System.in);
+    StudentServices obj = new StudentOperations();
+
     public void createMenu() {
         System.out.println("********************* Welcome Student *********************");
         while (true) {
@@ -69,7 +70,7 @@ public class CRSStudentMenu {
         System.out.println("Give the Course Code: ");
         String courseCode = sc.next();
 
-        if(obj.addCourse(studentId, courseCode))
+        if (obj.addCourse(studentId, courseCode))
             System.out.println("Course Added!");
         else
             System.out.println("Course could not be Added!");
@@ -80,7 +81,7 @@ public class CRSStudentMenu {
 
         System.out.println("Give the Registered Course ID: ");
         String Id = sc.next();
-        if(obj.dropCourse(Id))
+        if (obj.dropCourse(Id))
             System.out.println("Course Dropped!");
         else
             System.out.println("Course could not be Dropped!");
@@ -93,7 +94,7 @@ public class CRSStudentMenu {
         String catalogId = sc.next();
 
         List<Course> ls = obj.viewCourses(catalogId);
-        for(Course c : ls) {
+        for (Course c : ls) {
             System.out.println(c.getName());
         }
     }
@@ -101,15 +102,15 @@ public class CRSStudentMenu {
     public void viewRegisteredCourses() {
 
         System.out.println("Give the Student ID: ");
-        String  studentId = sc.next();
+        String studentId = sc.next();
 
         System.out.println("Give the semester: ");
         String semester = sc.next();
 
-        List<RegisteredCourse> ls = obj.viewRegisteredCourses(studentId, semester);
+        List<RegisteredCourse> ls = obj.viewRegisteredCourses(studentId);
 
-        for(RegisteredCourse c : ls) {
-            System.out.println(c.getcourse().getName());
+        for (RegisteredCourse c : ls) {
+            System.out.println(c.getCourse().getName());
         }
 
     }
