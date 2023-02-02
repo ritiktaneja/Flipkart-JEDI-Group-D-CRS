@@ -56,8 +56,8 @@ public class MockDB {
         }
         for (int i = 0; i < catalogs.size(); i++) {
             System.out.println("Catalog no. = " + i);
-            for (int j = 0; j < catalogs.get(i).getCourses().size(); j++) {
-                System.out.println(catalogs.get(i).getCourses().get(j));
+            for (int j = 0; j < catalogs.get(i).getCourseList().size(); j++) {
+                System.out.println(catalogs.get(i).getCourseList().get(j));
             }
         }
     }
