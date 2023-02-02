@@ -69,4 +69,25 @@ public class StudentOperations implements StudentServices extends UserOperations
            MockDB.registeredCourses.get(semester).put(student, new HashSet<>());
        }
    }
+   
+	@Override
+	public boolean updatePassword(String oldPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public List<Course> viewCourses(String catalogId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public long calculateFee(Student student) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public boolean getRegistrationStatus(String studentId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
