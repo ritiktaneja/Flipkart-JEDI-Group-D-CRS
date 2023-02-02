@@ -11,8 +11,8 @@ public interface CourseCatalogServices {
 
     List<Catalog> viewAllCatalogs();
 
-    void addCourseToCatalog(CourseCatalog catalog, Course course); // use function inside coursecatalog bean
-    void removeCourseFromCatalog(CourseCatalog catalog, Course course);
+    void addCourseToCatalog(String catalogId, String courseId); // use function inside coursecatalog bean
+    void removeCourseFromCatalog(String catalogId, String courseId);
 
     void addCatalog(String catalogId);
     void deleteCatalog(String catalogId);

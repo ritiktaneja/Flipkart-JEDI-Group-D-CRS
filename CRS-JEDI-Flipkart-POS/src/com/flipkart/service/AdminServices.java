@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface AdminServices extends UserServices{
 
-    void addCourse(Course course, String catalogId) throws Exception;
+    void addCourse(String catalogId, String courseId) throws Exception;
     void deleteCourse(String courseCode) throws Exception;
     void approveStudent(String studentId) throws Exception;
-    void addProfessor(Professor professor) throws Exception;
+    void addProfessor(String professorId) throws Exception;
     void assignCourse(String courseCode, String professorId) throws Exception;
-    List<Course> viewCourses(int catalogId) throws Exception;
+    List<Course> viewCourses(String catalogId) throws Exception;
     List<Professor> viewProfessors();
     List<Student> viewStudents();
     List<Student> viewPendingApprovals();
