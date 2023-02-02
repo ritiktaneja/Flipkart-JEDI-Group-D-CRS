@@ -2,6 +2,14 @@ package com.flipkart.client;
 
 import java.util.Scanner;
 
+import com.flipkart.bean.Course;
+import com.flipkart.bean.RegisteredCourse;
+import com.flipkart.bean.Semester;
+import com.flipkart.bean.Student;
+import com.flipkart.constants.Grade;
+import com.flipkart.data.MockDB;
+import com.flipkart.service.StudentOperations;
+
 public class CRSStudentMenu {
 
     public void createMenu() {
@@ -23,16 +31,22 @@ public class CRSStudentMenu {
                 case 1:
                     break;
                 case 2:
+                    addCourse();
                     break;
                 case 3:
+                    dropCourse();
                     break;
                 case 4:
+                    viewAvailableCourses();
                     break;
                 case 5:
+                    viewRegisteredCourses();
                     break;
                 case 6:
+                    viewGradesCard();
                     break;
                 case 7:
+                    payFees();
                     break;
                 case 8:
                     System.out.println("Exiting . . .");
@@ -51,18 +65,54 @@ public class CRSStudentMenu {
 
     public void addCourse() {
 
+        Scanner sc = Scanner(System.in);
+        System.out.println("Give the Student ID: ");
+        String Id = sc.next();
+
+        Student student = null;
+        student = StudentOperations.getStudentfronId(Id);
+
+        Semester semester = null;
+
+        Course course = null;
+        addCourse(Student student, Semester semester, Course course);
+        System.out.println("Course Added to Student with Student ID: " + id);
+
     }
 
     public void dropCourse() {
+        Scanner sc = Scanner(System.in);
 
+        System.out.println("Give the Student ID: ");
+        String Id = sc.next();
+
+        Student student = null;
+        student = StudentOperations.getStudentfronId(Id);
+
+        dropCourse(RegisteredCourse registeredCourse);
+
+//        System.out.println( Student with Student ID: " + id);
     }
 
     public void viewAvailableCourses() {
 
+        Scanner sc = Scanner(System.in);
+        System.out.println("Give the Catalog ID: ");
+        String catalogId = sc.next();
+        StudentServices.viewCourses(catalogId);
     }
 
     public void viewRegisteredCourses() {
 
+        Scanner sc = Scanner(System.in);
+        System.out.println("Give the Student ID: ");
+        String Id = sc.next();
+
+        Student student = null;
+        student = StudentOperations.getStudentfronId(Id);
+
+        Semester semester = null;
+        viewRegisteredCourses(Student student, Semester semester)
     }
 
     public void viewGradesCard() {
@@ -70,6 +120,16 @@ public class CRSStudentMenu {
     }
 
     public void payFees() {
+        Scanner sc = Scanner(System.in);
+        System.out.println("Give the Student ID: ");
+        String Id = sc.next();
+
+        Student student = null;
+        student = StudentOperations.getStudentfronId(Id);
+        long fee = calculateFee(Student student);
+        System.out.println("The total fee for the Student with Student ID: " + id + " is " + fee);
+
+        // TODO : update the fee paid status somewhere in DB
 
     }
 }
