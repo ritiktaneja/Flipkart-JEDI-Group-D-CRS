@@ -5,7 +5,7 @@ import com.flipkart.constants.Department;
 public class Student extends User {
 
     private Department department;
-    private int batch;
+    private int semester;
 
     public String getStudentId() {
         return super.getUserId();
@@ -19,29 +19,29 @@ public class Student extends User {
         this.department = department;
     }
 
-    public int getBatch() {
-        return batch;
+    public int getSemester() {
+        return semester;
     }
 
-    public void setBatch(int batch) {
-        this.batch = batch;
+    public void setSemester(int semester) {
+        this.semester = semester;
     }
 
     private Student(StudentBuilder builder) {
         super(builder.studentId, builder.name, builder.password);
-        this.batch = builder.batch;
+        this.semester = builder.semester;
         this.department = builder.department;
     }
 
     @Override
     public String toString() {
-        return "Student name = " + this.getName() + ", id = " + this.getStudentId() + ", batch =  " + this.getBatch() + ", Department = " + this.getDepartment()
+        return "Student name = " + this.getName() + ", id = " + this.getStudentId() + ", batch =  " + this.getSemester() + ", Department = " + this.getDepartment()
         ;
     }
 
     public static class StudentBuilder {
         private String studentId, name, password;
-        private int batch;
+        private int semester;
         private Department department;
 
         public StudentBuilder setStudentId(String studentId) {
@@ -59,8 +59,8 @@ public class Student extends User {
             return this;
         }
 
-        public StudentBuilder setBatch(int batch) {
-            this.batch = batch;
+        public StudentBuilder setSemester(int semester) {
+            this.semester = semester;
             return this;
         }
 

@@ -4,11 +4,6 @@ import java.util.Scanner;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.RegisteredCourse;
-import com.flipkart.bean.Semester;
-import com.flipkart.bean.Student;
-import com.flipkart.constants.Grade;
-import com.flipkart.data.MockDB;
-import com.flipkart.service.StudentOperations;
 
 public class CRSStudentMenu {
 

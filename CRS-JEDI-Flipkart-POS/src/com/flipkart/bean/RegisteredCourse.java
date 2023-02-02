@@ -11,7 +11,7 @@ public class RegisteredCourse {
     private static int index = 0;
     private Course course;
     private Student student;
-    private Semester semester;
+
     private Grade grade;
 
     public Course getCourse() {
@@ -22,9 +22,7 @@ public class RegisteredCourse {
         return student;
     }
 
-    public Semester getSemester() {
-        return semester;
-    }
+
 
     public Grade getGrade() {
         return grade;
@@ -41,7 +39,7 @@ public class RegisteredCourse {
     private RegisteredCourse(RegisteredCourseBuilder builder) {
         this.course = builder.course;
         this.student = builder.student;
-        this.semester = builder.semester;
+
         this.grade = builder.grade;
         this.registeredCourseId = Integer.toString(index++);
     }
@@ -56,20 +54,19 @@ public class RegisteredCourse {
             return false;
         }
         RegisteredCourse registeredCourse = (RegisteredCourse) (object);
-        return this.getSemester() == registeredCourse.getSemester() && this.getStudent() == registeredCourse.getStudent() && this.getCourse() == registeredCourse.getCourse();
+        return  this.getStudent() == registeredCourse.getStudent() && this.getCourse() == registeredCourse.getCourse();
     }
 
     public static class RegisteredCourseBuilder {
         private Course course;
         private Student student;
-        private Semester semester;
         private Grade grade = Grade.IN_PROGRESS;
 
 
 
         public RegisteredCourseBuilder setCourse(Course course) { this.course = course; return this; }
         public RegisteredCourseBuilder setStudent(Student student) {this.student = student; return this;}
-        public RegisteredCourseBuilder setSemester(Semester semester) {this.semester = semester; return this;}
+       
         public RegisteredCourseBuilder setGrade(Grade grade) {this.grade = grade; return this;}
         public RegisteredCourse build() {
             return new RegisteredCourse(this);

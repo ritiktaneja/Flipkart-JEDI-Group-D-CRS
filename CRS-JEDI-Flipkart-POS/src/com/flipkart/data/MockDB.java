@@ -7,10 +7,8 @@ import java.util.*;
 import com.flipkart.constants.Department;
 import com.flipkart.constants.Designation;
 
-import javax.xml.catalog.Catalog;
-
 public class MockDB {
-    public static Map<Semester, Map<Student, Set<RegisteredCourse>>> registeredCourses = new HashMap<>();
+    public static Map<Student, Set<RegisteredCourse>> registeredCourses = new HashMap<>();
     public static List<Student> students = new ArrayList<>();
     public static List<CourseCatalog> catalogs = new ArrayList<>();
 
@@ -23,7 +21,7 @@ public class MockDB {
         int id = 20231010;
         for (int i = 0; i < names.size(); i++) {
             studentBuilder.setName(names.get(i));
-            studentBuilder.setBatch(2023);
+            studentBuilder.setSemester(2023);
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
             students.add(studentBuilder.build());
