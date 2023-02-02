@@ -16,4 +16,6 @@ public interface StudentServices extends UserServices{
     // TODO List<Grade>
     long calculateFee(Student student);
     boolean getRegistrationStatus(String studentId);
+
+    Student getStudentFromId(String Id);
 }
