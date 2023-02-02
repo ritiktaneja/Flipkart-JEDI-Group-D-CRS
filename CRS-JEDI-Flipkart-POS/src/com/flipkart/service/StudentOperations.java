@@ -55,11 +55,10 @@ public class StudentOperations extends UserOperations implements StudentServices
         fees = courseCnt * 100;
         return  fees;
     }
-    @Override
-    public boolean getRegistrationStatus(Student student) {
-       // TODO
-       return true;
-    }
+//    public boolean getRegistrationStatus(Student student) {
+//       // TODO
+//       return true;
+//    }
 
    private void initStudSem(Student student, Semester semester) {
 
@@ -73,6 +72,11 @@ public class StudentOperations extends UserOperations implements StudentServices
    
 	@Override
 	public boolean updatePassword(String oldPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean getRegistrationStatus(Student student) {
 		// TODO Auto-generated method stub
 		return false;
 	}
