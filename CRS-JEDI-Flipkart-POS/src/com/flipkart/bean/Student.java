@@ -29,6 +29,10 @@ public class Student extends User{
         this.department = builder.department;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 
     public static class StudentBuilder {
         private String studentId, name, password;
