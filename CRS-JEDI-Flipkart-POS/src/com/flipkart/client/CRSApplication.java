@@ -23,7 +23,7 @@ public class CRSApplication {
 		    		String name= sc.next();
 		    		System.out.println("Enter your Password: ");
 		    		String passwd = sc.next();
-		    		System.out.println("Enter your Role(1 for student, 2 for Admin and 3 for Professor): ");
+		    		System.out.println("Enter your Role(1: for student, 2: for Admin and 3: for Professor): ");
 		    		int role = sc.nextInt();
 		    		//System.out.println("\nLogged in Succesfully!!");
 		    		if(role==1)
