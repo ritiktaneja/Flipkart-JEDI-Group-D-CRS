@@ -28,4 +28,13 @@ public class Course {
     public void setProfessor(Professor professor) {
         this.professor = professor;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof Course)) return false;
+
+        Course course = (Course) obj;
+        return this.getCourseCode() == course.getCourseCode();
+    }
 }
