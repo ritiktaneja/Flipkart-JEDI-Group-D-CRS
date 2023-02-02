@@ -15,7 +15,7 @@ import java.util.List;
 public class StudentOperations extends UserOperations implements StudentServices{
 
 
-   public boolean addCourse(Student student, Semester semester, Course course) throws RuntimeException {
+   private boolean addCourse(Student student, Semester semester, Course course) throws RuntimeException {
 
         initStudSem(student, semester);
         if(MockDB.registeredCourses.get(semester).get(student).size() >= 10) {
@@ -29,7 +29,7 @@ public class StudentOperations extends UserOperations implements StudentServices
         MockDB.registeredCourses.get(semester).get(student).add(builder.build());
         return true;
     }
-    public boolean dropCourse(RegisteredCourse registeredCourse) {
+    private boolean dropCourse(RegisteredCourse registeredCourse) {
 
         Semester semester = registeredCourse.getSemester();
         Student student = registeredCourse.getStudent();
@@ -38,7 +38,7 @@ public class StudentOperations extends UserOperations implements StudentServices
             return true;
     }
 
-    public List<RegisteredCourse> viewRegisteredCourses(Student student, Semester semester)
+    private List<RegisteredCourse> viewRegisteredCourses(Student student, Semester semester)
     {
         initStudSem(student, semester);
         List<RegisteredCourse> registeredCourses = new ArrayList<>();
@@ -48,7 +48,7 @@ public class StudentOperations extends UserOperations implements StudentServices
         return registeredCourses;
     }
 
-    public long calculateFee(Student student, Semester semester) {
+    private long calculateFee(Student student, Semester semester) {
         initStudSem(student, semester);
         long fees = 0;
         long courseCnt = MockDB.registeredCourses.get(semester).get(student).size();

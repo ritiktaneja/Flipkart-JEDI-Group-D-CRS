@@ -2,9 +2,13 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.Grade;
 
+import java.util.UUID;
+
 public class RegisteredCourse {
   //  public int semester;
 
+    private String registeredCourseId;
+    private static int index = 0;
     private Course course;
     private Student student;
     private Semester semester;
@@ -39,6 +43,7 @@ public class RegisteredCourse {
         this.student = builder.student;
         this.semester = builder.semester;
         this.grade = builder.grade;
+        this.registeredCourseId = Integer.toString(index++);
     }
 
     @Override
