@@ -14,7 +14,7 @@ public class MockDB {
     public static List<Course> courses = new ArrayList<>();
 
 
-    
+
 
 
 }
