@@ -11,6 +11,11 @@ public class CourseCatalog {
 
 
     public  void addCourse(Course course) {
+        for(Course course1 : courses) {
+            if(course1 == course) { // duplicate course
+                return;
+            }
+        }
         courses.add(course);
     }
 
@@ -21,10 +26,6 @@ public class CourseCatalog {
                 break;
             }
         }
-    }
-
-    public  List<Course> getCourseList() {
-        return courses;
     }
 
     public void setCatalogId(String catalogId) {

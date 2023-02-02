@@ -28,7 +28,7 @@ public class StudentDao implements DaoInterface<Student>  {
                 builder.setStudentId(rs.getString("studentId"));
                 builder.setName(rs.getString("name"));
                 builder.setPassword(rs.getString("password"));
-                builder.setSemester(rs.getInt("batch"));
+                builder.setSemester(rs.getString("batch"));
                 builder.setDepartment(Department.values()[rs.getInt("department")]);
                 return builder.build();
             } else {
@@ -54,7 +54,7 @@ public class StudentDao implements DaoInterface<Student>  {
                 builder.setStudentId(rs.getString("studentId"));
                 builder.setName(rs.getString("name"));
                 builder.setPassword(rs.getString("password"));
-                builder.setSemester(rs.getInt("batch"));
+                builder.setSemester(rs.getString("batch"));
                 builder.setDepartment(Department.values()[rs.getInt("department")]);
                 studentList.add(builder.build());
             }
@@ -75,7 +75,7 @@ public class StudentDao implements DaoInterface<Student>  {
             stmt.setString(1, student.getStudentId());
             stmt.setString(2, student.getName());
             stmt.setString(3, student.getPassword());
-            stmt.setInt(4, student.getSemester());
+            stmt.setString(4, student.getSemester());
             stmt.setInt(5, student.getDepartment().getValue());
             int result = stmt.executeUpdate();
             return result;
@@ -92,7 +92,7 @@ public class StudentDao implements DaoInterface<Student>  {
             stmt = connection.prepareStatement(UPDATE);
             stmt.setString(1, student.getName());
             stmt.setString(2, student.getPassword());
-            stmt.setInt(3, student.getSemester());
+            stmt.setString(3, student.getSemester());
             stmt.setInt(4, student.getDepartment().getValue());
             stmt.setString(5, id);
             return stmt.executeUpdate();

@@ -49,7 +49,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     public List<Course> viewCoursesTaken(Professor professor) throws Exception {
         List<Course> list = new ArrayList<>();
         for (CourseCatalog c : MockDB.catalogs) {
-            for (Course course : c.getCourseList()) {
+            for (Course course : c.getCourses()) {
                 if (course.professor == professor) {
                     list.add(course);
                 }

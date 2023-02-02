@@ -8,7 +8,7 @@ import java.util.List;
 public interface StudentServices extends UserServices{
 
     boolean addCourse(String  studentId, String courseCode);
-    boolean dropCourse(String registeredCourseId);
+    boolean dropCourse(String studentId, String courseCode);
     List<Course> viewCourses(String catalogId);
     List<RegisteredCourse> viewRegisteredCourses(String studentId);
     // TODO List<Grade>

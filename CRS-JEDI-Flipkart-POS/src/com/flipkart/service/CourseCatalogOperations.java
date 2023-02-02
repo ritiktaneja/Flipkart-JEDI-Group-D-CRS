@@ -52,14 +52,16 @@ public class CourseCatalogOperations implements CourseCatalogServices {
     }
 
    public CourseCatalog getCatalogFromId(String id) {
-       for(CourseCatalog catalog : MockDB.catalogs) {
-           if(catalog.getCatalogId().equals(id)) {
-                return catalog;
-           }
-       }
-       return null;
+       return MockDB.getCatalogFromId(id);
    }
 
+   public List<Course> listCoursesInCatalog(String catalogId) {
+        CourseCatalog catalog = getCatalogFromId(catalogId);
+        if(catalog != null) {
+            return catalog.getCourses();
+        }
+        return null;
+   }
 
 
 }

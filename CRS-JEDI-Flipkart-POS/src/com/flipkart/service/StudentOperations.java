@@ -1,6 +1,7 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.Course;
+import com.flipkart.bean.CourseCatalog;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.Grade;
@@ -27,13 +28,15 @@ public class StudentOperations extends UserOperations implements StudentServices
         MockDB.registeredCourses.get(student).add(builder.build());
         return true;
     }
-    private boolean dropCourse(RegisteredCourse registeredCourse) {
+    private boolean dropCourse(Student student, Course course) {
 
-
-        Student student = registeredCourse.getStudent();
-        initStudSem(student);
-        if(MockDB.registeredCourses.get(student).remove(registeredCourse));
-            return true;
+        RegisteredCourse toRemove = null;
+        for(RegisteredCourse registeredCourse : MockDB.registeredCourses.get(student)) {
+            if(registeredCourse.getCourse().getCourseCode() == course.getCourseCode()) {
+                toRemove = registeredCourse; break;
+            }
+        }
+        return toRemove.dropCourse();
     }
 
     private List<RegisteredCourse> viewRegisteredCourses(Student student)
@@ -68,12 +71,50 @@ public class StudentOperations extends UserOperations implements StudentServices
    }
    
 
-   private Student getStudentFromId(String id) {
-       for(Student student : MockDB.students) {
-           if(student.getStudentId().equals(id)) return student;
+
+
+    public boolean addCourse(String  studentId, String courseCode) {
+       Student student = MockDB.getStudentFromId(studentId);
+       if(student == null) {
+           throw new RuntimeException("Student Not Found");
+       }
+       Course course = MockDB.getCourseFromId(student.getSemester(), courseCode);
+        if (course == null) {
+            throw new RuntimeException("Course Not Found");
+        }
+        return addCourse(student, course);
+    }
+    public boolean dropCourse(String studentId, String courseCode) {
+        Student student = MockDB.getStudentFromId(studentId);
+        if(student == null) {
+            throw new RuntimeException("Student not Found");
+        }
+        Course course = MockDB.getCourseFromId(student.getSemester(), courseCode);
+        if(course == null) {
+            throw new RuntimeException("Registered Course Not Found");
+        }
+        return dropCourse(student, course);
+    }
+    public List<Course> viewCourses(String studentId) {
+       Student student = MockDB.getStudentFromId(studentId);
+       if(student == null) return null;
+       return MockDB.getCatalogFromId(student.getSemester()).getCourses();
+    }
+    public List<RegisteredCourse> viewRegisteredCourses(String studentId) {
+       Student student = MockDB.getStudentFromId(studentId);
+       if(student != null) {
+           return viewRegisteredCourses(student);
        }
        return null;
-   }
+    }
+
+    public long calculateFee(String studentId) {
+        Student student = MockDB.getStudentFromId(studentId);
+        return calculateFee(student);
+    }
+    public boolean getRegistrationStatus(String studentId) {
+       return true; // TODO
+    }
 
 
 

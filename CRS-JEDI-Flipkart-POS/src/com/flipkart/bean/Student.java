@@ -5,7 +5,9 @@ import com.flipkart.constants.Department;
 public class Student extends User {
 
     private Department department;
-    private int semester;
+
+    private boolean approvalStatus;
+    private String semester;
 
     public String getStudentId() {
         return super.getUserId();
@@ -19,18 +21,22 @@ public class Student extends User {
         this.department = department;
     }
 
-    public int getSemester() {
+    public String getSemester() {
         return semester;
     }
 
-    public void setSemester(int semester) {
+    public void setSemester(String semester) {
         this.semester = semester;
     }
+
+    public boolean isApproved() {return this.approvalStatus; }
+    public void approve() {this.approvalStatus = true; }
 
     private Student(StudentBuilder builder) {
         super(builder.studentId, builder.name, builder.password);
         this.semester = builder.semester;
         this.department = builder.department;
+        this.approvalStatus = false;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class Student extends User {
 
     public static class StudentBuilder {
         private String studentId, name, password;
-        private int semester;
+        private String semester;
         private Department department;
 
         public StudentBuilder setStudentId(String studentId) {
@@ -59,7 +65,7 @@ public class Student extends User {
             return this;
         }
 
-        public StudentBuilder setSemester(int semester) {
+        public StudentBuilder setSemester(String semester) {
             this.semester = semester;
             return this;
         }

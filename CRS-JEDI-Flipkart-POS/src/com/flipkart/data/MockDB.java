@@ -10,6 +10,8 @@ import com.flipkart.constants.Designation;
 public class MockDB {
     public static Map<Student, Set<RegisteredCourse>> registeredCourses = new HashMap<>();
     public static List<Student> students = new ArrayList<>();
+    public static List<Professor> professors = new ArrayList<>();
+    public static List<Admin> admins = new ArrayList<>();
     public static List<CourseCatalog> catalogs = new ArrayList<>();
 
     public static void populateLists() {
@@ -21,7 +23,7 @@ public class MockDB {
         int id = 20231010;
         for (int i = 0; i < names.size(); i++) {
             studentBuilder.setName(names.get(i));
-            studentBuilder.setSemester(2023);
+            studentBuilder.setSemester("2023");
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
             students.add(studentBuilder.build());
@@ -49,22 +51,74 @@ public class MockDB {
                 professorBuilder.setDesignation(desiginations.get(i % desiginations.size()));
                 professorBuilder.setName(profNames.get(i));
                 professorBuilder.setFacultyId("PR-" + (facutltyId + i));
-                course.setProfessor(professorBuilder.build());
+                Professor professor = professorBuilder.build();
+                professors.add(professor);
+                course.setProfessor(professor);
                 catalog.addCourse(course);
             }
             catalogs.add(catalog);
         }
         for (int i = 0; i < catalogs.size(); i++) {
             System.out.println("Catalog no. = " + i);
-            for (int j = 0; j < catalogs.get(i).getCourseList().size(); j++) {
-                System.out.println(catalogs.get(i).getCourseList().get(j));
+            for (int j = 0; j < catalogs.get(i).getCourses().size(); j++) {
+                System.out.println(catalogs.get(i).getCourses().get(j));
             }
         }
     }
 
+
+    public static Student getStudentFromId(String id) {
+        for(Student student : MockDB.students) {
+            if(student.getStudentId().equals(id)) return student;
+        }
+        return null;
+    }
+
+    public static Professor getProfessorFromId(String id) {
+        for(Professor professor : MockDB.professors) {
+            if(professor.getFacultyId().equals(id)) return professor;
+        }
+        return null;
+    }
+
+    public static Course getCourseFromId(String catalogId, String courseCode) {
+        CourseCatalog courseCatalog = null;
+        for(CourseCatalog cc : catalogs) {
+            if(cc.getCatalogId() == catalogId) {
+                courseCatalog = cc; break;
+            }
+        }
+        if(courseCatalog == null) {
+            return null;
+        }
+        for(Course course : courseCatalog.getCourses()) {
+            if(course.getCourseCode() == courseCode) return course;
+        }
+        return null;
+    }
+
+//    public static RegisteredCourse getRegisteredCourseFromId(String registeredCourseId) {
+//        for(Set<RegisteredCourse> registeredCourses1 : registeredCourses.values()) {
+//            for(RegisteredCourse rc : registeredCourses1) {
+//                if(rc.get)
+//            }
+//        }
+//    }
+
+    public static CourseCatalog getCatalogFromId(String id) {
+        for(CourseCatalog catalog : MockDB.catalogs) {
+            if(catalog.getCatalogId().equals(id)) {
+                return catalog;
+            }
+        }
+        return null;
+    }
+
+
     public static void main(String[] args) {
         populateLists();
     }
+
 
 
 }

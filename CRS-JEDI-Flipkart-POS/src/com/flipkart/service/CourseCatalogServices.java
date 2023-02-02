@@ -16,7 +16,8 @@ public interface CourseCatalogServices {
 
     void addCatalog(String catalogId);
     void deleteCatalog(String catalogId);
-
     CourseCatalog getCatalogFromId(String Id);
+
+    List<Course> listCoursesInCatalog(String id);
 
 }
