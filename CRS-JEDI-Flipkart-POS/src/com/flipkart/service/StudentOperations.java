@@ -76,7 +76,7 @@ public class StudentOperations extends UserOperations implements StudentServices
 		return false;
 	}
 	@Override
-	public boolean getRegistrationStatus(Student student) {
+	public boolean getRegistrationStatus(String studentId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
