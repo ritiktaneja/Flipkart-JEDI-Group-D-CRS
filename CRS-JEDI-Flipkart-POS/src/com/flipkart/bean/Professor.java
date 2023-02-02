@@ -22,9 +22,15 @@ public class Professor extends User {
     }
 
     private Professor(ProfessorBuilder builder) {
-         super(builder.facultyId, builder.name, builder.password);
-         this.department = builder.department;
-         this.designation = builder.designation;
+        super(builder.facultyId, builder.name, builder.password);
+        this.department = builder.department;
+        this.designation = builder.designation;
+    }
+
+    @Override
+    public String toString() {
+        return "Professor name = " + this.getName() + ", id = " + this.getFacultyId() + ", Designation =  " + this.getDesignation() + ", Department = " + this.getDepartment()
+                ;
     }
 
     public static class ProfessorBuilder {
@@ -32,11 +38,30 @@ public class Professor extends User {
         private Department department;
         private Designation designation;
 
-        public ProfessorBuilder setFacultyId(String facultyId) {this.facultyId = facultyId; return this;}
-        public ProfessorBuilder setName(String name) {this.name = name; return this;}
-        public ProfessorBuilder setPassword(String password) {this.password = password; return this;}
-        public ProfessorBuilder setDepartment(Department department) {this.department = department; return this;}
-        public ProfessorBuilder setDesignation(Designation designation) {this.designation = designation; return this;}
+        public ProfessorBuilder setFacultyId(String facultyId) {
+            this.facultyId = facultyId;
+            return this;
+        }
+
+        public ProfessorBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ProfessorBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public ProfessorBuilder setDepartment(Department department) {
+            this.department = department;
+            return this;
+        }
+
+        public ProfessorBuilder setDesignation(Designation designation) {
+            this.designation = designation;
+            return this;
+        }
 
         public Professor build() {
             return new Professor(this);

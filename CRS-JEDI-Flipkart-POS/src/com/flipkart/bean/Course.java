@@ -9,6 +9,12 @@ public class Course {
         return courseCode;
     }
 
+    @Override
+    public String toString() {
+        return "Couse Name = " + this.Name + ", course code = " + this.courseCode + " professor =  " +
+                this.getProfessor();
+    }
+
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
@@ -31,8 +37,8 @@ public class Course {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) return true;
-        if(!(obj instanceof Course)) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof Course)) return false;
 
         Course course = (Course) obj;
         return this.getCourseCode() == course.getCourseCode();
