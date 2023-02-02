@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class StudentOperations implements StudentServices extends UserOperations{
+public class StudentOperations extends UserOperations implements StudentServices{
 
 
    public boolean addCourse(Student student, Semester semester, Course course) throws RuntimeException {
@@ -55,7 +55,8 @@ public class StudentOperations implements StudentServices extends UserOperations
         fees = courseCnt * 100;
         return  fees;
     }
-    boolean getRegistrationStatus(Student student) {
+    @Override
+    public boolean getRegistrationStatus(Student student) {
        // TODO
        return true;
     }
@@ -72,21 +73,6 @@ public class StudentOperations implements StudentServices extends UserOperations
    
 	@Override
 	public boolean updatePassword(String oldPassword, String newPassword) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public List<Course> viewCourses(String catalogId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public long calculateFee(Student student) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public boolean getRegistrationStatus(String studentId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
