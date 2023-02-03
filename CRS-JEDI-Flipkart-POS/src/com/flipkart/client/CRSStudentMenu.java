@@ -17,15 +17,18 @@ public class CRSStudentMenu {
     Scanner sc = new Scanner(System.in);
     StudentServices obj = new StudentOperations();
     String studentId;
+
     public CRSStudentMenu(String sId) {
-    	this.studentId = sId;
+        this.studentId = sId;
     }
+
     public void createMenu() {
-        System.out.println("********************* Welcome Student *********************");
-//        System.out.println("Give the Student ID: ");
-       // studentId = stId;
+        System.out.println("********************************************************");
+        System.out.println("******************* Welcome Student ********************");
         while (true) {
-            System.out.println("********************** Student Menu **********************");
+            System.out.println("********************************************************");
+            System.out.println("********************   Student Menu   ******************");
+            System.out.println("********************************************************");
             System.out.println("1. Semester Registration");
             System.out.println("2. Add Course");
             System.out.println("3. Drop Course");
@@ -34,6 +37,7 @@ public class CRSStudentMenu {
             System.out.println("6. View Grade Card");
             System.out.println("7. Pay fees");
             System.out.println("8. Logout");
+            System.out.print("Enter your choice : ");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
@@ -59,7 +63,7 @@ public class CRSStudentMenu {
                     payFees();
                     break;
                 case 8:
-                    System.out.println("Exiting . . .");
+                    System.out.println("Heading to Main Menu . . .");
                     return;
                 default:
                     System.out.println("Enter a valid input");
@@ -73,7 +77,7 @@ public class CRSStudentMenu {
     }
 
     public void addCourse() {
-        System.out.println("Give the Course Code: ");
+        System.out.print("Give the Course Code : ");
         String courseCode = sc.next();
 
         if (obj.addCourse(studentId, courseCode))
@@ -85,7 +89,7 @@ public class CRSStudentMenu {
 
     public void dropCourse() {
 
-        System.out.println("Give the Registered Course ID: ");
+        System.out.print("Give the Registered Course ID : ");
         String Id = sc.next();
         if (obj.dropCourse(studentId, Id))
             System.out.println("Course Dropped!");
@@ -112,23 +116,22 @@ public class CRSStudentMenu {
 
     public void viewGradesCard() {
         // NOT YET IMPLEMENTED!
-    	Map<Student, Set<RegisteredCourse>> register_Courses = MockDB.registeredCourses;
-    	Student student = MockDB.getStudentFromId(studentId);
-        if(student == null) {
+        Map<Student, Set<RegisteredCourse>> register_Courses = MockDB.registeredCourses;
+        Student student = MockDB.getStudentFromId(studentId);
+        if (student == null) {
             throw new RuntimeException("Student Not Found");
         }
         Set<RegisteredCourse> iterr = null;
         for (var entry : register_Courses.entrySet()) {
-        	if(entry.getKey() == student)
-        	{
-        		iterr = entry.getValue();
-        		break;
-        	}
+            if (entry.getKey() == student) {
+                iterr = entry.getValue();
+                break;
+            }
         }
         Iterator<RegisteredCourse> value = iterr.iterator();
         while (value.hasNext()) {
-        	RegisteredCourse obj = (RegisteredCourse) value.next();
-        	System.out.println("Course: "+obj.getCourse().getName() + " Grade: " + obj.getGrade());
+            RegisteredCourse obj = (RegisteredCourse) value.next();
+            System.out.println("Course: " + obj.getCourse().getName() + " Grade: " + obj.getGrade());
         }
     }
 

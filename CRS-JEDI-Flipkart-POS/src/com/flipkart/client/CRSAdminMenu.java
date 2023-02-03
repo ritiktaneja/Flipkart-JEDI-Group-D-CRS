@@ -21,11 +21,8 @@ public class CRSAdminMenu {
     }
 
     public void createMenu() throws Exception {
-//        System.out.println("Please add your Admin ID");
-        Scanner scanner = new Scanner(System.in);
-//        adminId = scanner.nextLine();
-        MockDB.populateLists();
-        System.out.println("********************* Welcome Admin *********************");
+        System.out.println("********************************************************");
+        System.out.println("******************** Welcome Admin *********************");
         while (true) {
             System.out.println("********************************************************");
             System.out.println("*****************      Admin Menu      *****************");
