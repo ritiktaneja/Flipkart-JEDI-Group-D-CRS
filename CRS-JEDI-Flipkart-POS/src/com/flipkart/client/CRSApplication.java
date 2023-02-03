@@ -11,6 +11,7 @@ public class CRSApplication {
 
 
     public static void main(String[] args) {
+    	MockDB.main(args);
     	System.out.println("Welcome to Course Registration System! choose the Option given below!");
 //    	System.out.println("1. Login");
 //    	//System.out.println("2. Registration of the Student");
@@ -20,7 +21,7 @@ public class CRSApplication {
     	Scanner sc= new Scanner(System.in);
     	int choice= 1;//sc.nextInt();
     	int iterator;
-    	do {
+    	while(true) {
     		iterator = choice;
 	    	switch(choice)
 	    	{
@@ -74,9 +75,8 @@ public class CRSApplication {
 		    		else
 		    		{
 		    			System.out.println("Invalid Credentials, or user Not Verified");
-		    			System.exit(0);
 		    		}
-		    		//break;
+		    		break;
 
 	    		case 2:
 	    			System.out.println("Enter details for registration: ");
@@ -94,23 +94,23 @@ public class CRSApplication {
 	    			System.out.println("Invlaid Input!! Enter Again: ");
 	    			choice= sc.nextInt();
 	    	}
-    	}while(!((iterator>=1) && (iterator<=4)));
-    System.out.println("Registration Completed!!");
-    }
+    	}
+    	}
 
 	private static User getRole(String id, String passwd) {
 		for(Admin a : MockDB.admins) {
-			if(a.getName().equals(id) && a.getPassword().equals(passwd)) {
+			if(a.getAdminId().equals(id) && a.getPassword().equals(passwd)) {
 				return a;
 			}
 		}
 		for(Professor p : MockDB.professors) {
-			if(p.getName().equals(id) && p.getPassword().equals(passwd)) {
+			if(p.getFacultyId().equals(id) && p.getPassword().equals(passwd)) {
 				return p;
 			}
 		}
 		for(Student p : MockDB.students) {
-			if(p.getName().equals(id) && p.getPassword().equals(passwd)) {
+			System.out.println(p.getStudentId() + " - " + p.getPassword());
+			if(p.getStudentId().equals(id) && p.getPassword().equals(passwd)) {
 				return p;
 			}
 		}

@@ -36,7 +36,7 @@ public class Student extends User {
         super(builder.studentId, builder.name, builder.password);
         this.semester = builder.semester;
         this.department = builder.department;
-        this.approvalStatus = false;
+        this.approvalStatus = builder.approvalStatus;
     }
 
     @Override
@@ -49,6 +49,7 @@ public class Student extends User {
         private String studentId, name, password;
         private String semester;
         private Department department;
+        private boolean approvalStatus;
 
         public StudentBuilder setStudentId(String studentId) {
             this.studentId = studentId;
@@ -74,7 +75,10 @@ public class Student extends User {
             this.department = department;
             return this;
         }
-
+        public StudentBuilder setApprovalStatus(boolean aStatus) {
+        	this.approvalStatus = aStatus;
+        	return this;
+        }
         public Student build() {
             return new Student(this);
         }

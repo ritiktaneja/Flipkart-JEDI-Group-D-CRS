@@ -20,21 +20,26 @@ public class CRSProfessorMenu {
 	Scanner sc = new Scanner(System.in);
 	ProfessorServices obj = new ProfessorOperations();
 	String professorId;
-    public void createMenu() throws Exception {
+    public CRSProfessorMenu(String facultyId) {
+		// TODO Auto-generated constructor stub
+    	professorId = facultyId;
+	}
+
+	public void createMenu() throws Exception {
 
         System.out.println("********************* Welcome Professor *********************");
-        
-        System.out.println("Enter the Professor ID: ");
-    	Scanner scc = new Scanner(System.in);
-    	
-    	professorId = scc.next();
+//        
+//        System.out.println("Enter the Professor ID: ");
+//    	Scanner scc = new Scanner(System.in);
+//    	
+//    	professorId = scc.next();
         
         while (true) {
             System.out.println("********************** Professor Menu **********************");
             System.out.println("1. View Enrolled Students");
             System.out.println("2. Add Grade");
-            System.out.println("4. View Assigned Courses");
-            System.out.println("3. Logout");
+            System.out.println("3. View Assigned Courses");
+            System.out.println("4. Logout");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
@@ -51,8 +56,7 @@ public class CRSProfessorMenu {
                 	break;
                 case 4:
                     System.out.println("Exiting . . .");
-                    System.exit(0);
-                    break;
+                    return;
                 default:
                     System.out.println("Enter a valid input");
                     break;
@@ -61,11 +65,16 @@ public class CRSProfessorMenu {
     }
 
     public void viewEnrolledStudents() throws Exception {
-    	List<Student> studentList = null;
-    	
-    	
-    	System.out.println("Enter the Course ID: ");
+    	System.out.println("The courses taken by you are: ");
+    	viewAssignedCourses(professorId);
+    	System.out.println("Enter the Course code for which you want to see enrolled students: ");
     	String semester = sc.next();
+    	
+    	List<Student> studentList = null;
+//    	
+//    	
+//    	System.out.println("Enter the Course ID: ");
+//    	String semester = sc.next();
     	
     	System.out.println("Enter the Semester: ");
     	String courseID = sc.next();

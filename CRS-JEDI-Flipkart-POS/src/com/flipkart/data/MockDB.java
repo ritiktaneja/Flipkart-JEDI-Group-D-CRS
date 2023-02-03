@@ -26,6 +26,7 @@ public class MockDB {
             studentBuilder.setSemester("CT-1001");
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
+            studentBuilder.setApprovalStatus(true);
             studentBuilder.setPassword("1234");
             students.add(studentBuilder.build());
         }
@@ -66,6 +67,12 @@ public class MockDB {
                 System.out.println(catalogs.get(i).getCourses().get(j));
             }
         }
+        
+        Admin.AdminBuilder adminBuilder = new Admin.AdminBuilder();
+        adminBuilder.setAdminId("admin01");
+        adminBuilder.setPassword("1234");
+        adminBuilder.setName("Admin");
+        admins.add(adminBuilder.build());
     }
 
 

@@ -29,10 +29,10 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return instance;
     }
 
-    private boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
-        course.setGrade(grade);
-        return true;
-    }
+//    private boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
+//        course.setGrade(grade);
+//        return true;
+//    }
 
     private List<Student> viewEnrolledStudents(Course course) {
         List<Student> students = new ArrayList<>();
