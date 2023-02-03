@@ -28,25 +28,25 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     @Override
-    public boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
+    private boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
         course.setGrade(grade);
         return true;
     }
 
-    public List<Student> viewEnrolledStudents(Course course) throws Exception {
+    private List<Student> viewEnrolledStudents(Course course) {
         List<Student> students = new ArrayList<>();
-
         for (Map.Entry<Student, Set<RegisteredCourse>> y : MockDB.registeredCourses.entrySet()) {
-            if (y.getValue().contains(course)) {
-                students.add(y.getKey());
+            for (RegisteredCourse rc : y.getValue()) {
+                if(rc.getCourse().getCourseCode() == course.getCourseCode())
+                    students.add(y.getKey());
             }
         }
 
         return students;
     }
 
-    @Override
-    public List<Course> viewCoursesTaken(Professor professor) throws Exception {
+
+    private List<Course> viewCoursesTaken(Professor professor){
         List<Course> list = new ArrayList<>();
         for (CourseCatalog c : MockDB.catalogs) {
             for (Course course : c.getCourses()) {
@@ -58,15 +58,39 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return list;
     }
 
-    @Override
-    public boolean registerForCourse(Professor professor, Course course) throws Exception {
-        if (course.professor == null) {
-            course.professor = professor;
-            System.out.println(course.getName() + " is Successfully assigned to " + professor.getName());
-            return true;
-        }
-        System.out.println("Error -> " + course.getName() + " is already assigned to " + professor.getName());
-        return false;
+//    @Override
+//    private boolean registerForCourse(Professor professor, Course course) throws Exception {
+//        if (course.professor == null) {
+//            course.professor = professor;
+//            System.out.println(course.getName() + " is Successfully assigned to " + professor.getName());
+//            return true;
+//        }
+//        System.out.println("Error -> " + course.getName() + " is already assigned to " + professor.getName());
+//        return false;
+//    }
+
+
+    public List<Student> viewEnrolledStudents(String semester, String courseId)  {
+            Course course = MockDB.getCourseFromId(semester, courseId);
+            return viewEnrolledStudents(course);
     }
+
+    @Override
+    public List<Course> viewCoursesTaken(String professorId)  {
+       Professor professor = MockDB.getProfessorFromId(professorId);
+       return viewCoursesTaken(professor);
+    }
+
+    public void addGrade(String studentId, String courseId, Grade grade) {
+        Student student = MockDB.getStudentFromId(studentId);
+        for(RegisteredCourse rc: MockDB.registeredCourses.get(student)) {
+            if(rc.getCourse().getCourseCode() == courseId) {
+                rc.setGrade(grade);
+                break;
+            }
+        }
+
+    }
+
 
 }

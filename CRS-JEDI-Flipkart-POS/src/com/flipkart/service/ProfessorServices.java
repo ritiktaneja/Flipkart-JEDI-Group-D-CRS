@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface ProfessorServices extends UserServices {
 
-    public boolean addGrade(RegisteredCourse course, Grade grade) throws Exception;
+    public void addGrade(String studentId, String CourseId, Grade grade) throws Exception;
 
-    public List<Student> viewEnrolledStudents(Course course) throws Exception;
+    public List<Student> viewEnrolledStudents(String semester, String courseId) throws Exception;
 
-    public List<Course> viewCoursesTaken(Professor professor) throws Exception;
+    public List<Course> viewCoursesTaken(String professorId) throws Exception;
 
-    public boolean registerForCourse(Professor professor,Course course) throws Exception;
+    //public boolean registerForCourse(String professorId,String courseId) throws Exception;
 
 }
