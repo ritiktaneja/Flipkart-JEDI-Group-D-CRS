@@ -1,20 +1,25 @@
 package com.flipkart.client;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.Grade;
+import com.flipkart.data.MockDB;
 import com.flipkart.service.*;
 
 public class CRSProfessorMenu {
 	
-	
+	Scanner sc = new Scanner(System.in);
 	ProfessorServices obj = new ProfessorOperations();
-
+	String professorId;
     public void createMenu() throws Exception {
 
         System.out.println("********************* Welcome Professor *********************");
@@ -22,7 +27,7 @@ public class CRSProfessorMenu {
         System.out.println("Enter the Professor ID: ");
     	Scanner scc = new Scanner(System.in);
     	
-    	String professorId = scc.next();
+    	professorId = scc.next();
         
         while (true) {
             System.out.println("********************** Professor Menu **********************");
@@ -59,8 +64,6 @@ public class CRSProfessorMenu {
     	List<Student> studentList = null;
     	
     	
-    	Scanner sc = new Scanner(System.in);
-    	
     	System.out.println("Enter the Course ID: ");
     	String semester = sc.next();
     	
@@ -78,19 +81,47 @@ public class CRSProfessorMenu {
     }
 
     public void addGrade() throws Exception {
+    	//Show All courses
+    	//Professor Selects a Course
+    	//Display the student list in that course
+    	//Get RegisteredOCurse Object for each of this
+    	//The Professor selects the student from the list 
+    	//Assigns the grade which is then set in Registered COurse Object
+    	viewAssignedCourses(professorId);
+    	System.out.println("Enter the Course code for which you want to enter grade of students: ");
+    	String couCode = sc.next();
+    	Map<Student, Set<RegisteredCourse>> tempMap = MockDB.registeredCourses;
+    	List<Student> stu_list = new ArrayList<Student>();
+    	for (var entry : tempMap.entrySet()) {
+    		Set<RegisteredCourse> iterr = entry.getValue();
+            Iterator<RegisteredCourse> value = iterr.iterator();
+            while (value.hasNext()) {
+            	RegisteredCourse obj = (RegisteredCourse) value.next();
+            	if(obj.getCourse().getCourseCode().equals(couCode))
+            	{
+            		stu_list.add(entry.getKey());
+            	}
+            }
+    	}
     	
-    	Scanner sc = new Scanner(System.in);
-    	
-    	System.out.println("Enter the Student ID for the student: ");
-    	String studentID = sc.next();
-    	
-    	System.out.println("Enter the Course ID for the student: ");
-    	String courseID = sc.next();
-    	
-    	System.out.println("Enter the grade : ");
-    	String grade = sc.next();
-    	
-    	obj.addGrade(studentID, courseID, Grade.valueOf(grade));
+    	System.out.println("Student List: ");
+    	Iterator<Student> i=stu_list.iterator();
+        while(i.hasNext()){
+      	  
+      	  Student test=i.next();
+      	  System.out.println(test);
+        }
+        
+        while(true)
+        {
+	        System.out.println("Enter the student ID for which you want to add Grade: (-1 to abort)");
+	        String studentId = sc.next();
+	        if(studentId.equals("-1"))
+	        	break;
+	        System.out.println("Enter Grade: ");
+	        String grade = sc.next();
+	        obj.addGrade(studentId, grade, couCode);
+        } 	
     	System.out.println("Grade adeed succesfully");
     	
     }

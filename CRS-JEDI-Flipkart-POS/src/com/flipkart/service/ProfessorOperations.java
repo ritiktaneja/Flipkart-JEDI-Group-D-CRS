@@ -6,8 +6,10 @@ import com.flipkart.data.MockDB;
 
 import java.awt.dnd.DragGestureEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class ProfessorOperations extends UserOperations implements ProfessorServices {
@@ -80,11 +82,12 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
        return viewCoursesTaken(professor);
     }
 
-    public void addGrade(String studentId, String courseId, Grade grade) {
+    public void addGrade(String studentId, String grade, String courseCode) {
+
         Student student = MockDB.getStudentFromId(studentId);
         for(RegisteredCourse rc: MockDB.registeredCourses.get(student)) {
-            if(rc.getCourse().getCourseCode() == courseId) {
-                rc.setGrade(grade);
+            if(rc.getCourse().getCourseCode().equals(courseCode)) {
+                rc.setGrade(Grade.valueOf(grade));
                 break;
             }
         }

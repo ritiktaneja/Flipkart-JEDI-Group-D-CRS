@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProfessorServices extends UserServices {
 
-    public void addGrade(String studentId, String CourseId, Grade grade) throws Exception;
+    public void addGrade(String studentId, String grade, String courseCode) throws Exception;
 
     boolean addGrade(RegisteredCourse course, Grade grade) throws Exception;
 
