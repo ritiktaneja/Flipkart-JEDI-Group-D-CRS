@@ -3,6 +3,7 @@ package com.flipkart.client;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
+import com.flipkart.data.MockDB;
 import com.flipkart.service.AdminOperations;
 
 
@@ -14,11 +15,11 @@ public class CRSAdminMenu {
     AdminOperations adminOperations = new AdminOperations();
     private String adminId;
 
-    public void createMenu() {
+    public void createMenu() throws Exception {
         System.out.println("Please add your Admin ID");
         Scanner scanner = new Scanner(System.in);
         adminId = scanner.nextLine();
-
+        MockDB.populateLists();
         System.out.println("********************* Welcome Admin *********************");
         while (true) {
             System.out.println("********************************************************");
@@ -32,7 +33,9 @@ public class CRSAdminMenu {
             System.out.println("6. View Added Professors");
             System.out.println("7. Show Courses in catalog");
             System.out.println("8. Show registered students");
-            System.out.println("9. Logout");
+            System.out.println("9. Show Pending Admissions");
+            System.out.println("10. Show Pending Admissions");
+            System.out.println("11. Show Added Admins");
             System.out.print("Enter your choice : ");
             int choice;
             Scanner sc = new Scanner(System.in);
@@ -63,6 +66,9 @@ public class CRSAdminMenu {
                     showRegisteredStudents();
                     break;
                 case 9:
+                    viewPendingAdmission();
+                    break;
+                case 10:
                     System.out.println("Heading to Main Menu . . .");
                     return;
                 default:
@@ -83,11 +89,15 @@ public class CRSAdminMenu {
         }
     }
 
+    private void showAddedAdmins() {
+        
+    }
+
     private void addProfessor() {
         System.out.print("Enter professor Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String professorId = sc.nextLine();
-        System.out.print("Enter the ProfessorName : ");
+        System.out.print("Enter the Professor Name : ");
         sc = new Scanner(System.in);
         String professorName = sc.nextLine();
         adminOperations.addProfessor(professorId, professorName);
@@ -128,8 +138,14 @@ public class CRSAdminMenu {
         }
     }
 
-    private void addAdmin() {
-
+    private void addAdmin() throws Exception {
+        System.out.print("Enter Admin Id ");// using semester as catalog id
+        Scanner sc = new Scanner(System.in);
+        String professorId = sc.nextLine();
+        System.out.print("Enter the Admin Name : ");
+        sc = new Scanner(System.in);
+        String adminName = sc.nextLine();
+        adminOperations.addAdmin(adminId, adminName);
 
     }
 

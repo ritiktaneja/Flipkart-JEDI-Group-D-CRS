@@ -12,6 +12,8 @@ public interface ProfessorServices extends UserServices {
 
     public void addGrade(String studentId, String CourseId, Grade grade) throws Exception;
 
+    boolean addGrade(RegisteredCourse course, Grade grade) throws Exception;
+
     public List<Student> viewEnrolledStudents(String semester, String courseId) throws Exception;
 
     public List<Course> viewCoursesTaken(String professorId) throws Exception;

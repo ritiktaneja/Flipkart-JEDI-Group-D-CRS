@@ -13,7 +13,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
 
     public List<CourseCatalog> viewAllCatalogs() {
         List<CourseCatalog> catalogList = new ArrayList<>();
-        for(CourseCatalog catalog : MockDB.catalogs) {
+        for (CourseCatalog catalog : MockDB.catalogs) {
             catalogList.add(catalog);
         }
         return catalogList;
@@ -21,47 +21,55 @@ public class CourseCatalogOperations implements CourseCatalogServices {
 
     public void addCourseToCatalog(String catalogId, String courseCode, String courseName) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
-        if(catalog != null) {
-            Course course = new Course();
-            course.setCourseCode(courseCode);
-            course.setName(courseName);
-            catalog.addCourse(course);
+        if (catalog == null) {
+            System.out.println("New Catlog created");
+            catalog = new CourseCatalog();
+            catalog.setCatalogId(catalogId);
+            MockDB.catalogs.add(catalog);
         }
+        Course course = new Course();
+        course.setCourseCode(courseCode);
+        course.setName(courseName);
+        course.setProfessor(null);
+        catalog.addCourse(course);
+        System.out.println("Course Added to catalog Successfully");
     }
+
     public void removeCourseFromCatalog(String catalogId, String courseId) {
-        CourseCatalog catalog  = getCatalogFromId(catalogId);
-        if(catalog != null) {
+        CourseCatalog catalog = getCatalogFromId(catalogId);
+        if (catalog != null) {
             catalog.removeCourse(courseId);
         }
     }
 
     public void addCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
-        if(catalog == null) {
+        if (catalog == null) {
             CourseCatalog catalog1 = new CourseCatalog();
             catalog1.setCatalogId(catalogId);
             MockDB.catalogs.add(catalog1);
         }
 
     }
+
     public void deleteCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
-        if(catalog != null) {
+        if (catalog != null) {
             MockDB.catalogs.remove(catalog);
         }
     }
 
-   public CourseCatalog getCatalogFromId(String id) {
-       return MockDB.getCatalogFromId(id);
-   }
+    public CourseCatalog getCatalogFromId(String id) {
+        return MockDB.getCatalogFromId(id);
+    }
 
-   public List<Course> listCoursesInCatalog(String catalogId) {
+    public List<Course> listCoursesInCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
-        if(catalog != null) {
+        if (catalog != null) {
             return catalog.getCourses();
         }
         return null;
-   }
+    }
 
 
 }
