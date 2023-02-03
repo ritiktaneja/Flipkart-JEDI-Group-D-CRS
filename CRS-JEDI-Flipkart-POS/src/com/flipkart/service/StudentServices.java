@@ -9,7 +9,7 @@ public interface StudentServices extends UserServices{
 
     boolean addCourse(String  studentId, String courseCode);
     boolean dropCourse(String studentId, String courseCode);
-    List<Course> viewCourses(String catalogId);
+    List<Course> viewCourses(String studentID);
     List<RegisteredCourse> viewRegisteredCourses(String studentId);
     // TODO List<Grade>
     long calculateFee(String studentId);

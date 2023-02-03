@@ -32,7 +32,7 @@ public class StudentOperations extends UserOperations implements StudentServices
 
         RegisteredCourse toRemove = null;
         for(RegisteredCourse registeredCourse : MockDB.registeredCourses.get(student)) {
-            if(registeredCourse.getCourse().getCourseCode() == course.getCourseCode()) {
+            if(registeredCourse.getCourse().getCourseCode().equals(course.getCourseCode())) {
                 toRemove = registeredCourse; break;
             }
         }
@@ -44,7 +44,8 @@ public class StudentOperations extends UserOperations implements StudentServices
         initStudSem(student);
         List<RegisteredCourse> registeredCourses = new ArrayList<>();
         for(RegisteredCourse rc : MockDB.registeredCourses.get(student)) {
-            registeredCourses.add(rc);
+        	if(rc.getGrade() != Grade.DROPPED)
+        		registeredCourses.add(rc);
         }
         return registeredCourses;
     }

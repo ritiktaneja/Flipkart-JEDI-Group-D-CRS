@@ -23,7 +23,7 @@ public class MockDB {
         int id = 20231010;
         for (int i = 0; i < names.size(); i++) {
             studentBuilder.setName(names.get(i));
-            studentBuilder.setSemester("2023");
+            studentBuilder.setSemester("CT-1001");
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
             students.add(studentBuilder.build());
@@ -84,15 +84,16 @@ public class MockDB {
     public static Course getCourseFromId(String catalogId, String courseCode) {
         CourseCatalog courseCatalog = null;
         for(CourseCatalog cc : catalogs) {
-            if(cc.getCatalogId() == catalogId) {
+            if(cc.getCatalogId().equals(catalogId)) {
                 courseCatalog = cc; break;
             }
         }
         if(courseCatalog == null) {
+        	System.out.println("Catalog Not OFund!!");
             return null;
         }
         for(Course course : courseCatalog.getCourses()) {
-            if(course.getCourseCode() == courseCode) return course;
+            if(course.getCourseCode().equals(courseCode)) return course;
         }
         return null;
     }

@@ -22,7 +22,11 @@ public class RegisteredCourse {
         return student;
     }
 
-
+    @Override
+    public String toString() {
+        return "Course Name = " + this.course.getName() + ", course code = " + this.course.getCourseCode() + " professor =  " +
+                this.course.getProfessor();
+    }
 
     public Grade getGrade() {
         return grade;
