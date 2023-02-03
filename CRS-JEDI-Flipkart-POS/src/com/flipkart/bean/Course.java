@@ -11,7 +11,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course Name = " + this.Name + ", course code = " + this.courseCode + " professor =  " +
+        return "Course Name = " + this.Name + ", Course code = " + this.courseCode + ", Professor =  " +
                 this.getProfessor();
     }
 

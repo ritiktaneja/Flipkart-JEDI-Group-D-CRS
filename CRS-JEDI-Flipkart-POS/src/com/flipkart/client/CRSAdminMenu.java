@@ -1,5 +1,6 @@
 package com.flipkart.client;
 
+import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
@@ -89,8 +90,16 @@ public class CRSAdminMenu {
         }
     }
 
-    private void showAddedAdmins() {
-        
+    private void showAddedAdmins() throws Exception {
+        List<Admin> admins = adminOperations.viewAdmins();
+        if (admins == null) {
+            System.out.println("No admin except you");
+            return;
+        }
+        for (Admin admin : admins) {
+            System.out.println(admin);
+        }
+
     }
 
     private void addProfessor() {
