@@ -39,7 +39,8 @@ public class CRSProfessorMenu {
             System.out.println("1. View Enrolled Students");
             System.out.println("2. Add Grade");
             System.out.println("3. View Assigned Courses");
-            System.out.println("4. Logout");
+			System.out.println("4. Register Course");
+            System.out.println("5. Logout");
             int choice;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
@@ -54,7 +55,10 @@ public class CRSProfessorMenu {
                 case 3: 
                 	viewAssignedCourses(professorId);
                 	break;
-                case 4:
+				case 4:
+					registerForCourses();
+					break;
+                case 5:
                     System.out.println("Exiting . . .");
                     return;
                 default:
@@ -147,4 +151,32 @@ public class CRSProfessorMenu {
     			
     			
     }
+
+	public void registerForCourses() throws Exception {
+		//View all the available courses
+		//Select the course which is not taken by another professor
+
+		Scanner sc = new Scanner(System.in);
+
+		while(true){
+			System.out.println("Enter the Course ID: ");
+			String courseId = sc.next();
+
+			System.out.println("Enter the semester: ");
+			String semester = sc.next();
+
+			obj.registerForCourse(professorId, courseId, semester);
+			viewAssignedCourses(professorId);
+
+			System.out.println("Press Y to select more courses.");
+			String temp = sc.next();
+
+			if(temp != "Y")
+				break;
+		}
+
+
+
+	}
+
 }

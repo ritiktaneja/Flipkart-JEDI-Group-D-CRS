@@ -23,11 +23,9 @@ public class MockDB {
         int id = 20231010;
         for (int i = 0; i < names.size(); i++) {
             studentBuilder.setName(names.get(i));
-            studentBuilder.setSemester("CT-1001");
+            studentBuilder.setSemester("2023");
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
-            studentBuilder.setApprovalStatus(true);
-            studentBuilder.setPassword("1234");
             students.add(studentBuilder.build());
         }
 
@@ -52,7 +50,6 @@ public class MockDB {
                 professorBuilder.setDepartment(departments.get(i % departments.size()));
                 professorBuilder.setDesignation(desiginations.get(i % desiginations.size()));
                 professorBuilder.setName(profNames.get(i));
-                professorBuilder.setPassword("1234");
                 professorBuilder.setFacultyId("PR-" + (facutltyId + i));
                 Professor professor = professorBuilder.build();
                 professors.add(professor);
@@ -62,17 +59,11 @@ public class MockDB {
             catalogs.add(catalog);
         }
         for (int i = 0; i < catalogs.size(); i++) {
-            System.out.println(catalogs.get(i));
-//            for (int j = 0; j < catalogs.get(i).getCourses().size(); j++) {
-//                System.out.println(catalogs.get(i).getCourses().get(j));
-//            }
+            System.out.println("Catalog no. = " + i);
+            for (int j = 0; j < catalogs.get(i).getCourses().size(); j++) {
+                System.out.println(catalogs.get(i).getCourses().get(j));
+            }
         }
-        
-        Admin.AdminBuilder adminBuilder = new Admin.AdminBuilder();
-        adminBuilder.setAdminId("admin01");
-        adminBuilder.setPassword("1234");
-        adminBuilder.setName("Admin");
-        admins.add(adminBuilder.build());
     }
 
 
@@ -93,16 +84,15 @@ public class MockDB {
     public static Course getCourseFromId(String catalogId, String courseCode) {
         CourseCatalog courseCatalog = null;
         for(CourseCatalog cc : catalogs) {
-            if(cc.getCatalogId().equals(catalogId)) {
+            if(cc.getCatalogId() == catalogId) {
                 courseCatalog = cc; break;
             }
         }
         if(courseCatalog == null) {
-        	System.out.println("Catalog Not OFund!!");
             return null;
         }
         for(Course course : courseCatalog.getCourses()) {
-            if(course.getCourseCode().equals(courseCode)) return course;
+            if(course.getCourseCode() == courseCode) return course;
         }
         return null;
     }
