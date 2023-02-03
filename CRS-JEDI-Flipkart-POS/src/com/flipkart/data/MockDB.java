@@ -26,6 +26,7 @@ public class MockDB {
             studentBuilder.setSemester("CT-1001");
             studentBuilder.setDepartment(departments.get(i % departments.size()));
             studentBuilder.setStudentId("ST-" + (id + i));
+            studentBuilder.setPassword("1234");
             students.add(studentBuilder.build());
         }
 
@@ -50,6 +51,7 @@ public class MockDB {
                 professorBuilder.setDepartment(departments.get(i % departments.size()));
                 professorBuilder.setDesignation(desiginations.get(i % desiginations.size()));
                 professorBuilder.setName(profNames.get(i));
+                professorBuilder.setPassword("1234");
                 professorBuilder.setFacultyId("PR-" + (facutltyId + i));
                 Professor professor = professorBuilder.build();
                 professors.add(professor);
