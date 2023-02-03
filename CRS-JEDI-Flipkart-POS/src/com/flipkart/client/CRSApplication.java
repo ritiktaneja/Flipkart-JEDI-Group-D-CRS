@@ -5,6 +5,7 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.data.MockDB;
+import com.flipkart.service.SelfRegistrationOperations;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class CRSApplication {
             System.out.println("*****************      Main Menu       *****************");
             System.out.println("********************************************************");
             System.out.println("1. Login");
-            System.out.println("2. Registration of the Student");
+            System.out.println("2. Student Self Registration");
             System.out.println("3. Update Password");
             System.out.println("4. Logout");
             System.out.print("Enter your choice : ");
@@ -71,6 +72,17 @@ public class CRSApplication {
                     break;
                 case 2:
                     System.out.println("Enter details for registration: ");
+                    String name1, password, department, semester;
+                    System.out.println("Enter Name : ");
+                    name1 = sc.next();
+                    System.out.println("Enter password");
+                    password = sc.next();
+                    System.out.println("Enter Department");
+                    department = sc.next();
+                    System.out.println("Enter Semester");
+                    semester = sc.next();
+                    new SelfRegistrationOperations().selfRegister(name1, password, semester, department);
+                    System.out.println("Details added successfully. Waiting for admin approval");
                     break;
 
                 case 3:
