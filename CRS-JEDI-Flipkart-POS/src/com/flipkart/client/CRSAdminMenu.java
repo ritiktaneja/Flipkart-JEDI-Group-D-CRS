@@ -16,10 +16,14 @@ public class CRSAdminMenu {
     AdminOperations adminOperations = new AdminOperations();
     private String adminId;
 
+    public CRSAdminMenu(String aId) {
+        this.adminId = aId;
+    }
+
     public void createMenu() throws Exception {
-        System.out.println("Please add your Admin ID");
+//        System.out.println("Please add your Admin ID");
         Scanner scanner = new Scanner(System.in);
-        adminId = scanner.nextLine();
+//        adminId = scanner.nextLine();
         MockDB.populateLists();
         System.out.println("********************* Welcome Admin *********************");
         while (true) {

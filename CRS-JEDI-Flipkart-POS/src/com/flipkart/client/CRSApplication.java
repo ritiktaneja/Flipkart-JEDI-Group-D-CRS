@@ -12,13 +12,13 @@ public class CRSApplication {
 
     public static void main(String[] args) {
     	System.out.println("Welcome to Course Registration System! choose the Option given below!");
-    	System.out.println("1. Login");
-    	//System.out.println("2. Registration of the Student");
-    	System.out.println("3. Update Password");
-    	//System.out.println("4. Logout");
-    	System.out.println("Enter your choice: ");
+//    	System.out.println("1. Login");
+//    	//System.out.println("2. Registration of the Student");
+//    	System.out.println("3. Update Password");
+//    	//System.out.println("4. Logout");
+//    	System.out.println("Enter your choice: ");
     	Scanner sc= new Scanner(System.in);
-    	int choice= sc.nextInt();
+    	int choice= 1;//sc.nextInt();
     	int iterator;
     	do {
     		iterator = choice;
@@ -40,7 +40,7 @@ public class CRSApplication {
 							System.out.println("Verification Pending.... Contact Administrator");
 						} else {
 		    				System.out.println("Welcome to Student Menu: ");
-		    				CRSStudentMenu stuobj = new CRSStudentMenu(student);
+		    				CRSStudentMenu stuobj = new CRSStudentMenu(student.getStudentId());
 							stuobj.createMenu();
 						}
 
@@ -48,17 +48,28 @@ public class CRSApplication {
 		    		}
 		    		else if(user instanceof Admin)
 		    		{
-		    			System.out.println("Welcome to Admin Menu: ");
-		    			CRSAdminMenu stuobj = new CRSAdminMenu();
-						stuobj.createMenu();
-		    			break;
+						try {
+							Admin a = (Admin)user;
+							System.out.println("Welcome to Admin Menu: ");
+							CRSAdminMenu stuobj = new CRSAdminMenu(a.getAdminId());
+							stuobj.createMenu();
+							break;
+						} catch(Exception e) {
+
+						}
+
 		    		}
 		    		else if(user instanceof Professor)
 		    		{
-		    			System.out.println("Welcome to Professor Menu: ");
-		    			CRSProfessorMenu stuobj = new CRSProfessorMenu();
-						stuobj.createMenu();
-		    			break;
+						try {
+							Professor p = (Professor) user;
+							System.out.println("Welcome to Professor Menu: ");
+							CRSProfessorMenu stuobj = new CRSProfessorMenu(p.getFacultyId());
+							stuobj.createMenu();
+							break;
+						} catch (Exception e) {
+
+					}
 		    		}
 		    		else
 		    		{
