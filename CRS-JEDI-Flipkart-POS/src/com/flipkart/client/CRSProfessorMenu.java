@@ -15,7 +15,7 @@ public class CRSProfessorMenu {
 	
 	ProfessorServices obj = new ProfessorOperations();
 
-    public void createMenu() {
+    public void createMenu() throws Exception {
 
         System.out.println("********************* Welcome Professor *********************");
         
@@ -55,7 +55,7 @@ public class CRSProfessorMenu {
         }
     }
 
-    public void viewEnrolledStudents() {
+    public void viewEnrolledStudents() throws Exception {
     	List<Student> studentList = null;
     	
     	
@@ -77,7 +77,7 @@ public class CRSProfessorMenu {
     	
     }
 
-    public void addGrade() {
+    public void addGrade() throws Exception {
     	
     	Scanner sc = new Scanner(System.in);
     	
@@ -95,7 +95,7 @@ public class CRSProfessorMenu {
     	
     }
 
-    public void viewAssignedCourses(String professorId) {
+    public void viewAssignedCourses(String professorId) throws Exception {
     
     	List<Course> courseTaken = null;
     	courseTaken = obj.viewCoursesTaken(professorId);	

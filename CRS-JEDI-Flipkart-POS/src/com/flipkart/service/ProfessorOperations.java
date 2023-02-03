@@ -14,7 +14,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     private static volatile ProfessorOperations instance = null;
 
-    private ProfessorOperations() {
+    public ProfessorOperations() {
 
     }
 
@@ -27,7 +27,6 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return instance;
     }
 
-    @Override
     private boolean addGrade(RegisteredCourse course, Grade grade) throws Exception {
         course.setGrade(grade);
         return true;
