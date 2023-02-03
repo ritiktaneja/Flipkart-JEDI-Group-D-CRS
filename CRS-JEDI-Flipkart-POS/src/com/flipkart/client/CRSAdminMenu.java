@@ -35,8 +35,8 @@ public class CRSAdminMenu {
             System.out.println("7. Show Courses in catalog");
             System.out.println("8. Show registered students");
             System.out.println("9. Show Pending Admissions");
-            System.out.println("10. Show Pending Admissions");
-            System.out.println("11. Show Added Admins");
+            System.out.println("10. Show Added Admins");
+            System.out.println("11. Logout");
             System.out.print("Enter your choice : ");
             int choice;
             Scanner sc = new Scanner(System.in);
@@ -70,6 +70,9 @@ public class CRSAdminMenu {
                     viewPendingAdmission();
                     break;
                 case 10:
+                    showAddedAdmins();
+                    break;
+                case 11:
                     System.out.println("Heading to Main Menu . . .");
                     return;
                 default:
