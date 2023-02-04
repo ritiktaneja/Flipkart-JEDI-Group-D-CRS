@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.CourseCatalog;
+import com.flipkart.dao.CourseCatalogDao;
 import com.flipkart.data.MockDB;
 
 
@@ -19,19 +20,24 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         return catalogList;
     }
 
+    public CourseCatalog getCatalogFromId(String id) {
+        return MockDB.getCatalogFromId(id);
+    }
+
     public void addCourseToCatalog(String catalogId, String courseCode, String courseName) {
-        CourseCatalog catalog = getCatalogFromId(catalogId);
+        CourseCatalogDao courseCatalogDao = new CourseCatalogDao();
+        CourseCatalog catalog = courseCatalogDao.get(catalogId);
         if (catalog == null) {
-            System.out.println("New Catlog created");
             catalog = new CourseCatalog();
             catalog.setCatalogId(catalogId);
-            MockDB.catalogs.add(catalog);
+            System.out.println("New Catalog created with id = " + catalogId);
         }
         Course course = new Course();
         course.setCourseCode(courseCode);
         course.setName(courseName);
         course.setProfessor(null);
         catalog.addCourse(course);
+        courseCatalogDao.insert(catalog);
         System.out.println("Course Added to catalog Successfully");
     }
 
@@ -59,9 +65,6 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         }
     }
 
-    public CourseCatalog getCatalogFromId(String id) {
-        return MockDB.getCatalogFromId(id);
-    }
 
     public List<Course> listCoursesInCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);

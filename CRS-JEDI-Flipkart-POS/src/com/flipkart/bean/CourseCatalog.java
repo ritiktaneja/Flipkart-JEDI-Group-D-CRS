@@ -49,4 +49,8 @@ public class CourseCatalog {
         }
         return str;
     }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 }
