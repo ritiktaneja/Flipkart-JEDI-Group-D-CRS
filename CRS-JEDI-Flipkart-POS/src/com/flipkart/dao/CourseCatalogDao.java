@@ -14,7 +14,7 @@ import java.util.List;
 public class CourseCatalogDao {
     private static final String DELETE = "DELETE FROM CourseCatalog WHERE catalogID=?";
     private static final String GET_ALL = "SELECT * FROM CourseCatalog ORDER BY catalogId";
-    private static final String GET_BY_ID = "SELECT * FROM CourseCatalog WHERE catalogId=?";
+    private static final String GET_BY_ID = "SELECT * FROM courseCatalog WHERE catalogId=?";
     private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,semester,professorid) values(?,?,?,?);";
     private static final String UPDATE = "UPDATE CourseCatalog SET name=?, password=?, WHERE catalogId=?";
     private static final String GET_ALL_BY_CATALOG_ID = "SELECT * FROM CourseCatalog where catalogId = ?";
@@ -62,11 +62,14 @@ public class CourseCatalogDao {
             stmt = connection.prepareStatement(GET_BY_ID);
             stmt.setString(1, catalogId);
             ResultSet rs = stmt.executeQuery();
+
             CourseCatalog catalog = null;
             catalog = new CourseCatalog();
             catalog.setCatalogId(catalogId);
+
             CourseDao courseDao = new CourseDao();
             ProfessorDao professorDao = new ProfessorDao();
+
             while (rs.next()) {
                 String courseId = rs.getString("CourseCode");
                 String professorId = rs.getString("ProfessorID");

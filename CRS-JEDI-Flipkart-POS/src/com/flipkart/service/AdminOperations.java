@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.*;
 import com.flipkart.dao.AdminDao;
+import com.flipkart.dao.CourseCatalogDao;
 import com.flipkart.dao.ProfessorDao;
 import com.flipkart.dao.StudentDao;
 import com.flipkart.data.MockDB;
@@ -59,7 +60,9 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     public List<Course> viewCourses(String catalogId) {
-        return MockDB.getCatalogFromId(catalogId).getCourses();
+        CourseCatalogDao dao = new CourseCatalogDao();
+        return dao.get(catalogId).getCourses();
+
     }
 
     public List<Professor> viewProfessors() {
@@ -73,7 +76,8 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     public List<Student> viewPendingApprovals() {
         List<Student> unApprovedStudents = new ArrayList<>();
-        for (Student student : MockDB.students) {
+        StudentDao dao = new StudentDao();
+        for (Student student : dao.getAll()) {
             if (student.isApproved() == false) {
                 unApprovedStudents.add(student);
             }

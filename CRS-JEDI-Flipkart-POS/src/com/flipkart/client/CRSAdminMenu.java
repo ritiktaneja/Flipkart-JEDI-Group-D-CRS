@@ -141,7 +141,7 @@ public class CRSAdminMenu {
     }
 
     private void viewCoursesInCatalog() {
-        System.out.print("Enter the Semester for creating catalog  : ");// using semester as catalog id
+        System.out.print("Enter the Semester for getting catalog courses : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String catalogId = sc.nextLine();
         List<Course> list = adminOperations.viewCourses(catalogId);

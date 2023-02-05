@@ -28,7 +28,6 @@ public class StudentDao implements DaoInterface<Student> {
             studentStatement = connection.prepareStatement(GET_BY_ID);
             userStatement = connection.prepareStatement(GET_USER);
             semesterStatement = connection.prepareStatement(GET_SEM_DETAILS);
-
             studentStatement.setString(1, studentId);
             userStatement.setString(1, studentId);
             semesterStatement.setString(1, studentId);
@@ -39,17 +38,25 @@ public class StudentDao implements DaoInterface<Student> {
                 builder.setStudentId(studentId);
                 builder.setName(rs.getString("studentName"));
 
-                String password = userStatement.executeQuery().getString("password");
+                ResultSet resultSet = userStatement.executeQuery();
+                String password = resultSet.getString("password");
                 builder.setPassword(password);
 
-                builder.setSemester(semesterStatement.executeQuery().getString("semester"));
-                builder.setApprovalStatus(semesterStatement.executeQuery().getBoolean("status"));
+                ResultSet resultSet1 = studentStatement.executeQuery();
+                builder.setSemester(resultSet1.getString("semester"));
 
+                int status = resultSet1.getInt("status");
+                if (status == 1)
+                    builder.setApprovalStatus(true);
+                else
+                    builder.setApprovalStatus(false);
+                
                 return builder.build();
             } else {
                 System.out.println("Student not found");
                 return null;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -61,24 +68,44 @@ public class StudentDao implements DaoInterface<Student> {
     @Override
     public List<Student> getAll() {
         Connection connection = DBConnection.getConnection();
-        PreparedStatement stmt = null;
+        PreparedStatement studentStatement = null;
+        PreparedStatement userStatement = null;
+        PreparedStatement semesterStatement = null;
         List<Student> studentList = new ArrayList<>();
         try {
-            stmt = connection.prepareStatement(GET_ALL);
-            ResultSet rs = stmt.executeQuery();
+            studentStatement = connection.prepareStatement(GET_ALL);
+            userStatement = connection.prepareStatement(GET_USER);
+            semesterStatement = connection.prepareStatement(GET_SEM_DETAILS);
+
+            ResultSet rs = studentStatement.executeQuery();
             while (rs.next()) {
+                String studentId = rs.getString("studentId");
+
+                userStatement.setString(1, studentId);
+                semesterStatement.setString(1, studentId);
+
                 Student.StudentBuilder builder = new Student.StudentBuilder();
-                builder.setStudentId(rs.getString("studentId"));
-                builder.setName(rs.getString("name"));
-                builder.setPassword(rs.getString("password"));
-                builder.setSemester(rs.getString("batch"));
-                builder.setDepartment(Department.values()[rs.getInt("department")]);
+                builder.setStudentId(studentId);
+                builder.setName(rs.getString("studentName"));
+
+                ResultSet resultSet = userStatement.executeQuery();
+                String password = resultSet.getString("password");
+                builder.setPassword(password);
+
+                ResultSet resultSet1 = studentStatement.executeQuery();
+                String semester = resultSet1.getString("semester");
+                int status = resultSet1.getInt("status");
+                builder.setSemester(semester);
+                if (status == 1)
+                    builder.setApprovalStatus(true);
+                else
+                    builder.setApprovalStatus(false);
                 studentList.add(builder.build());
             }
             return studentList;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             DBConnection.closeConnection(connection);
         }
@@ -104,21 +131,22 @@ public class StudentDao implements DaoInterface<Student> {
     }
 
     public int update(String id, Student student) {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement stmt = null;
-        try {
-            stmt = connection.prepareStatement(UPDATE);
-            stmt.setString(1, student.getName());
-            stmt.setString(2, student.getPassword());
-            stmt.setString(3, student.getSemester());
-            stmt.setInt(4, student.getDepartment().getValue());
-            stmt.setString(5, id);
-            return stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DBConnection.closeConnection(connection);
-        }
+//        Connection connection = DBConnection.getConnection();
+//        PreparedStatement stmt = null;
+//        try {
+//            stmt = connection.prepareStatement(UPDATE);
+//            stmt.setString(1, student.getName());
+//            stmt.setString(2, student.getPassword());
+//            stmt.setString(3, student.getSemester());
+//            stmt.setInt(4, student.getDepartment().getValue());
+//            stmt.setString(5, id);
+//            return stmt.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            DBConnection.closeConnection(connection);
+//        }
+        return 0;
     }
 
     public int delete(Student student) {
