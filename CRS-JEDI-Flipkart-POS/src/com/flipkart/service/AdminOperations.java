@@ -1,6 +1,8 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.*;
+import com.flipkart.dao.AdminDao;
+import com.flipkart.dao.ProfessorDao;
 import com.flipkart.data.MockDB;
 
 import java.util.ArrayList;
@@ -23,11 +25,15 @@ public class AdminOperations extends UserOperations implements AdminServices {
         System.out.println("Student approved Sucessfully");
     }
 
-    public void addProfessor(String professorId, String professorName) {
+    public void addProfessor(String professorId, String professorName, String password) {
+        ProfessorDao professorDao = new ProfessorDao();
         Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
         builder.setFacultyId(professorId);
         builder.setName(professorName);
-        MockDB.professors.add(builder.build());
+        builder.setPassword(password);
+        professorDao.insert(builder.build());
+        AdminDao dao = new AdminDao();
+        dao.addUser(builder.build());
     }
 
     public void assignCourse(String courseCode, String professorId) {
@@ -64,14 +70,18 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     @Override
     public List<Admin> viewAdmins() throws Exception {
-        return MockDB.admins;
+        AdminDao adminDao = new AdminDao();
+        return adminDao.getAll();
     }
 
     @Override
-    public void addAdmin(String adminId, String adminName) throws Exception {
+    public void addAdmin(String adminId, String adminName, String password) throws Exception {
         Admin.AdminBuilder builder = new Admin.AdminBuilder();
         builder.setAdminId(adminId);
         builder.setName(adminName);
-        MockDB.admins.add(builder.build());
+        builder.setPassword(password);
+        AdminDao adminDao = new AdminDao();
+        adminDao.insert(builder.build());
+        adminDao.addUser(builder.build());
     }
 }

@@ -19,7 +19,6 @@ public class DBConnection {
             Connection DBConnection = null;
             Class.forName(DRIVER_NAME);
             DBConnection = DriverManager.getConnection(DB_URL, ID, PASS);
-            System.out.println("New DB Connection Established");
             return DBConnection;
         } catch (Exception e) {
             System.out.println("Connection not established");

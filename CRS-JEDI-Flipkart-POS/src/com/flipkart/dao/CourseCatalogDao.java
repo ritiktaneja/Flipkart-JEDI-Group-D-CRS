@@ -18,8 +18,15 @@ public class CourseCatalogDao {
     private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,semester,professorid) values(?,?,?,?);";
     private static final String UPDATE = "UPDATE CourseCatalog SET name=?, password=?, WHERE catalogId=?";
     private static final String GET_ALL_BY_CATALOG_ID = "SELECT * FROM CourseCatalog where catalogId = ?";
+    private static final String UPDATE_COURSE_IN_CATALOG = "UPDATE CourseCatalog SET professorID = ? WHERE CourseCode =? and CatalogID = ?";
+    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseID = ?";
 
-    private List<Course> getAllCoursesById(String id) {
+    private static final String DELETE_COURSE_FROM_CATALOG = "DELETE FROM CourseCatalog where catlogId=? and courseId=?";
+    private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseId=?";
+
+    private PreparedStatement stmt;
+
+    private List<Course> getAllCoursesByCatalogId(String id) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
@@ -48,28 +55,35 @@ public class CourseCatalogDao {
         }
     }
 
-    public CourseCatalog get(String id) {
+    public CourseCatalog get(String catalogId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(GET_BY_ID);
-            stmt.setString(1, id);
+            stmt.setString(1, catalogId);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                List<Course> courses = getAllCoursesById(id);
-                CourseCatalog catalog = new CourseCatalog();
-                catalog.setCatalogId(id);
-                catalog.setCourses(courses);
-                return catalog;
-            } else {
-                System.out.println("No catalog found with this id");
-                return null;
+            CourseCatalog catalog = null;
+            catalog = new CourseCatalog();
+            catalog.setCatalogId(catalogId);
+            CourseDao courseDao = new CourseDao();
+            ProfessorDao professorDao = new ProfessorDao();
+            while (rs.next()) {
+                String courseId = rs.getString("CourseCode");
+                String professorId = rs.getString("ProfessorID");
+                Course course = courseDao.get(courseId);
+
+                Professor professor = professorDao.get(professorId);
+                if (professor != null)
+                    course.setProfessor(professor);
+                catalog.addCourse(course);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return catalog;
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             DBConnection.closeConnection(connection);
         }
+        return null;
     }
 
     public List<CourseCatalog> getAll() {
@@ -82,7 +96,7 @@ public class CourseCatalogDao {
             while (rs.next()) {
                 CourseCatalog catalog = new CourseCatalog();
                 String id = rs.getString("catalogId");
-                List<Course> courses = getAllCoursesById(id);
+                List<Course> courses = getAllCoursesByCatalogId(id);
                 catalog.setCatalogId(id);
                 catalog.setCourses(courses);
                 courseCatalogList.add(catalog);
@@ -96,33 +110,19 @@ public class CourseCatalogDao {
     }
 
     public int insert(CourseCatalog courseCatalog) {
-        System.out.println("inserting data");
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(INSERT);
-            List<Course> courseList = courseCatalog.getCourses();
-            int result = 0;
-            System.out.println("Adding course catalog id = " + courseCatalog.getCatalogId() + " " + courseList.size());
-            for (int i = 0; i < courseList.size(); i++) {
-                System.out.println(courseCatalog.getCatalogId());
-                System.out.println(courseList.get(i).getCourseCode());
-
-
-                stmt.setString(1, courseList.get(i).getCourseCode());
-                stmt.setString(2, courseCatalog.getCatalogId());
-                stmt.setString(3, String.valueOf(1));
-                stmt.setString(4, null);
-
-                CourseDao courseDao = new CourseDao();
-                courseDao.insert(courseList.get(i));
-                System.out.println(INSERT);
-                System.out.println(stmt);
-                stmt.executeUpdate();
-                System.out.println(courseList.get(i) + " inserted");
-            }
-            System.out.println(result);
-            return result;
+            stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            List<Course> courses = courseCatalog.getCourses();
+            System.out.println(courses.get(0));
+            stmt.setString(1, courses.get(0).getCourseCode());
+            stmt.setString(2, courseCatalog.getCatalogId());
+            stmt.setString(3, String.valueOf(1));
+            stmt.setString(4, null);
+            CourseDao courseDao = new CourseDao();
+            courseDao.insert(courses.get(0));
+            return stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -149,19 +149,82 @@ public class CourseCatalogDao {
         return 0;
     }
 
-    public int delete(CourseCatalog CourseCatalog) {
-//        Connection connection = DBConnection.getConnection();
-//        PreparedStatement stmt = null;
-//        try {
-//            stmt = connection.prepareStatement(DELETE);
-//            stmt.setString(1, com.flipkart.bean.CourseCatalog.getcatalogId());
-//            return stmt.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            DBConnection.closeConnection(connection);
-//        }
+    public int delete(CourseCatalog courseCatalog) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(DELETE);
+            stmt.setString(1, courseCatalog.getCatalogId());
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+    }
+
+    public int registerForCourse(Course course, String professorId) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(GET_PROFESSOR);
+            String catalogId = getCatalogID(course.getCourseCode());
+            if (catalogId == null) {
+                System.out.println("This course do not belongs to any catalog");
+                return 0;
+            }
+            stmt.setString(1, catalogId);
+            stmt.setString(2, course.getCourseCode());
+            ResultSet rs = stmt.executeQuery();
+            String assignedProfessorId = rs.getString("professorId");
+            if (assignedProfessorId == null) {
+                stmt = connection.prepareStatement(UPDATE_COURSE_IN_CATALOG);
+                stmt.setString(1, professorId);
+                stmt.setString(2, course.courseCode);
+                stmt.setString(2, catalogId);
+                System.out.println("Course Successfully assigned to you");
+                return stmt.executeUpdate();
+            } else if (professorId.equals(assignedProfessorId)) {
+                System.out.println("This course is already assigned to you");
+                return 0;
+            } else {
+                System.out.println("This course is already assigned to someone");
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return 0;
     }
+
+    public String getCatalogID(String courseId) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(GET_CATALOG_ID_FROM_COURSE);
+            stmt.setString(1, courseId);
+            ResultSet rs = stmt.executeQuery();
+            return rs.getString("catalogid");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int deleteCourseFromCatalog(String catalogId, String courseId) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(DELETE_COURSE_FROM_CATALOG);
+            stmt.setString(1, catalogId);
+            stmt.setString(2, courseId);
+            System.out.println(stmt.executeQuery());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
 
 }

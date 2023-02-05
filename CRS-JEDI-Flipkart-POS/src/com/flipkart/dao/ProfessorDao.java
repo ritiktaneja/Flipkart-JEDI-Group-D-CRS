@@ -10,37 +10,40 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorDao implements DaoInterface<Professor>  {
+public class ProfessorDao implements DaoInterface<Professor> {
 
-    private static final String DELETE = "DELETE FROM professor WHERE id=?";
-    private static final String GET_ALL = "SELECT * FROM professor ORDER BY id";
-    private static final String GET_BY_ID = "SELECT * FROM professor WHERE id=?";
-    private static final String INSERT = "INSERT INTO professor(facultyId, name, password, department, designation) VALUES(?, ?, ?, ?, ?)";
+    private static final String DELETE = "DELETE FROM professor WHERE professorId=?";
+    private static final String GET_ALL = "SELECT * FROM professor ORDER BY professsorId";
+    private static final String GET_BY_ID = "SELECT * FROM professor WHERE professorId=?";
+    private static final String INSERT = "INSERT INTO professor(professorId,professorName) VALUES(?, ?)";
     private static final String UPDATE = "UPDATE professor SET name=?, password=?, department=?, designation=? WHERE professorId=?";
+
     @Override
+
     public Professor get(String id) {
+        if (id == null) {
+            return null;
+        }
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(GET_BY_ID);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
-                builder.setFacultyId(rs.getString("facultyId"));
-                builder.setName(rs.getString("name"));
-                builder.setPassword(rs.getString("password"));
-                builder.setDepartment(Department.values()[rs.getInt("department")]);
-                builder.setDesignation(Designation.values()[rs.getInt("designation")]);
+                builder.setFacultyId(rs.getString("professorId"));
+                builder.setName(rs.getString("professorName"));
                 return builder.build();
             } else {
-                throw new SQLException("Student Not Found");
+                return null;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             DBConnection.closeConnection(connection);
         }
+        return null;
     }
 
     @Override
@@ -51,7 +54,7 @@ public class ProfessorDao implements DaoInterface<Professor>  {
         try {
             stmt = connection.prepareStatement(GET_ALL);
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
                 builder.setFacultyId(rs.getString("facultyId"));
                 builder.setName(rs.getString("name"));
@@ -73,20 +76,26 @@ public class ProfessorDao implements DaoInterface<Professor>  {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, professor.getFacultyId());
-            stmt.setString(2, professor.getName());
-            stmt.setString(3, professor.getPassword());
-            stmt.setInt(4, professor.getDepartment().getValue());
-            stmt.setInt(5, professor.getDesignation().getValue());
-            int result = stmt.executeUpdate();
-            return result;
-        } catch (SQLException e) {
-            throw  new RuntimeException(e);
+            Professor dbProfessor = get(professor.getFacultyId());
+            if (dbProfessor == null) {
+                stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, professor.getFacultyId());
+                stmt.setString(2, professor.getName());
+                int result = stmt.executeUpdate();
+                System.out.println("Professor Added Successfully");
+                return result;
+            } else {
+                System.out.println("Professor with same ID present");
+                return 0;
+            }
+        } catch (Exception e) {
+            System.out.println("Professor with same ID present");
         } finally {
             DBConnection.closeConnection(connection);
         }
+        return 0;
     }
+
     public int update(String id, Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
@@ -98,12 +107,13 @@ public class ProfessorDao implements DaoInterface<Professor>  {
             stmt.setInt(4, professor.getDesignation().getValue());
             stmt.setString(5, id);
             return stmt.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             DBConnection.closeConnection(connection);
         }
     }
+
     public int delete(Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
@@ -117,7 +127,6 @@ public class ProfessorDao implements DaoInterface<Professor>  {
             DBConnection.closeConnection(connection);
         }
     }
-
 
 
 }

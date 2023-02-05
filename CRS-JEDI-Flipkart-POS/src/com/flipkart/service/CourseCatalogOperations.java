@@ -3,6 +3,7 @@ package com.flipkart.service;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.CourseCatalog;
 import com.flipkart.dao.CourseCatalogDao;
+import com.flipkart.dao.CourseDao;
 import com.flipkart.data.MockDB;
 
 
@@ -31,12 +32,26 @@ public class CourseCatalogOperations implements CourseCatalogServices {
             catalog = new CourseCatalog();
             catalog.setCatalogId(catalogId);
             System.out.println("New Catalog created with id = " + catalogId);
+        } else {
+            System.out.println("Catalog with this id present");
         }
+        List<Course> courseList = catalog.getCourses();
+        for (Course c : courseList) {
+            if (c.getCourseCode().equals(courseCode)) {
+                System.out.println("The course with this id is already present in catalog");
+                return;
+            }
+        }
+        catalog.getCourses().clear();
+
         Course course = new Course();
         course.setCourseCode(courseCode);
         course.setName(courseName);
         course.setProfessor(null);
+
         catalog.addCourse(course);
+
+
         courseCatalogDao.insert(catalog);
         System.out.println("Course Added to catalog Successfully");
     }

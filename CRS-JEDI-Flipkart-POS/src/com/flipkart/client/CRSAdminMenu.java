@@ -107,13 +107,16 @@ public class CRSAdminMenu {
     }
 
     private void addProfessor() {
-        System.out.print("Enter professor Id ");// using semester as catalog id
+        System.out.print("Set professor Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String professorId = sc.nextLine();
         System.out.print("Enter the Professor Name : ");
         sc = new Scanner(System.in);
         String professorName = sc.nextLine();
-        adminOperations.addProfessor(professorId, professorName);
+        System.out.print("Set the password for Professor : ");
+        sc = new Scanner(System.in);
+        String password = sc.nextLine();
+        adminOperations.addProfessor(professorId, professorName, password);
     }
 
     private void showProfessor() {
@@ -154,12 +157,14 @@ public class CRSAdminMenu {
     private void addAdmin() throws Exception {
         System.out.print("Enter Admin Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
-        String professorId = sc.nextLine();
+        String adminId = sc.nextLine();
         System.out.print("Enter the Admin Name : ");
         sc = new Scanner(System.in);
         String adminName = sc.nextLine();
-        adminOperations.addAdmin(adminId, adminName);
-
+        System.out.print("Set the password for new Admin : ");
+        sc = new Scanner(System.in);
+        String password = sc.nextLine();
+        adminOperations.addAdmin(adminId, adminName, password);
     }
 
     private void approveStudent() {
