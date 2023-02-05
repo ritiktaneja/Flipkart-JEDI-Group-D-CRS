@@ -6,6 +6,7 @@ import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.data.MockDB;
 import com.flipkart.service.SelfRegistrationOperations;
+import com.flipkart.service.UserOperations;
 
 import java.util.*;
 
@@ -101,23 +102,10 @@ public class CRSApplication {
     }
 
     private static User getRole(String id, String passwd) {
-        for (Admin a : MockDB.admins) {
-            if (a.getAdminId().equals(id) && a.getPassword().equals(passwd)) {
-                return a;
-            }
-        }
-        for (Professor p : MockDB.professors) {
-            if (p.getFacultyId().equals(id) && p.getPassword().equals(passwd)) {
-                return p;
-            }
-        }
-        for (Student p : MockDB.students) {
-            System.out.println(p.getStudentId() + " - " + p.getPassword());
-            if (p.getStudentId().equals(id) && p.getPassword().equals(passwd)) {
-                return p;
-            }
-        }
-        return null;
+
+        UserOperations userOperations = new UserOperations();
+        User user = userOperations.loginUser(id, passwd);
+        return user;
     }
 
 //    public void createMainMenu() {

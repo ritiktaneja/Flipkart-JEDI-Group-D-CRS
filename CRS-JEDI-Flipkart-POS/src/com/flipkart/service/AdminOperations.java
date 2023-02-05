@@ -1,10 +1,7 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.*;
-import com.flipkart.dao.AdminDao;
-import com.flipkart.dao.CourseCatalogDao;
-import com.flipkart.dao.ProfessorDao;
-import com.flipkart.dao.StudentDao;
+import com.flipkart.dao.*;
 import com.flipkart.data.MockDB;
 
 import java.util.ArrayList;
@@ -45,8 +42,8 @@ public class AdminOperations extends UserOperations implements AdminServices {
         builder.setName(professorName);
         builder.setPassword(password);
         professorDao.insert(builder.build());
-        AdminDao dao = new AdminDao();
-        dao.addUser(builder.build());
+        UserDao dao = new UserDao();
+        dao.insert(builder.build());
     }
 
     public void assignCourse(String courseCode, String professorId) {
@@ -99,6 +96,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
         builder.setPassword(password);
         AdminDao adminDao = new AdminDao();
         adminDao.insert(builder.build());
-        adminDao.addUser(builder.build());
+        UserDao userDao = new UserDao();
+        userDao.insert(builder.build());
     }
 }

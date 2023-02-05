@@ -20,7 +20,7 @@ public class AdminDao implements DaoInterface<Admin> {
     private static final String INSERT = "INSERT INTO admin(adminId, adminName) VALUES(?, ?)";
     private static final String UPDATE = "UPDATE professor SET professorName=?, password=?, WHERE  Id=?";
     private static final String INSERT_IN_USER = "INSERT INTO user (userId,password) VALUES(?,?)";
-    private static final String INSERT_IN_ROLE = "INSERT INTO ROLE (userID,role) VALUES(?,?)";
+
     private static final String APPROVE_STUDENT = "UPDATE semesterRegistration SET status= ? where studentId = ?";
 
 
@@ -52,8 +52,7 @@ public class AdminDao implements DaoInterface<Admin> {
             if (rs.next()) {
                 Admin.AdminBuilder builder = new Admin.AdminBuilder();
                 builder.setAdminId(rs.getString("adminId"));
-                builder.setName(rs.getString("name"));
-                builder.setPassword(rs.getString("password"));
+                builder.setName(rs.getString("adminName"));
                 return builder.build();
             } else {
                 throw new SQLException("Admin Not Found");
@@ -106,38 +105,6 @@ public class AdminDao implements DaoInterface<Admin> {
             DBConnection.closeConnection(connection);
         }
     }
-
-    public int addUser(User user) {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement stmt = null;
-        PreparedStatement statement = null;
-        try {
-            stmt = connection.prepareStatement(INSERT_IN_USER);
-            statement = connection.prepareStatement(INSERT_IN_ROLE);
-
-            stmt.setString(1, user.getUserId());
-            stmt.setString(2, user.getPassword());
-            statement.setString(1, user.getUserId());
-            String role = "";
-            if (user instanceof Professor) {
-                role = "Professor";
-            } else if (user instanceof Admin) {
-                role = "Admin";
-            } else if (user instanceof Student) {
-                role = "Student";
-            }
-            statement.setString(2, role);
-            stmt.executeUpdate();
-            System.out.println("User Added Successfully");
-            statement.executeUpdate();
-            System.out.println("Role Added Successfully");
-            return 1;
-        } catch (Exception e) {
-            System.out.println("User with same ID present");
-        }
-        return 0;
-    }
-
 
     public int update(String id, Admin admin) {
         Connection connection = DBConnection.getConnection();
