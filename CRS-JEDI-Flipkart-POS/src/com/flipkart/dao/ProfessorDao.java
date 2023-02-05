@@ -13,27 +13,36 @@ import java.util.List;
 public class ProfessorDao implements DaoInterface<Professor> {
 
     private static final String DELETE = "DELETE FROM professor WHERE professorId=?";
-    private static final String GET_ALL = "SELECT * FROM professor ORDER BY professsorId";
+    private static final String GET_ALL = "SELECT * FROM professor ORDER BY professorId";
     private static final String GET_BY_ID = "SELECT * FROM professor WHERE professorId=?";
     private static final String INSERT = "INSERT INTO professor(professorId,professorName) VALUES(?, ?)";
     private static final String UPDATE = "UPDATE professor SET name=?, password=?, department=?, designation=? WHERE professorId=?";
+    private static final String GET_USER = "SELECT * FROM user where userId= ?";
 
     @Override
-
     public Professor get(String id) {
         if (id == null) {
             return null;
         }
         Connection connection = DBConnection.getConnection();
-        PreparedStatement stmt = null;
+        PreparedStatement professorStatement = null;
+        PreparedStatement userStatement = null;
         try {
-            stmt = connection.prepareStatement(GET_BY_ID);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
+            professorStatement = connection.prepareStatement(GET_BY_ID);
+            userStatement = connection.prepareStatement(GET_USER);
+
+            professorStatement.setString(1, id);
+            userStatement.setString(1, id);
+            System.out.println(professorStatement);
+            ResultSet rs = professorStatement.executeQuery();
             if (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
                 builder.setFacultyId(rs.getString("professorId"));
                 builder.setName(rs.getString("professorName"));
+
+                String password = userStatement.executeQuery().getString("password");
+                builder.setPassword(password);
+
                 return builder.build();
             } else {
                 return null;
@@ -50,23 +59,30 @@ public class ProfessorDao implements DaoInterface<Professor> {
     public List<Professor> getAll() {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
+        PreparedStatement userStatement = null;
         List<Professor> professorList = new ArrayList<>();
         try {
             stmt = connection.prepareStatement(GET_ALL);
+            userStatement = connection.prepareStatement(GET_USER);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
-                builder.setFacultyId(rs.getString("facultyId"));
-                builder.setName(rs.getString("name"));
-                builder.setPassword(rs.getString("password"));
-                builder.setDesignation(Designation.values()[rs.getInt("designation")]);
-                builder.setDepartment(Department.values()[rs.getInt("department")]);
-                professorList.add(builder.build());
+                builder.setFacultyId(rs.getString("professorId"));
+                builder.setName(rs.getString("professorName"));
+                String professorId = rs.getString("professorId");
+
+                userStatement.setString(1, professorId);
+                ResultSet resultSet = userStatement.executeQuery();
+                if (resultSet.next()) {
+                    String password = resultSet.getString("password");
+                    builder.setPassword(password);
+                    professorList.add(builder.build());
+                }
             }
             return professorList;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             DBConnection.closeConnection(connection);
         }

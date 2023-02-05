@@ -29,11 +29,11 @@ public class CourseDao implements DaoInterface<Course> {
                 course.setName(rs.getString("CourseName"));
                 return course;
             } else {
-                System.out.println("Course Not Found1");
+                System.out.println("Course Not Found");
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Course Not Found2");
+            System.out.println("Course Not Found");
             return null;
         } finally {
             DBConnection.closeConnection(connection);
@@ -95,16 +95,23 @@ public class CourseDao implements DaoInterface<Course> {
 
     @Override
     public int delete(Course course) {
-//        Connection connection = DBConnection.getConnection();
-//        PreparedStatement stmt = null;
-//        try {
-//            stmt = connection.prepareStatement(DELETE);
-//            stmt.setString(1, course.getCourseCode());
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        // NO USE
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(DELETE);
+            stmt.setString(1, course.getCourseCode());
+            course = get(course.getCourseCode());
+            if (course == null) {
+                System.out.println("No Course associated with this ID");
+                return 0;
+            }
+            stmt.executeUpdate();
+            System.out.println("Course Deleted Successfully");
+            return 1;
+        } catch (Exception e) {
+            System.out.println("Course Not Deleted");
+            e.printStackTrace();
+        }
         return 0;
     }
 }

@@ -29,7 +29,7 @@ public class Professor extends User {
 
     @Override
     public String toString() {
-        return "Professor name = " + this.getName() + ", id = " + this.getFacultyId() + ", Designation =  " + this.getDesignation() + ", Department = " + this.getDepartment()
+        return "Professor name = " + this.getName() + ", ID = " + this.getFacultyId() + ", Password =  " + this.getPassword()
                 ;
     }
 

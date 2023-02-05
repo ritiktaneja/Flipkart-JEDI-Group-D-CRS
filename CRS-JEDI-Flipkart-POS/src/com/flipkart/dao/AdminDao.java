@@ -18,9 +18,28 @@ public class AdminDao implements DaoInterface<Admin> {
     private static final String GET_ALL = "SELECT * FROM admin ORDER BY adminId";
     private static final String GET_BY_ID = "SELECT * FROM admin WHERE adminId=?";
     private static final String INSERT = "INSERT INTO admin(adminId, adminName) VALUES(?, ?)";
-    private static final String UPDATE = "UPDATE professor SET name=?, password=?, WHERE adminId=?";
+    private static final String UPDATE = "UPDATE professor SET professorName=?, password=?, WHERE  Id=?";
     private static final String INSERT_IN_USER = "INSERT INTO user (userId,password) VALUES(?,?)";
     private static final String INSERT_IN_ROLE = "INSERT INTO ROLE (userID,role) VALUES(?,?)";
+    private static final String APPROVE_STUDENT = "UPDATE semesterRegistration SET status= ? where studentId = ?";
+
+
+    public int approveStudent(String studentID) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(APPROVE_STUDENT);
+            stmt.setInt(1, 1);
+            stmt.setString(2, studentID);
+            return stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("No Student found with this ID");
+            e.printStackTrace();
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+        return 0;
+    }
 
     @Override
     public Admin get(String id) {
@@ -37,7 +56,7 @@ public class AdminDao implements DaoInterface<Admin> {
                 builder.setPassword(rs.getString("password"));
                 return builder.build();
             } else {
-                throw new SQLException("Student Not Found");
+                throw new SQLException("Admin Not Found");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -57,8 +76,7 @@ public class AdminDao implements DaoInterface<Admin> {
             while (rs.next()) {
                 Admin.AdminBuilder builder = new Admin.AdminBuilder();
                 builder.setAdminId(rs.getString("adminId"));
-                builder.setName(rs.getString("name"));
-                builder.setPassword(rs.getString("password"));
+                builder.setName(rs.getString("adminName"));
                 adminList.add(builder.build());
             }
             return adminList;

@@ -3,10 +3,12 @@ package com.flipkart.service;
 import com.flipkart.bean.*;
 import com.flipkart.dao.AdminDao;
 import com.flipkart.dao.ProfessorDao;
+import com.flipkart.dao.StudentDao;
 import com.flipkart.data.MockDB;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class AdminOperations extends UserOperations implements AdminServices {
     public CourseCatalogServices courseCatalogServices = new CourseCatalogOperations();
@@ -20,9 +22,19 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     public void approveStudent(String studentId) {
-        Student student = MockDB.getStudentFromId(studentId);
-        student.approve();
-        System.out.println("Student approved Sucessfully");
+        StudentDao studentDao = new StudentDao();
+        Student student = studentDao.get(studentId);
+        System.out.println(student);
+        System.out.print("Are you sure you want to approve this student ? Type yes to confirm : ");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        if (input.equalsIgnoreCase("yes")) {
+            AdminDao adminDao = new AdminDao();
+            adminDao.approveStudent(studentId);
+            System.out.println("Student Registration approved Successfully");
+        } else {
+            System.out.println("Student Registration not approved");
+        }
     }
 
     public void addProfessor(String professorId, String professorName, String password) {
@@ -51,7 +63,8 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     public List<Professor> viewProfessors() {
-        return MockDB.professors;
+        ProfessorDao professorDao = new ProfessorDao();
+        return professorDao.getAll();
     }
 
     public List<Student> viewStudents() {

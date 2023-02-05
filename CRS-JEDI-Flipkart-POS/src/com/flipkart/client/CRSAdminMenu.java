@@ -170,8 +170,8 @@ public class CRSAdminMenu {
     private void approveStudent() {
         System.out.print("Enter the student Id that is to be approved : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
-        String stdentId = sc.nextLine();
-        adminOperations.approveStudent(stdentId);
+        String studentId = sc.nextLine();
+        adminOperations.approveStudent(studentId);
     }
 
     private void addCourseToCatalog() {
@@ -191,7 +191,7 @@ public class CRSAdminMenu {
         System.out.print("Enter the Semester for deleting catalog from catalog : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String catalogId = sc.nextLine();
-        System.out.print("Enter the course id  : ");
+        System.out.print("Enter the course ID  : ");
         sc = new Scanner(System.in);
         String courseId = sc.next();
         adminOperations.deleteCourse(catalogId, courseId);

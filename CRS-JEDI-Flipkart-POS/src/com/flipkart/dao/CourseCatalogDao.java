@@ -18,11 +18,11 @@ public class CourseCatalogDao {
     private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,semester,professorid) values(?,?,?,?);";
     private static final String UPDATE = "UPDATE CourseCatalog SET name=?, password=?, WHERE catalogId=?";
     private static final String GET_ALL_BY_CATALOG_ID = "SELECT * FROM CourseCatalog where catalogId = ?";
-    private static final String UPDATE_COURSE_IN_CATALOG = "UPDATE CourseCatalog SET professorID = ? WHERE CourseCode =? and CatalogID = ?";
-    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseID = ?";
+    private static final String UPDATE_COURSE_IN_CATALOG = "UPDATE CourseCatalog SET professorID = ? WHERE courseCode =? and CatalogID = ?";
+    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseCourse = ?";
 
-    private static final String DELETE_COURSE_FROM_CATALOG = "DELETE FROM CourseCatalog where catlogId=? and courseId=?";
-    private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseId=?";
+    private static final String DELETE_COURSE_FROM_CATALOG = "DELETE FROM courseCatalog where catalogId=? and courseCode=?";
+    private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseCode=?";
 
     private PreparedStatement stmt;
 
@@ -180,7 +180,7 @@ public class CourseCatalogDao {
             if (assignedProfessorId == null) {
                 stmt = connection.prepareStatement(UPDATE_COURSE_IN_CATALOG);
                 stmt.setString(1, professorId);
-                stmt.setString(2, course.courseCode);
+                stmt.setString(2, course.getCourseCode());
                 stmt.setString(2, catalogId);
                 System.out.println("Course Successfully assigned to you");
                 return stmt.executeUpdate();
@@ -218,12 +218,28 @@ public class CourseCatalogDao {
             stmt = connection.prepareStatement(DELETE_COURSE_FROM_CATALOG);
             stmt.setString(1, catalogId);
             stmt.setString(2, courseId);
-            System.out.println(stmt.executeQuery());
-        } catch (SQLException e) {
+            CourseDao courseDao = new CourseDao();
+
+            Course course = new Course();
+            course.setCourseCode(courseId);
+            int rs = courseDao.delete(course);
+            if (rs == 1) {
+                CourseCatalog catalog = get(catalogId);
+                if (catalog == null) {
+                    System.out.println("No catalog associated with this ID");
+                    return 0;
+                }
+                stmt.executeUpdate();
+                System.out.println("Course Removed from catalog Successfully");
+                return 1;
+            }
+            System.out.println("Course Not found in this catalog");
+            return 0;
+        } catch (Exception e) {
+            System.out.println("No catalog found with this ID");
             e.printStackTrace();
             return 0;
         }
-        return 0;
     }
 
 

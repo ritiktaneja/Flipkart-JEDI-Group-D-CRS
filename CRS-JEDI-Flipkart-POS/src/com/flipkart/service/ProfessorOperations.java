@@ -38,7 +38,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         List<Student> students = new ArrayList<>();
         for (Map.Entry<Student, Set<RegisteredCourse>> y : MockDB.registeredCourses.entrySet()) {
             for (RegisteredCourse rc : y.getValue()) {
-                if(rc.getCourse().getCourseCode() == course.getCourseCode())
+                if (rc.getCourse().getCourseCode() == course.getCourseCode())
                     students.add(y.getKey());
             }
         }
@@ -47,11 +47,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
 
-    private List<Course> viewCoursesTaken(Professor professor){
+    private List<Course> viewCoursesTaken(Professor professor) {
         List<Course> list = new ArrayList<>();
         for (CourseCatalog c : MockDB.catalogs) {
             for (Course course : c.getCourses()) {
-                if (course.professor == professor) {
+                if (course.getProfessor() == professor) {
                     list.add(course);
                 }
             }
@@ -60,8 +60,8 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     private boolean registerForCourse(Professor professor, Course course) throws Exception {
-        if (course.professor == null) {
-            course.professor = professor;
+        if (course.getProfessor() == null) {
+            course.setProfessor(professor);
             System.out.println(course.getName() + " is Successfully assigned to " + professor.getName());
             return true;
         }
@@ -70,15 +70,15 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
 
-    public List<Student> viewEnrolledStudents(String semester, String courseId)  {
-            Course course = MockDB.getCourseFromId(semester, courseId);
-            return viewEnrolledStudents(course);
+    public List<Student> viewEnrolledStudents(String semester, String courseId) {
+        Course course = MockDB.getCourseFromId(semester, courseId);
+        return viewEnrolledStudents(course);
     }
 
     @Override
-    public List<Course> viewCoursesTaken(String professorId)  {
-       Professor professor = MockDB.getProfessorFromId(professorId);
-       return viewCoursesTaken(professor);
+    public List<Course> viewCoursesTaken(String professorId) {
+        Professor professor = MockDB.getProfessorFromId(professorId);
+        return viewCoursesTaken(professor);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     public void addGrade(String studentId, String grade, String courseCode) {
 
         Student student = MockDB.getStudentFromId(studentId);
-        for(RegisteredCourse rc: MockDB.registeredCourses.get(student)) {
-            if(rc.getCourse().getCourseCode().equals(courseCode)) {
+        for (RegisteredCourse rc : MockDB.registeredCourses.get(student)) {
+            if (rc.getCourse().getCourseCode().equals(courseCode)) {
                 rc.setGrade(Grade.valueOf(grade));
                 break;
             }

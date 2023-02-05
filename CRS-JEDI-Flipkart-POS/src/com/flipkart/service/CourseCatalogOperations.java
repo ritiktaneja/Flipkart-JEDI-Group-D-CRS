@@ -57,10 +57,9 @@ public class CourseCatalogOperations implements CourseCatalogServices {
     }
 
     public void removeCourseFromCatalog(String catalogId, String courseId) {
-        CourseCatalog catalog = getCatalogFromId(catalogId);
-        if (catalog != null) {
-            catalog.removeCourse(courseId);
-        }
+        CourseCatalogDao dao = new CourseCatalogDao();
+        dao.deleteCourseFromCatalog(catalogId,courseId);
+
     }
 
     public void addCatalog(String catalogId) {

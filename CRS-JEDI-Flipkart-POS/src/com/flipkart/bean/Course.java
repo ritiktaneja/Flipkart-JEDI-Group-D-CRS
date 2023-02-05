@@ -1,9 +1,9 @@
 package com.flipkart.bean;
 
 public class Course {
-    public String courseCode;
-    public String Name;
-    public Professor professor;
+    private String courseCode;
+    private String Name;
+    private Professor professor;
 
     public String getCourseCode() {
         return courseCode;
