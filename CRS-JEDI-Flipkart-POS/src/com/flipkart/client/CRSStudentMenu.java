@@ -18,10 +18,17 @@ public class CRSStudentMenu {
     StudentServices obj = new StudentOperations();
     String studentId;
 
+    /**
+     *
+     * @param sId
+     */
     public CRSStudentMenu(String sId) {
         this.studentId = sId;
     }
 
+    /**
+     * CRS Student Menu
+     */
     public void createMenu() {
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Student ********************");
@@ -72,10 +79,16 @@ public class CRSStudentMenu {
         }
     }
 
+    /**
+     * Default Constructor
+     */
     public void registerCourses() {
 
     }
 
+    /**
+     * Method to Add Course
+     */
     public void addCourse() {
         System.out.print("Give the Course Code : ");
         String courseCode = sc.next();
@@ -87,6 +100,9 @@ public class CRSStudentMenu {
 
     }
 
+    /**
+     * Method to Drop Course
+     */
     public void dropCourse() {
 
         System.out.print("Give the Registered Course ID : ");
@@ -98,6 +114,9 @@ public class CRSStudentMenu {
 
     }
 
+    /**
+     * Method to view available courses
+     */
     public void viewAvailableCourses() {
         List<Course> ls = obj.viewCourses(studentId);
         for (Course c : ls) {
@@ -105,6 +124,9 @@ public class CRSStudentMenu {
         }
     }
 
+    /**
+     * Method to view Registered Courses
+     */
     public void viewRegisteredCourses() {
         List<RegisteredCourse> ls = obj.viewRegisteredCourses(studentId);
 
@@ -114,6 +136,9 @@ public class CRSStudentMenu {
 
     }
 
+    /**
+     * Method to view Grade Card
+     */
     public void viewGradesCard() {
         // NOT YET IMPLEMENTED!
         Map<Student, Set<RegisteredCourse>> register_Courses = MockDB.registeredCourses;

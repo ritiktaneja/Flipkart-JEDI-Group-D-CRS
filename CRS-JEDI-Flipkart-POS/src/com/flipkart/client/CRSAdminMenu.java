@@ -16,10 +16,18 @@ public class CRSAdminMenu {
     AdminOperations adminOperations = new AdminOperations();
     private String adminId;
 
+    /**
+     *
+     * @param aId
+     */
     public CRSAdminMenu(String aId) {
         this.adminId = aId;
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public void createMenu() throws Exception {
         System.out.println("********************************************************");
         System.out.println("******************** Welcome Admin *********************");
@@ -83,6 +91,9 @@ public class CRSAdminMenu {
         }
     }
 
+    /**
+     * Show Registered Student
+     */
     private void showRegisteredStudents() {
         List<Student> list = adminOperations.viewStudents();
         if (list == null) {
@@ -94,6 +105,10 @@ public class CRSAdminMenu {
         }
     }
 
+    /**
+     * Show Added Admins
+     * @throws Exception
+     */
     private void showAddedAdmins() throws Exception {
         List<Admin> admins = adminOperations.viewAdmins();
         if (admins == null) {
@@ -106,6 +121,9 @@ public class CRSAdminMenu {
 
     }
 
+    /**
+     * Added Professor
+     */
     private void addProfessor() {
         System.out.print("Set professor Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -119,6 +137,9 @@ public class CRSAdminMenu {
         adminOperations.addProfessor(professorId, professorName, password);
     }
 
+    /**
+     * Show Professor
+     */
     private void showProfessor() {
         List<Professor> professors = adminOperations.viewProfessors();
         if (professors == null) {
@@ -129,6 +150,9 @@ public class CRSAdminMenu {
         }
     }
 
+    /**
+     * View pending Admissions
+     */
     private void viewPendingAdmission() {
         List<Student> list = adminOperations.viewPendingApprovals();
         if (list == null) {
@@ -140,6 +164,9 @@ public class CRSAdminMenu {
         }
     }
 
+    /**
+     * View Courses In Catalog
+     */
     private void viewCoursesInCatalog() {
         System.out.print("Enter the Semester for getting catalog courses : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -154,6 +181,10 @@ public class CRSAdminMenu {
         }
     }
 
+    /**
+     * Add Admin
+     * @throws Exception
+     */
     private void addAdmin() throws Exception {
         System.out.print("Enter Admin Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -167,6 +198,9 @@ public class CRSAdminMenu {
         adminOperations.addAdmin(adminId, adminName, password);
     }
 
+    /**
+     * Approve Student
+     */
     private void approveStudent() {
         System.out.print("Enter the student Id that is to be approved : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -174,6 +208,9 @@ public class CRSAdminMenu {
         adminOperations.approveStudent(studentId);
     }
 
+    /**
+     * Add course to Catalog
+     */
     private void addCourseToCatalog() {
         System.out.print("Enter the Semester for creating catalog  : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -187,6 +224,9 @@ public class CRSAdminMenu {
         adminOperations.addCourse(catalogId, courseId, courseName);
     }
 
+    /**
+     * Delete Course from Catalog
+     */
     private void deleteCourseFromCatalog() {
         System.out.print("Enter the Semester for deleting catalog from catalog : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);

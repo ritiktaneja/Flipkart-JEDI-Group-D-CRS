@@ -13,6 +13,10 @@ import java.util.List;
 
 public class CourseCatalogOperations implements CourseCatalogServices {
 
+    /**
+     *
+     * @return Courses
+     */
     public List<CourseCatalog> viewAllCatalogs() {
         List<CourseCatalog> catalogList = new ArrayList<>();
         for (CourseCatalog catalog : MockDB.catalogs) {
@@ -21,10 +25,21 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         return catalogList;
     }
 
+    /**
+     *
+     * @param id
+     * @return course catalog
+     */
     public CourseCatalog getCatalogFromId(String id) {
         return MockDB.getCatalogFromId(id);
     }
 
+    /**
+     * Method to add course catalog
+     * @param catalogId
+     * @param courseCode
+     * @param courseName
+     */
     public void addCourseToCatalog(String catalogId, String courseCode, String courseName) {
         CourseCatalogDao courseCatalogDao = new CourseCatalogDao();
         CourseCatalog catalog = courseCatalogDao.get(catalogId);
@@ -56,12 +71,21 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         System.out.println("Course Added to catalog Successfully");
     }
 
+    /**
+     *
+     * @param catalogId
+     * @param courseId
+     */
     public void removeCourseFromCatalog(String catalogId, String courseId) {
         CourseCatalogDao dao = new CourseCatalogDao();
         dao.deleteCourseFromCatalog(catalogId,courseId);
 
     }
 
+    /**
+     *
+     * @param catalogId
+     */
     public void addCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
         if (catalog == null) {
@@ -72,6 +96,10 @@ public class CourseCatalogOperations implements CourseCatalogServices {
 
     }
 
+    /**
+     *
+     * @param catalogId
+     */
     public void deleteCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
         if (catalog != null) {
@@ -79,7 +107,11 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         }
     }
 
-
+    /**
+     *
+     * @param catalogId
+     * @return
+     */
     public List<Course> listCoursesInCatalog(String catalogId) {
         CourseCatalog catalog = getCatalogFromId(catalogId);
         if (catalog != null) {

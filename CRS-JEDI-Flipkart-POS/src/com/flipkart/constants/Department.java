@@ -8,10 +8,19 @@ public enum Department {
     MECH(5);
 
     private int value;
+
+    /**
+     *
+     * @param value
+     */
     private Department(int value) {
         this.value = value;
     }
 
+    /**
+     *
+     * @return department
+     */
     public int getValue() {
         return value;
     }

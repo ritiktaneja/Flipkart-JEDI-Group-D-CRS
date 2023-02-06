@@ -11,9 +11,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Student Operations Class
+ */
 public class StudentOperations extends UserOperations implements StudentServices{
 
 
+    /**
+     *
+     * @param student
+     * @param course
+     * @throws RuntimeException
+     */
    private boolean addCourse(Student student, Course course) throws RuntimeException {
 
         initStudSem(student);
@@ -28,6 +37,12 @@ public class StudentOperations extends UserOperations implements StudentServices
         MockDB.registeredCourses.get(student).add(builder.build());
         return true;
     }
+
+    /**
+     *
+     * @param student
+     * @param course
+     */
     private boolean dropCourse(Student student, Course course) {
 
         RegisteredCourse toRemove = null;
@@ -39,6 +54,11 @@ public class StudentOperations extends UserOperations implements StudentServices
         return toRemove.dropCourse();
     }
 
+    /**
+     *
+     * @param student
+     * @return List of Registered Courses
+     */
     private List<RegisteredCourse> viewRegisteredCourses(Student student)
     {
         initStudSem(student);
@@ -50,6 +70,11 @@ public class StudentOperations extends UserOperations implements StudentServices
         return registeredCourses;
     }
 
+    /**
+     *
+     * @param student
+     * @return Calculate Fee for that transaction
+     */
     private long calculateFee(Student student) {
 
         initStudSem(student);
@@ -63,6 +88,10 @@ public class StudentOperations extends UserOperations implements StudentServices
 //       return true;
 //    }
 
+    /**
+     *
+     * @param student
+     */
    private void initStudSem(Student student) {
 
 
@@ -70,10 +99,14 @@ public class StudentOperations extends UserOperations implements StudentServices
            MockDB.registeredCourses.put(student, new HashSet<>());
        }
    }
-   
 
 
-
+    /**
+     *
+     * @param studentId
+     * @param courseCode
+     * @return Add Course Status
+     */
     public boolean addCourse(String  studentId, String courseCode) {
        Student student = MockDB.getStudentFromId(studentId);
        if(student == null) {
@@ -85,6 +118,13 @@ public class StudentOperations extends UserOperations implements StudentServices
         }
         return addCourse(student, course);
     }
+
+    /**
+     *
+     * @param studentId
+     * @param courseCode
+     * @return Course Drop Status
+     */
     public boolean dropCourse(String studentId, String courseCode) {
         Student student = MockDB.getStudentFromId(studentId);
         if(student == null) {
@@ -96,11 +136,23 @@ public class StudentOperations extends UserOperations implements StudentServices
         }
         return dropCourse(student, course);
     }
+
+    /**
+     *
+     * @param studentId
+     * @return List of Courses
+     */
     public List<Course> viewCourses(String studentId) {
        Student student = MockDB.getStudentFromId(studentId);
        if(student == null) return null;
        return MockDB.getCatalogFromId(student.getSemester()).getCourses();
     }
+
+    /**
+     *
+     * @param studentId
+     * @return List of registered courses
+     */
     public List<RegisteredCourse> viewRegisteredCourses(String studentId) {
        Student student = MockDB.getStudentFromId(studentId);
        if(student != null) {
@@ -109,10 +161,20 @@ public class StudentOperations extends UserOperations implements StudentServices
        return null;
     }
 
+    /**
+     * @param studentId
+     * @return Fee for that transaction
+     */
     public long calculateFee(String studentId) {
         Student student = MockDB.getStudentFromId(studentId);
         return calculateFee(student);
     }
+
+    /**
+     *
+     * @param studentId
+     * @return registration Status
+     */
     public boolean getRegistrationStatus(String studentId) {
        return true; // TODO
     }

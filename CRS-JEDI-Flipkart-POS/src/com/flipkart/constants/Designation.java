@@ -6,10 +6,19 @@ public enum Designation {
     HOD(3),
     PROFESSOR(4);
     private int value;
+
+    /**
+     *
+     * @param value
+     */
     private Designation(int value) {
         this.value = value;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getValue() {
         return value;
     }

@@ -5,14 +5,26 @@ public enum Grade {
 
 	private int value;
 
+	/**
+	 *
+	 * @param value
+	 */
 	private Grade(int value) {
 		this.value = value;
 	}
 
+	/**
+	 *
+	 * @return grade
+	 */
 	public int getValue() {
 		return value;
 	}
 
+	/**
+	 *
+	 * @return grade
+	 */
 	@Override
 	public String toString() {
 		int v = getValue();

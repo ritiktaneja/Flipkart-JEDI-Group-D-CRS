@@ -10,13 +10,18 @@ import com.flipkart.service.UserOperations;
 
 import java.util.*;
 
+/**
+ * This is the main Class of Crs Application
+ */
 public class CRSApplication {
 
 
     public static void main(String[] args) {
         MockDB.main(args);
         System.out.println("Welcome to Course Registration System! choose the Option given below!");
-
+        /**
+         * Takes input from the user
+         */
         Scanner sc = new Scanner(System.in);
         int choice = 1;//sc.nextInt();
         int iterator;
@@ -39,15 +44,26 @@ public class CRSApplication {
                     User user = getRole(name, passwd);
                     if (user instanceof Student) {
                         Student student = (Student) (user);
+                        /**
+                         * Student Approved
+                         */
                         if (!student.isApproved()) {
                             System.out.println("Verification Pending.... Contact Administrator");
-                        } else {
+                        }
+                        /**
+                         * Student Menu
+                         */
+                        else {
                             System.out.println("Welcome to Student Menu: ");
                             CRSStudentMenu stuobj = new CRSStudentMenu(student.getStudentId());
                             stuobj.createMenu();
                         }
                         break;
-                    } else if (user instanceof Admin) {
+                    }
+                    /**
+                     * Admin Menu
+                     */
+                    else if (user instanceof Admin) {
                         try {
                             Admin a = (Admin) user;
                             System.out.println("Welcome to Admin Menu: ");
@@ -101,6 +117,12 @@ public class CRSApplication {
         }
     }
 
+    /**
+     * Get User Role
+     * @param id
+     * @param passwd
+     * @return
+     */
     private static User getRole(String id, String passwd) {
 
         UserOperations userOperations = new UserOperations();

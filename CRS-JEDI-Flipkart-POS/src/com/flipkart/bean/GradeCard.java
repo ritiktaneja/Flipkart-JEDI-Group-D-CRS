@@ -8,22 +8,42 @@ public class GradeCard {
     private Student student;
     private List<RegisteredCourse> registeredCourses;
 
+    /**
+     * Method to get Student
+     * @return Student
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     * Method to set Student
+     * @param student
+     */
     public void setStudent(Student student) {
         this.student = student;
     }
 
+    /**
+     *
+     * @return Registered Courses
+     */
     public List<RegisteredCourse> getRegisteredCourses() {
         return registeredCourses;
     }
 
+    /**
+     * Method to set Registered Courses
+     * @param registeredCourses
+     */
     public void setRegisteredCourses(List<RegisteredCourse> registeredCourses) {
         this.registeredCourses = registeredCourses;
     }
 
+    /**
+     * Method to get CGPA
+     * @return cgpa
+     */
     public float calculateCGPA() {
         float totalScore = 0;
         int totalCompletedCourse = 0;

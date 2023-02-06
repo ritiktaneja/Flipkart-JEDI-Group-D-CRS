@@ -7,6 +7,15 @@ import com.flipkart.data.MockDB;
 public class SelfRegistrationOperations implements SelfRegistrationService{
 
     private static  int SID = 5000;
+
+    /**
+     *
+     * @param name
+     * @param password
+     * @param semester
+     * @param department
+     * @return Student
+     */
     public Student selfRegister(String name, String password, String semester, String department) {
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
         studentBuilder.setName(name);

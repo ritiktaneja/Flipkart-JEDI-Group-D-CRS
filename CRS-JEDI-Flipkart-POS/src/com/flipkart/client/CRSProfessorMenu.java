@@ -21,11 +21,19 @@ public class CRSProfessorMenu {
     ProfessorServices obj = new ProfessorOperations();
     String professorId;
 
+    /**
+     * Set Professor Id
+     * @param facultyId
+     */
     public CRSProfessorMenu(String facultyId) {
         // TODO Auto-generated constructor stub
         professorId = facultyId;
     }
 
+    /**
+     * Professor Menu
+     * @throws Exception
+     */
     public void createMenu() throws Exception {
 
         System.out.println("********************************************************");
@@ -68,6 +76,10 @@ public class CRSProfessorMenu {
         }
     }
 
+    /**
+     * View Enrolled Students
+     * @throws Exception
+     */
     public void viewEnrolledStudents() throws Exception {
         System.out.print("The courses taken by you are: ");
         viewAssignedCourses(professorId);
@@ -93,6 +105,10 @@ public class CRSProfessorMenu {
 
     }
 
+    /**
+     * Method to Add grade
+     * @throws Exception
+     */
     public void addGrade() throws Exception {
         //Show All courses
         //Professor Selects a Course
@@ -136,6 +152,11 @@ public class CRSProfessorMenu {
 
     }
 
+    /**
+     * View Assigned Courses
+     * @param professorId
+     * @throws Exception
+     */
     public void viewAssignedCourses(String professorId) throws Exception {
 
         List<Course> courseTaken = null;
@@ -149,6 +170,10 @@ public class CRSProfessorMenu {
 
     }
 
+    /**
+     * Register for Courses
+     * @throws Exception
+     */
     public void registerForCourses() throws Exception {
         //View all the available courses
         //Select the course which is not taken by another professor

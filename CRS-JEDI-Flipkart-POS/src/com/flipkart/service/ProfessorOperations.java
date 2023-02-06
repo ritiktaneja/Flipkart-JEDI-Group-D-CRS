@@ -16,10 +16,16 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     private static volatile ProfessorOperations instance = null;
 
+    /**
+     * Default Contructor
+     */
     public ProfessorOperations() {
 
     }
 
+    /**
+     *
+     */
     public static ProfessorOperations getInstance() {
         if (instance == null) {
             synchronized (ProfessorOperations.class) {
@@ -34,6 +40,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 //        return true;
 //    }
 
+    /**
+     * View Enrolled Students
+     * @param course
+     * @return
+     */
     private List<Student> viewEnrolledStudents(Course course) {
         List<Student> students = new ArrayList<>();
         for (Map.Entry<Student, Set<RegisteredCourse>> y : MockDB.registeredCourses.entrySet()) {
@@ -46,7 +57,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return students;
     }
 
-
+    /**
+     *
+     * @param professor
+     * @return Courses
+     */
     private List<Course> viewCoursesTaken(Professor professor) {
         List<Course> list = new ArrayList<>();
         for (CourseCatalog c : MockDB.catalogs) {
@@ -59,6 +74,12 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return list;
     }
 
+    /**
+     *
+     * @param professor
+     * @param course
+     * @throws Exception
+     */
     private boolean registerForCourse(Professor professor, Course course) throws Exception {
         if (course.getProfessor() == null) {
             course.setProfessor(professor);
@@ -70,17 +91,34 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
 
+    /**
+     *
+     * @param semester
+     * @param courseId
+     * @return
+     */
     public List<Student> viewEnrolledStudents(String semester, String courseId) {
         Course course = MockDB.getCourseFromId(semester, courseId);
         return viewEnrolledStudents(course);
     }
 
+    /**
+     *
+     * @param professorId
+     * @return List of Courses
+     */
     @Override
     public List<Course> viewCoursesTaken(String professorId) {
         Professor professor = MockDB.getProfessorFromId(professorId);
         return viewCoursesTaken(professor);
     }
 
+    /**
+     * @param professorId
+     * @param courseId
+     * @param semester
+     * @throws Exception
+     */
     @Override
     public void registerForCourse(String professorId, String courseId, String semester) throws Exception {
         Professor professor = MockDB.getProfessorFromId(professorId);
@@ -88,6 +126,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         registerForCourse(professor, course);
     }
 
+    /**
+     * @param studentId
+     * @param grade
+     * @param courseCode
+     */
     public void addGrade(String studentId, String grade, String courseCode) {
 
         Student student = MockDB.getStudentFromId(studentId);
