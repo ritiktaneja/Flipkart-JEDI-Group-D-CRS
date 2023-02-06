@@ -5,18 +5,16 @@ import com.flipkart.bean.CourseCatalog;
 import com.flipkart.dao.CourseCatalogDao;
 import com.flipkart.dao.CourseDao;
 import com.flipkart.data.MockDB;
+import com.flipkart.exception.*;
 
 
 import javax.xml.catalog.Catalog;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseCatalogOperations implements CourseCatalogServices {
 
-    /**
-     *
-     * @return Courses
-     */
     public List<CourseCatalog> viewAllCatalogs() {
         List<CourseCatalog> catalogList = new ArrayList<>();
         for (CourseCatalog catalog : MockDB.catalogs) {
@@ -25,99 +23,96 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         return catalogList;
     }
 
-    /**
-     *
-     * @param id
-     * @return course catalog
-     */
-    public CourseCatalog getCatalogFromId(String id) {
-        return MockDB.getCatalogFromId(id);
+    public CourseCatalog getCatalogFromId(String id) throws CatalogNotFoundException {
+        try {
+            return MockDB.getCatalogFromId(id);
+        } catch(Exception e) {
+            throw new CatalogNotFoundException(id);
+        }
     }
 
-    /**
-     * Method to add course catalog
-     * @param catalogId
-     * @param courseCode
-     * @param courseName
-     */
-    public void addCourseToCatalog(String catalogId, String courseCode, String courseName) {
-        CourseCatalogDao courseCatalogDao = new CourseCatalogDao();
-        CourseCatalog catalog = courseCatalogDao.get(catalogId);
-        if (catalog == null) {
-            catalog = new CourseCatalog();
-            catalog.setCatalogId(catalogId);
-            System.out.println("New Catalog created with id = " + catalogId);
-        } else {
-            System.out.println("Catalog with this id present");
-        }
-        List<Course> courseList = catalog.getCourses();
-        for (Course c : courseList) {
-            if (c.getCourseCode().equals(courseCode)) {
-                System.out.println("The course with this id is already present in catalog");
-                return;
+    public void addCourseToCatalog(String catalogId, String courseCode, String courseName) throws CourseNotAddedException {
+        try {
+            CourseCatalogDao courseCatalogDao = CourseCatalogDao.getInstance();
+            CourseCatalog catalog = courseCatalogDao.get(catalogId);
+            if (catalog == null) {
+                catalog = new CourseCatalog();
+                catalog.setCatalogId(catalogId);
+                System.out.println("New Catalog created with id = " + catalogId);
+            } else {
+                System.out.println("Catalog with this id present");
             }
-        }
-        catalog.getCourses().clear();
+            List<Course> courseList = catalog.getCourses();
+            for (Course c : courseList) {
+                if (c.getCourseCode().equals(courseCode)) {
+                    System.out.println("The course with this id is already present in catalog");
+                    return;
+                }
+            }
+            catalog.getCourses().clear();
 
-        Course course = new Course();
-        course.setCourseCode(courseCode);
-        course.setName(courseName);
-        course.setProfessor(null);
+            Course course = new Course();
+            course.setCourseCode(courseCode);
+            course.setName(courseName);
+            course.setProfessor(null);
 
-        catalog.addCourse(course);
+            catalog.addCourse(course);
 
 
-        courseCatalogDao.insert(catalog);
-        System.out.println("Course Added to catalog Successfully");
-    }
-
-    /**
-     *
-     * @param catalogId
-     * @param courseId
-     */
-    public void removeCourseFromCatalog(String catalogId, String courseId) {
-        CourseCatalogDao dao = new CourseCatalogDao();
-        dao.deleteCourseFromCatalog(catalogId,courseId);
-
-    }
-
-    /**
-     *
-     * @param catalogId
-     */
-    public void addCatalog(String catalogId) {
-        CourseCatalog catalog = getCatalogFromId(catalogId);
-        if (catalog == null) {
-            CourseCatalog catalog1 = new CourseCatalog();
-            catalog1.setCatalogId(catalogId);
-            MockDB.catalogs.add(catalog1);
-        }
-
-    }
-
-    /**
-     *
-     * @param catalogId
-     */
-    public void deleteCatalog(String catalogId) {
-        CourseCatalog catalog = getCatalogFromId(catalogId);
-        if (catalog != null) {
-            MockDB.catalogs.remove(catalog);
+            courseCatalogDao.insert(catalog);
+            System.out.println("Course Added to catalog Successfully");
+        } catch (Exception e) {
+            throw new CourseNotAddedException(catalogId, courseCode, courseName);
         }
     }
 
-    /**
-     *
-     * @param catalogId
-     * @return
-     */
-    public List<Course> listCoursesInCatalog(String catalogId) {
-        CourseCatalog catalog = getCatalogFromId(catalogId);
-        if (catalog != null) {
-            return catalog.getCourses();
+    public void removeCourseFromCatalog(String catalogId, String courseId) throws CourseNotRemovedException {
+        try {
+            CourseCatalogDao dao = CourseCatalogDao.getInstance();
+            dao.deleteCourseFromCatalog(catalogId, courseId);
+        } catch(Exception e) {
+            throw new CourseNotRemovedException(catalogId, courseId);
         }
-        return null;
+
+
+    }
+
+    public void addCatalog(String catalogId) throws CatalogNotAddedException {
+       try {
+           CourseCatalog catalog = getCatalogFromId(catalogId);
+           if (catalog == null) {
+               CourseCatalog catalog1 = new CourseCatalog();
+               catalog1.setCatalogId(catalogId);
+               MockDB.catalogs.add(catalog1);
+           }
+       } catch (Exception e) {
+           throw new CatalogNotAddedException(catalogId);
+       }
+
+    }
+
+    public void deleteCatalog(String catalogId) throws CatalogNotRemovedException {
+        try {
+            CourseCatalog catalog = getCatalogFromId(catalogId);
+            if (catalog != null) {
+                MockDB.catalogs.remove(catalog);
+            }
+        } catch(Exception e) {
+            throw new CatalogNotRemovedException(catalogId);
+        }
+    }
+
+
+    public List<Course> listCoursesInCatalog(String catalogId) throws CatalogNotFoundException {
+        try {
+            CourseCatalog catalog = getCatalogFromId(catalogId);
+            if (catalog != null) {
+                return catalog.getCourses();
+            }
+            return null;
+        } catch (Exception e) {
+            throw new CatalogNotFoundException(catalogId);
+        }
     }
 
 

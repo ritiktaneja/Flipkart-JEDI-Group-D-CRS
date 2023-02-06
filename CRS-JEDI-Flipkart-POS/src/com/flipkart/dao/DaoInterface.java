@@ -9,4 +9,5 @@ public interface DaoInterface<T> {
     int insert(T t);
     int update(String id, T t);
     int delete(T t);
+
 }

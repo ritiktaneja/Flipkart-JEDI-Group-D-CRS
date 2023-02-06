@@ -1,9 +1,8 @@
 package com.flipkart.dao;
 
+import com.flipkart.bean.*;
 import com.flipkart.bean.CourseCatalog;
-import com.flipkart.bean.Course;
-import com.flipkart.bean.CourseCatalog;
-import com.flipkart.bean.Professor;
+import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
 
 import java.sql.*;
@@ -15,16 +14,80 @@ public class CourseCatalogDao {
     private static final String DELETE = "DELETE FROM CourseCatalog WHERE catalogID=?";
     private static final String GET_ALL = "SELECT * FROM CourseCatalog ORDER BY catalogId";
     private static final String GET_BY_ID = "SELECT * FROM courseCatalog WHERE catalogId=?";
-    private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,semester,professorid) values(?,?,?,?);";
+    private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,professorid) values(?,?,?);";
     private static final String UPDATE = "UPDATE CourseCatalog SET name=?, password=?, WHERE catalogId=?";
     private static final String GET_ALL_BY_CATALOG_ID = "SELECT * FROM CourseCatalog where catalogId = ?";
     private static final String UPDATE_COURSE_IN_CATALOG = "UPDATE CourseCatalog SET professorID = ? WHERE courseCode =? and CatalogID = ?";
-    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseCourse = ?";
-
+    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseCode = ?";
     private static final String DELETE_COURSE_FROM_CATALOG = "DELETE FROM courseCatalog where catalogId=? and courseCode=?";
     private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseCode=?";
-
+    private static final String GET_COURSES_BY_PROFESSOR_ID = "SELECT * FROM courseCatalog WHERE professorId = ? ";
+    private static final String GET_STUDENTS_BY_COURSE_ID = "SELECT * FROM RegisteredCourses WHERE CourseCode = ?";
     private PreparedStatement stmt;
+
+    private static CourseCatalogDao instance = null;
+
+    private CourseCatalogDao() {
+
+    }
+
+    public static CourseCatalogDao getInstance() {
+        if (instance == null) {
+            instance = new CourseCatalogDao();
+        }
+        return instance;
+    }
+
+
+    public List<Student> getEnrolledStudents(String catalogId, String courseId) {
+        Connection con = DBConnection.getConnection();
+        PreparedStatement pstmt = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            pstmt = con.prepareStatement(GET_STUDENTS_BY_COURSE_ID);
+            pstmt.setString(1, courseId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String studentId = rs.getString("StudentId");
+                StudentDao studentDao = StudentDao.getInstance();
+                students.add(studentDao.get(studentId));
+            }
+            return students;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public List<Course> getAssignedCourses(String professorId) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = null;
+        List<Course> courses = null;
+        try {
+            statement = connection.prepareStatement(GET_COURSES_BY_PROFESSOR_ID);
+            statement.setString(1, professorId);
+            ResultSet rs = statement.executeQuery();
+            courses = new ArrayList<>();
+            while (rs.next()) {
+                CourseDao dao = CourseDao.getInstance();
+                String courseId = rs.getString("courseCode");
+                Course course = dao.get(courseId);
+                if (course != null) {
+                    Professor professor = ProfessorDao.getInstance().get(professorId);
+                    if(professor != null)
+                        course.setProfessor(professor);
+                    courses.add(course);
+                }
+            }
+            return courses;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+        return null;
+    }
 
     private List<Course> getAllCoursesByCatalogId(String id) {
         Connection connection = DBConnection.getConnection();
@@ -34,8 +97,8 @@ public class CourseCatalogDao {
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             List<Course> courses = new ArrayList<>();
-            CourseDao courseDao = new CourseDao();
-            ProfessorDao professorDao = new ProfessorDao();
+            CourseDao courseDao = CourseDao.getInstance();
+            ProfessorDao professorDao = ProfessorDao.getInstance();
             if (rs.next()) {
                 while (rs.next()) {
                     String courseId = rs.getString("CourseCode");
@@ -67,8 +130,8 @@ public class CourseCatalogDao {
             catalog = new CourseCatalog();
             catalog.setCatalogId(catalogId);
 
-            CourseDao courseDao = new CourseDao();
-            ProfessorDao professorDao = new ProfessorDao();
+            CourseDao courseDao = CourseDao.getInstance();
+            ProfessorDao professorDao = ProfessorDao.getInstance();
 
             while (rs.next()) {
                 String courseId = rs.getString("CourseCode");
@@ -120,10 +183,9 @@ public class CourseCatalogDao {
             List<Course> courses = courseCatalog.getCourses();
             System.out.println(courses.get(0));
             stmt.setString(1, courses.get(0).getCourseCode());
-            stmt.setString(2, courseCatalog.getCatalogId());
-            stmt.setString(3, String.valueOf(1));
-            stmt.setString(4, null);
-            CourseDao courseDao = new CourseDao();
+            stmt.setString(2, CRSApplication.currentSemester);
+            stmt.setString(3, null);
+            CourseDao courseDao = CourseDao.getInstance();
             courseDao.insert(courses.get(0));
             return stmt.executeUpdate();
         } catch (Exception e) {
@@ -136,19 +198,6 @@ public class CourseCatalogDao {
     }
 
     public int update(String id, CourseCatalog courseCatalog) {
-//        Connection connection = DBConnection.getConnection();
-//        PreparedStatement stmt = null;
-//        try {
-//            stmt = connection.prepareStatement(UPDATE);
-//            stmt.setString(1, com.flipkart.bean.CourseCatalog.getName());
-//            stmt.setString(2, com.flipkart.bean.CourseCatalog.getPassword());
-//            stmt.setString(5, id);
-//            return stmt.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            DBConnection.closeConnection(connection);
-//        }
         return 0;
     }
 
@@ -166,33 +215,35 @@ public class CourseCatalogDao {
         }
     }
 
-    public int registerForCourse(Course course, String professorId) {
+    public int registerForCourse(Course course, Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(GET_PROFESSOR);
             String catalogId = getCatalogID(course.getCourseCode());
             if (catalogId == null) {
-                System.out.println("This course do not belongs to any catalog");
+                System.out.println("This course does not belongs to any catalog");
                 return 0;
             }
             stmt.setString(1, catalogId);
             stmt.setString(2, course.getCourseCode());
             ResultSet rs = stmt.executeQuery();
-            String assignedProfessorId = rs.getString("professorId");
-            if (assignedProfessorId == null) {
-                stmt = connection.prepareStatement(UPDATE_COURSE_IN_CATALOG);
-                stmt.setString(1, professorId);
-                stmt.setString(2, course.getCourseCode());
-                stmt.setString(2, catalogId);
-                System.out.println("Course Successfully assigned to you");
-                return stmt.executeUpdate();
-            } else if (professorId.equals(assignedProfessorId)) {
-                System.out.println("This course is already assigned to you");
-                return 0;
-            } else {
-                System.out.println("This course is already assigned to someone");
-                return 0;
+            if (rs.next()) {
+                String assignedProfessorId = rs.getString("professorId");
+                if (assignedProfessorId == null) {
+                    stmt = connection.prepareStatement(UPDATE_COURSE_IN_CATALOG);
+                    stmt.setString(1, professor.getFacultyId());
+                    stmt.setString(2, course.getCourseCode());
+                    stmt.setString(3, catalogId);
+                    System.out.println("Course Successfully assigned to you");
+                    return stmt.executeUpdate();
+                } else if (professor.getFacultyId().equals(assignedProfessorId)) {
+                    System.out.println("This course is already assigned to you");
+                    return 0;
+                } else {
+                    System.out.println("This course is already assigned to someone");
+                    return 0;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,7 +258,9 @@ public class CourseCatalogDao {
             stmt = connection.prepareStatement(GET_CATALOG_ID_FROM_COURSE);
             stmt.setString(1, courseId);
             ResultSet rs = stmt.executeQuery();
-            return rs.getString("catalogid");
+            if (rs.next()) {
+                return rs.getString("catalogId");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -221,7 +274,7 @@ public class CourseCatalogDao {
             stmt = connection.prepareStatement(DELETE_COURSE_FROM_CATALOG);
             stmt.setString(1, catalogId);
             stmt.setString(2, courseId);
-            CourseDao courseDao = new CourseDao();
+            CourseDao courseDao = CourseDao.getInstance();
 
             Course course = new Course();
             course.setCourseCode(courseId);

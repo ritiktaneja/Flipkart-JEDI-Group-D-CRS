@@ -16,88 +16,92 @@ public class CRSAdminMenu {
     AdminOperations adminOperations = new AdminOperations();
     private String adminId;
 
-    /**
-     *
-     * @param aId
-     */
     public CRSAdminMenu(String aId) {
         this.adminId = aId;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    public void createMenu() throws Exception {
+    public void createMenu() {
         System.out.println("********************************************************");
         System.out.println("******************** Welcome Admin *********************");
         while (true) {
-            System.out.println("********************************************************");
-            System.out.println("*****************      Admin Menu      *****************");
-            System.out.println("********************************************************");
-            System.out.println("1. Add Course to catalog");
-            System.out.println("2. Add Professor");
-            System.out.println("3. Add Admin");
-            System.out.println("4. Approve Student");
-            System.out.println("5. Delete Course from catalog");
-            System.out.println("6. View Added Professors");
-            System.out.println("7. Show Courses in catalog");
-            System.out.println("8. Show registered students");
-            System.out.println("9. Show Pending Admissions");
-            System.out.println("10. Show Added Admins");
-            System.out.println("11. Logout");
-            System.out.print("Enter your choice : ");
-            int choice;
-            Scanner sc = new Scanner(System.in);
-            choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    addCourseToCatalog();
-                    break;
-                case 2:
-                    addProfessor();
-                    break;
-                case 3:
-                    addAdmin();
-                    break;
-                case 4:
-                    approveStudent();
-                    break;
-                case 5:
-                    deleteCourseFromCatalog();
-                    break;
-                case 6:
-                    showProfessor();
-                    break;
-                case 7:
-                    viewCoursesInCatalog();
-                    break;
-                case 8:
-                    showRegisteredStudents();
-                    break;
-                case 9:
-                    viewPendingAdmission();
-                    break;
-                case 10:
-                    showAddedAdmins();
-                    break;
-                case 11:
-                    System.out.println("Heading to Main Menu . . .");
-                    return;
-                default:
-                    System.out.println("Enter a valid input");
-                    break;
+            try {
+                System.out.println("********************************************************");
+                System.out.println("*****************      Admin Menu      *****************");
+                System.out.println("********************************************************");
+                System.out.println("1. Add Course to catalog");
+                System.out.println("2. Add Professor");
+                System.out.println("3. Add Admin");
+                System.out.println("4. Approve Student");
+                System.out.println("5. Delete Course from catalog");
+                System.out.println("6. View Added Professors");
+                System.out.println("7. Show Courses in catalog");
+                System.out.println("8. Show registered students");
+                System.out.println("9. Show Pending Admissions");
+                System.out.println("10. Show Added Admins");
+                System.out.println("11. Update Semester");
+                System.out.println("12. Logout");
+                System.out.print("Enter your choice : ");
+                int choice;
+                Scanner sc = new Scanner(System.in);
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        addCourseToCatalog();
+                        break;
+                    case 2:
+                        addProfessor();
+                        break;
+                    case 3:
+                        addAdmin();
+                        break;
+                    case 4:
+                        approveStudent();
+                        break;
+                    case 5:
+                        deleteCourseFromCatalog();
+                        break;
+                    case 6:
+                        showProfessor();
+                        break;
+                    case 7:
+                        viewCoursesInCatalog();
+                        break;
+                    case 8:
+                        showRegisteredStudents();
+                        break;
+                    case 9:
+                        viewPendingAdmission();
+                        break;
+                    case 10:
+                        showAddedAdmins();
+                        break;
+                    case 11:
+                        updateSemester();
+                        break;
+                    case 12:
+                        System.out.println("Heading to Main Menu . . .");
+                        return;
+                    default:
+                        System.out.println("Enter a valid input");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    /**
-     * Show Registered Student
-     */
+    private void updateSemester() {
+        System.out.print("Enter new semester number : ");
+        Scanner scanner = new Scanner(System.in);
+        String semester = scanner.nextLine();
+        adminOperations.updateSemester(semester);
+    }
+
     private void showRegisteredStudents() {
         List<Student> list = adminOperations.viewStudents();
         if (list == null) {
-            System.out.println("No Student with pending addmission");
+            System.out.println("No Student with pending admission");
             return;
         }
         for (Student c : list) {
@@ -105,10 +109,6 @@ public class CRSAdminMenu {
         }
     }
 
-    /**
-     * Show Added Admins
-     * @throws Exception
-     */
     private void showAddedAdmins() throws Exception {
         List<Admin> admins = adminOperations.viewAdmins();
         if (admins == null) {
@@ -121,10 +121,7 @@ public class CRSAdminMenu {
 
     }
 
-    /**
-     * Added Professor
-     */
-    private void addProfessor() {
+    private void addProfessor() throws Exception {
         System.out.print("Set professor Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String professorId = sc.nextLine();
@@ -137,9 +134,6 @@ public class CRSAdminMenu {
         adminOperations.addProfessor(professorId, professorName, password);
     }
 
-    /**
-     * Show Professor
-     */
     private void showProfessor() {
         List<Professor> professors = adminOperations.viewProfessors();
         if (professors == null) {
@@ -150,9 +144,6 @@ public class CRSAdminMenu {
         }
     }
 
-    /**
-     * View pending Admissions
-     */
     private void viewPendingAdmission() {
         List<Student> list = adminOperations.viewPendingApprovals();
         if (list == null) {
@@ -164,14 +155,8 @@ public class CRSAdminMenu {
         }
     }
 
-    /**
-     * View Courses In Catalog
-     */
-    private void viewCoursesInCatalog() {
-        System.out.print("Enter the Semester for getting catalog courses : ");// using semester as catalog id
-        Scanner sc = new Scanner(System.in);
-        String catalogId = sc.nextLine();
-        List<Course> list = adminOperations.viewCourses(catalogId);
+    private void viewCoursesInCatalog() throws Exception {
+        List<Course> list = adminOperations.viewCourses(AdminOperations.getCurrentSemester());
         if (list == null) {
             System.out.println("No course Exist in catalog");
             return;
@@ -181,10 +166,6 @@ public class CRSAdminMenu {
         }
     }
 
-    /**
-     * Add Admin
-     * @throws Exception
-     */
     private void addAdmin() throws Exception {
         System.out.print("Enter Admin Id ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
@@ -198,43 +179,28 @@ public class CRSAdminMenu {
         adminOperations.addAdmin(adminId, adminName, password);
     }
 
-    /**
-     * Approve Student
-     */
-    private void approveStudent() {
+    private void approveStudent() throws Exception {
         System.out.print("Enter the student Id that is to be approved : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String studentId = sc.nextLine();
         adminOperations.approveStudent(studentId);
     }
 
-    /**
-     * Add course to Catalog
-     */
-    private void addCourseToCatalog() {
-        System.out.print("Enter the Semester for creating catalog  : ");// using semester as catalog id
-        Scanner sc = new Scanner(System.in);
-        String catalogId = sc.nextLine();
+    private void addCourseToCatalog() throws Exception {
         System.out.print("Enter the course id  : ");
-        sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String courseId = sc.next();
         System.out.print("Enter the course name  : ");
         sc = new Scanner(System.in);
         String courseName = sc.next();
-        adminOperations.addCourse(catalogId, courseId, courseName);
+        adminOperations.addCourse(CRSApplication.currentSemester, courseId, courseName);
     }
 
-    /**
-     * Delete Course from Catalog
-     */
-    private void deleteCourseFromCatalog() {
-        System.out.print("Enter the Semester for deleting catalog from catalog : ");// using semester as catalog id
-        Scanner sc = new Scanner(System.in);
-        String catalogId = sc.nextLine();
+    private void deleteCourseFromCatalog() throws Exception {
         System.out.print("Enter the course ID  : ");
-        sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String courseId = sc.next();
-        adminOperations.deleteCourse(catalogId, courseId);
+        adminOperations.deleteCourse(AdminOperations.getCurrentSemester(), courseId);
 
     }
 }

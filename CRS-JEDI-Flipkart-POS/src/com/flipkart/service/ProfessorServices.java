@@ -5,46 +5,23 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.Grade;
+import com.flipkart.exception.CourseNotAssignedToProfessorException;
+import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
+import com.flipkart.exception.ProfessorNotFoundException;
 
 import java.util.List;
 
 public interface ProfessorServices extends UserServices {
 
-    /**
-     *
-     * @param studentId
-     * @param grade
-     * @param courseCode
-     * @throws Exception
-     */
-    public void addGrade(String studentId, String grade, String courseCode) throws Exception;
+    public void addGrade(String studentId, String grade, String courseCode) throws GradeNotAddedException;
 
 //    boolean addGrade(RegisteredCourse course, Grade grade) throws Exception;
 
-    /**
-     *
-     * @param semester
-     * @param courseId
-     * @return
-     * @throws Exception
-     */
-    public List<Student> viewEnrolledStudents(String semester, String courseId) throws Exception;
+    public List<Student> viewEnrolledStudents(String semester, String courseId) throws CourseNotFoundException;
 
-    /**
-     *
-     * @param professorId
-     * @return
-     * @throws Exception
-     */
-    public List<Course> viewCoursesTaken(String professorId) throws Exception;
+    public List<Course> viewCoursesTaken(String professorId) throws ProfessorNotFoundException;
 
-    /**
-     *
-     * @param professorId
-     * @param courseId
-     * @param semester
-     * @throws Exception
-     */
-    public void registerForCourse(String professorId,String courseId, String semester) throws Exception;
+    public void registerForCourse(String professorId,String courseId, String semester) throws CourseNotAssignedToProfessorException;
 
 }

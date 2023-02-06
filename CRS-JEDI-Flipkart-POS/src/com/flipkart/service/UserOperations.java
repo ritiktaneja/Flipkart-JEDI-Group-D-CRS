@@ -25,8 +25,7 @@ public class UserOperations implements UserServices {
      * @return Status of user login
      */
     public User loginUser(String userId, String password) {
-        UserDao userDao = new UserDao();
+        UserDao userDao = UserDao.getInstance();
         return userDao.login(userId, password);
-
     }
 }

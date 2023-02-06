@@ -19,6 +19,21 @@ public class ProfessorDao implements DaoInterface<Professor> {
     private static final String UPDATE = "UPDATE professor SET name=?, password=?, department=?, designation=? WHERE professorId=?";
     private static final String GET_USER = "SELECT * FROM user where userId= ?";
 
+
+    private static ProfessorDao instance = null;
+
+    private ProfessorDao() {
+
+    }
+
+    public static ProfessorDao getInstance() {
+        if (instance == null) {
+            instance = new ProfessorDao();
+        }
+        return instance;
+    }
+
+
     @Override
     public Professor get(String id) {
         if (id == null) {
@@ -26,28 +41,23 @@ public class ProfessorDao implements DaoInterface<Professor> {
         }
         Connection connection = DBConnection.getConnection();
         PreparedStatement professorStatement = null;
-        PreparedStatement userStatement = null;
+
         try {
             professorStatement = connection.prepareStatement(GET_BY_ID);
-            userStatement = connection.prepareStatement(GET_USER);
-
             professorStatement.setString(1, id);
-            userStatement.setString(1, id);
-            System.out.println(professorStatement);
+
             ResultSet rs = professorStatement.executeQuery();
+
             if (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
                 builder.setFacultyId(rs.getString("professorId"));
                 builder.setName(rs.getString("professorName"));
-
-                String password = userStatement.executeQuery().getString("password");
-                builder.setPassword(password);
-
                 return builder.build();
             } else {
                 return null;
             }
         } catch (Exception e) {
+            System.out.println("No professor with this ID");
             e.printStackTrace();
         } finally {
             DBConnection.closeConnection(connection);
@@ -59,25 +69,21 @@ public class ProfessorDao implements DaoInterface<Professor> {
     public List<Professor> getAll() {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
-        PreparedStatement userStatement = null;
         List<Professor> professorList = new ArrayList<>();
         try {
             stmt = connection.prepareStatement(GET_ALL);
-            userStatement = connection.prepareStatement(GET_USER);
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
-                builder.setFacultyId(rs.getString("professorId"));
-                builder.setName(rs.getString("professorName"));
+
+                String professorName = rs.getString("professorName");
                 String professorId = rs.getString("professorId");
 
-                userStatement.setString(1, professorId);
-                ResultSet resultSet = userStatement.executeQuery();
-                if (resultSet.next()) {
-                    String password = resultSet.getString("password");
-                    builder.setPassword(password);
-                    professorList.add(builder.build());
-                }
+                builder.setName(professorName);
+                builder.setFacultyId(professorId);
+
+                professorList.add(builder.build());
             }
             return professorList;
         } catch (Exception e) {
@@ -92,18 +98,12 @@ public class ProfessorDao implements DaoInterface<Professor> {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            Professor dbProfessor = get(professor.getFacultyId());
-            if (dbProfessor == null) {
-                stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-                stmt.setString(1, professor.getFacultyId());
-                stmt.setString(2, professor.getName());
-                int result = stmt.executeUpdate();
-                System.out.println("Professor Added Successfully");
-                return result;
-            } else {
-                System.out.println("Professor with same ID present");
-                return 0;
-            }
+            stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, professor.getFacultyId());
+            stmt.setString(2, professor.getName());
+            int result = stmt.executeUpdate();
+            System.out.println("Professor Added Successfully");
+            return result;
         } catch (Exception e) {
             System.out.println("Professor with same ID present");
         } finally {

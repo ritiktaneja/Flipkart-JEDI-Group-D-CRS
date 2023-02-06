@@ -15,6 +15,18 @@ public class CourseDao implements DaoInterface<Course> {
     private static final String UPDATE = "UPDATE Course SET courseName=? WHERE courseCode=?";
 
 
+    private static CourseDao instance = null;
+
+    private CourseDao() {
+    }
+
+    public static CourseDao getInstance() {
+        if(instance == null) {
+            instance = new CourseDao();
+        }
+        return instance;
+    }
+
     @Override
     public Course get(String id) {
         Connection connection = DBConnection.getConnection();
@@ -27,6 +39,7 @@ public class CourseDao implements DaoInterface<Course> {
                 Course course = new Course();
                 course.setCourseCode(id);
                 course.setName(rs.getString("CourseName"));
+
                 return course;
             } else {
                 System.out.println("Course Not Found");

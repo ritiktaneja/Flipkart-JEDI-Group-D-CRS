@@ -21,6 +21,18 @@ public class UserDao implements DaoInterface<User> {
     private static final String UPDATE = "UPDATE user SET password=? WHERE userId=?";
     private static final String INSERT_IN_ROLE = "INSERT INTO ROLE (userID,role) VALUES(?,?)";
 
+    private static UserDao instance = null;
+
+    private UserDao() {
+
+    }
+
+    public static UserDao getInstance() {
+        if (instance == null) {
+            instance = new UserDao();
+        }
+        return instance;
+    }
 
     public User login(String userId, String password) {
         User user = get(userId);
@@ -28,22 +40,19 @@ public class UserDao implements DaoInterface<User> {
             System.out.println("UserID or password is Incorrect");
             return null;
         }
-        AdminDao adminDao = new AdminDao();
-        ProfessorDao professorDao = new ProfessorDao();
-        StudentDao studentDao = new StudentDao();
+        AdminDao adminDao = AdminDao.getInstance();
+        ProfessorDao professorDao = ProfessorDao.getInstance();
+        StudentDao studentDao = StudentDao.getInstance();
         Admin admin = adminDao.get(userId);
         if (admin != null) {
-            System.out.println("Admin Login Successful");
             return admin;
         }
         Professor professor = professorDao.get(userId);
         if (professor != null) {
-            System.out.println("Professor Login Successful");
             return professor;
         }
         Student student = studentDao.get(userId);
         if (student != null) {
-            System.out.println("Student Login Successful");
             return student;
         }
         return null;

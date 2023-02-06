@@ -7,6 +7,14 @@ import java.util.UUID;
 public class RegisteredCourse {
   //  public int semester;
 
+    public String getRegisteredCourseId() {
+        return registeredCourseId;
+    }
+
+    public void setRegisteredCourseId(String registeredCourseId) {
+        this.registeredCourseId = registeredCourseId;
+    }
+
     private String registeredCourseId;
     private static int index = 0;
     private Course course;

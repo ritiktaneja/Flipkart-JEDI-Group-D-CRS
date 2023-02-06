@@ -4,181 +4,84 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.CourseCatalog;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
+import com.flipkart.client.CRSApplication;
 import com.flipkart.constants.Grade;
+import com.flipkart.dao.CourseCatalogDao;
+import com.flipkart.dao.RegisteredCoursesDao;
+import com.flipkart.dao.StudentDao;
 import com.flipkart.data.MockDB;
+import com.flipkart.exception.CourseNotRegisteredException;
 
-import java.util.ArrayList;
+import java.sql.BatchUpdateException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
-/**
- * Student Operations Class
- */
-public class StudentOperations extends UserOperations implements StudentServices{
+public class StudentOperations extends UserOperations implements StudentServices {
 
 
-    /**
-     *
-     * @param student
-     * @param course
-     * @throws RuntimeException
-     */
-   private boolean addCourse(Student student, Course course) throws RuntimeException {
+    public boolean addCourse(String studentId, String courseCode) throws CourseNotRegisteredException {
+        Student student = null;
+        try {
+            RegisteredCoursesDao registeredCoursesDao = RegisteredCoursesDao.getInstance();
+            RegisteredCourse.RegisteredCourseBuilder builder = new RegisteredCourse.RegisteredCourseBuilder();
 
-        initStudSem(student);
-        if(MockDB.registeredCourses.get(student).size() >= 10) {
-            throw new RuntimeException("Cant add more courses. Max Limit : 10");
+            Course course = new Course();
+            course.setCourseCode(courseCode);
+            builder.setCourse(course);
+
+            Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
+            studentBuilder.setStudentId(studentId);
+            student = studentBuilder.build();
+            builder.setStudent(student);
+
+            builder.setGrade(Grade.IN_PROGRESS);
+            RegisteredCourse registeredCourse = builder.build();
+            registeredCourse.setRegisteredCourseId(String.valueOf(UUID.randomUUID()));
+
+            if (registeredCoursesDao.insert(registeredCourse) == 1)
+                return true;
+            else
+                return false;
+        } catch (Exception e) {
+            throw new CourseNotRegisteredException(studentId, courseCode);
         }
-        RegisteredCourse.RegisteredCourseBuilder builder = new RegisteredCourse.RegisteredCourseBuilder();
-        builder.setStudent(student);
-        builder.setCourse(course);
-        builder.setGrade(Grade.IN_PROGRESS);
 
-        MockDB.registeredCourses.get(student).add(builder.build());
+    }
+
+    public boolean dropCourse(String studentId, String courseCode) {
+        RegisteredCoursesDao registeredCoursesDao = RegisteredCoursesDao.getInstance();
+        registeredCoursesDao.dropCourse(studentId, courseCode);
         return true;
     }
 
-    /**
-     *
-     * @param student
-     * @param course
-     */
-    private boolean dropCourse(Student student, Course course) {
-
-        RegisteredCourse toRemove = null;
-        for(RegisteredCourse registeredCourse : MockDB.registeredCourses.get(student)) {
-            if(registeredCourse.getCourse().getCourseCode().equals(course.getCourseCode())) {
-                toRemove = registeredCourse; break;
-            }
-        }
-        return toRemove.dropCourse();
+    public List<Course> viewAvailableCourses(String studentId) {
+        Student student = StudentDao.getInstance().get(studentId);
+        if (student == null) return null;
+        CourseCatalog obj = CourseCatalogDao.getInstance().get(CRSApplication.currentSemester);
+        return obj.getCourses();
     }
 
-    /**
-     *
-     * @param student
-     * @return List of Registered Courses
-     */
-    private List<RegisteredCourse> viewRegisteredCourses(Student student)
-    {
-        initStudSem(student);
-        List<RegisteredCourse> registeredCourses = new ArrayList<>();
-        for(RegisteredCourse rc : MockDB.registeredCourses.get(student)) {
-        	if(rc.getGrade() != Grade.DROPPED)
-        		registeredCourses.add(rc);
-        }
-        return registeredCourses;
-    }
-
-    /**
-     *
-     * @param student
-     * @return Calculate Fee for that transaction
-     */
-    private long calculateFee(Student student) {
-
-        initStudSem(student);
-        long fees = 0;
-        long courseCnt = MockDB.registeredCourses.get(student).size();
-        fees = courseCnt * 100;
-        return  fees;
-    }
-//    public boolean getRegistrationStatus(Student student) {
-//       // TODO
-//       return true;
-//    }
-
-    /**
-     *
-     * @param student
-     */
-   private void initStudSem(Student student) {
-
-
-       if(MockDB.registeredCourses.get(student) == null) {
-           MockDB.registeredCourses.put(student, new HashSet<>());
-       }
-   }
-
-
-    /**
-     *
-     * @param studentId
-     * @param courseCode
-     * @return Add Course Status
-     */
-    public boolean addCourse(String  studentId, String courseCode) {
-       Student student = MockDB.getStudentFromId(studentId);
-       if(student == null) {
-           throw new RuntimeException("Student Not Found");
-       }
-       Course course = MockDB.getCourseFromId(student.getSemester(), courseCode);
-        if (course == null) {
-            throw new RuntimeException("Course Not Found");
-        }
-        return addCourse(student, course);
-    }
-
-    /**
-     *
-     * @param studentId
-     * @param courseCode
-     * @return Course Drop Status
-     */
-    public boolean dropCourse(String studentId, String courseCode) {
-        Student student = MockDB.getStudentFromId(studentId);
-        if(student == null) {
-            throw new RuntimeException("Student not Found");
-        }
-        Course course = MockDB.getCourseFromId(student.getSemester(), courseCode);
-        if(course == null) {
-            throw new RuntimeException("Registered Course Not Found");
-        }
-        return dropCourse(student, course);
-    }
-
-    /**
-     *
-     * @param studentId
-     * @return List of Courses
-     */
-    public List<Course> viewCourses(String studentId) {
-       Student student = MockDB.getStudentFromId(studentId);
-       if(student == null) return null;
-       return MockDB.getCatalogFromId(student.getSemester()).getCourses();
-    }
-
-    /**
-     *
-     * @param studentId
-     * @return List of registered courses
-     */
     public List<RegisteredCourse> viewRegisteredCourses(String studentId) {
-       Student student = MockDB.getStudentFromId(studentId);
-       if(student != null) {
-           return viewRegisteredCourses(student);
-       }
-       return null;
+        RegisteredCoursesDao dao = RegisteredCoursesDao.getInstance();
+        return dao.getRegisteredCourse(studentId);
     }
 
-    /**
-     * @param studentId
-     * @return Fee for that transaction
-     */
     public long calculateFee(String studentId) {
-        Student student = MockDB.getStudentFromId(studentId);
-        return calculateFee(student);
+        StudentDao dao = StudentDao.getInstance();
+        int courses = dao.NumberOfCoursesTaken(studentId);
+//        Student student = MockDB.getStudentFromId(studentId);
+        return courses * 100;
     }
 
-    /**
-     *
-     * @param studentId
-     * @return registration Status
-     */
     public boolean getRegistrationStatus(String studentId) {
-       return true; // TODO
+        return true; // TODO
     }
 
+    public Student getStduentById(String studentId) {
+        StudentDao dao = StudentDao.getInstance();
+        return dao.get(studentId);
+    }
 
 
 }

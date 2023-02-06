@@ -4,10 +4,13 @@ import com.flipkart.bean.Admin;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
+import com.flipkart.client.CRSApplication;
 import com.flipkart.constants.Department;
 import com.flipkart.constants.Designation;
+import com.flipkart.service.StudentServices;
 import com.flipkart.utils.DBConnection;
 
+import java.security.PublicKey;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +20,58 @@ public class AdminDao implements DaoInterface<Admin> {
     private static final String DELETE = "DELETE FROM admin WHERE adminId=?";
     private static final String GET_ALL = "SELECT * FROM admin ORDER BY adminId";
     private static final String GET_BY_ID = "SELECT * FROM admin WHERE adminId=?";
-    private static final String INSERT = "INSERT INTO admin(adminId, adminName) VALUES(?, ?)";
+    private static final String INSERT = "INSERT INTO admin(adminId, adminName,currentSemester) VALUES(?, ?,?)";
     private static final String UPDATE = "UPDATE professor SET professorName=?, password=?, WHERE  Id=?";
-    private static final String INSERT_IN_USER = "INSERT INTO user (userId,password) VALUES(?,?)";
 
     private static final String APPROVE_STUDENT = "UPDATE semesterRegistration SET status= ? where studentId = ?";
+    private static final String GET_CURRENT_SEM = "SELECT currentSemester FROM admin";
 
+    private static final String SET_SEMESTER = "UPDATE admin SET currentSemester = ? ";
+
+
+    private static AdminDao instance = null;
+
+    private AdminDao() {
+
+    }
+
+    public int updateSemester(String semester) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SET_SEMESTER);
+            statement.setString(1, semester);
+            int rs = statement.executeUpdate();
+            CRSApplication.currentSemester = semester;
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static AdminDao getInstance() {
+        if (instance == null) {
+            instance = new AdminDao();
+        }
+        return instance;
+    }
+
+    public String getCurrentSemester() {
+        Connection connection = DBConnection.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = connection.prepareStatement(GET_CURRENT_SEM);
+            ResultSet rs = stmt.executeQuery(GET_CURRENT_SEM);
+            if (rs.next()) {
+                return rs.getString("currentSemester");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ;
+        }
+        return null;
+    }
 
     public int approveStudent(String studentID) {
         Connection connection = DBConnection.getConnection();
@@ -58,10 +107,11 @@ public class AdminDao implements DaoInterface<Admin> {
                 throw new SQLException("Admin Not Found");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Admin not found");
         } finally {
             DBConnection.closeConnection(connection);
         }
+        return null;
     }
 
     @Override
@@ -94,6 +144,7 @@ public class AdminDao implements DaoInterface<Admin> {
             stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, admin.getAdminId());
             stmt.setString(2, admin.getName());
+            stmt.setString(3, CRSApplication.currentSemester);
             int result = stmt.executeUpdate();
             System.out.println("Admin Added Successfully");
             return result;

@@ -1,5 +1,6 @@
 package com.flipkart.client;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,94 +22,72 @@ public class CRSProfessorMenu {
     ProfessorServices obj = new ProfessorOperations();
     String professorId;
 
-    /**
-     * Set Professor Id
-     * @param facultyId
-     */
     public CRSProfessorMenu(String facultyId) {
         // TODO Auto-generated constructor stub
         professorId = facultyId;
     }
 
-    /**
-     * Professor Menu
-     * @throws Exception
-     */
-    public void createMenu() throws Exception {
+    public void createMenu() {
 
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Professor ******************");
         System.out.println("********************************************************");
         while (true) {
-            System.out.println("********************************************************");
-            System.out.println("*******************   Professor Menu   *****************");
-            System.out.println("********************************************************");
-            System.out.println("1. View Enrolled Students");
-            System.out.println("2. Add Grade");
-            System.out.println("3. View Assigned Courses");
-            System.out.println("4. Register Course");
-            System.out.println("5. Logout");
-            System.out.print("Enter your choice : ");
-            int choice;
-            Scanner sc = new Scanner(System.in);
-            choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    viewEnrolledStudents();
-                    break;
-                case 2:
-                    addGrade();
-                    break;
-
-                case 3:
-                    viewAssignedCourses(professorId);
-                    break;
-                case 4:
-                    registerForCourses();
-                    break;
-                case 5:
-                    System.out.println("Heading to Main Menu . . .");
-                    return;
-                default:
-                    System.out.println("Enter a valid input");
-                    break;
+            try {
+                System.out.println("********************************************************");
+                System.out.println("*******************   Professor Menu   *****************");
+                System.out.println("********************************************************");
+                System.out.println("1. View Enrolled Students");
+                System.out.println("2. Add Grade");
+                System.out.println("3. View Assigned Courses");
+                System.out.println("4. Register Course");
+                System.out.println("5. Logout");
+                System.out.print("Enter your choice : ");
+                int choice;
+                Scanner sc = new Scanner(System.in);
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        viewEnrolledStudents();
+                        break;
+                    case 2:
+                        addGrade();
+                        break;
+                    case 3:
+                        viewAssignedCourses(professorId);
+                        break;
+                    case 4:
+                        registerForCourses();
+                        break;
+                    case 5:
+                        System.out.println("Heading to Main Menu . . .");
+                        return;
+                    default:
+                        System.out.println("Enter a valid input");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    /**
-     * View Enrolled Students
-     * @throws Exception
-     */
     public void viewEnrolledStudents() throws Exception {
         System.out.print("The courses taken by you are: ");
         viewAssignedCourses(professorId);
+
         System.out.print("Enter the Course code for which you want to see enrolled students : ");
-        String semester = sc.next();
-
-        List<Student> studentList = null;
-//    	
-//    	
-//    	System.out.println("Enter the Course ID: ");
-//    	String semester = sc.next();
-
-        System.out.print("Enter the Semester : ");
         String courseID = sc.next();
-
-        studentList = obj.viewEnrolledStudents(semester, courseID);
-
+        List<Student> studentList = null;
+        ProfessorOperations professorOperations = new ProfessorOperations();
+        studentList = professorOperations.viewEnrolledStudents(CRSApplication.currentSemester, courseID);
         System.out.println("The enrolled students under" + courseID + " are : ");
-
         for (Student student : studentList) {
             System.out.println(student.getUserId() + " : " + student.getName());
         }
 
     }
 
-    /**
-     * Method to Add grade
-     * @throws Exception
-     */
     public void addGrade() throws Exception {
         //Show All courses
         //Professor Selects a Course
@@ -119,83 +98,40 @@ public class CRSProfessorMenu {
         viewAssignedCourses(professorId);
         System.out.print("Enter the Course code for which you want to enter grade of students : ");
         String couCode = sc.next();
-        Map<Student, Set<RegisteredCourse>> tempMap = MockDB.registeredCourses;
-        List<Student> stu_list = new ArrayList<Student>();
-        for (var entry : tempMap.entrySet()) {
-            Set<RegisteredCourse> iterr = entry.getValue();
-            Iterator<RegisteredCourse> value = iterr.iterator();
-            while (value.hasNext()) {
-                RegisteredCourse obj = (RegisteredCourse) value.next();
-                if (obj.getCourse().getCourseCode().equals(couCode)) {
-                    stu_list.add(entry.getKey());
-                }
-            }
-        }
-
-        System.out.println("Student List : ");
-        Iterator<Student> i = stu_list.iterator();
-        while (i.hasNext()) {
-
-            Student test = i.next();
-            System.out.println(test);
-        }
-
+        viewEnrolledStudents();
         while (true) {
             System.out.print("Enter the student ID for which you want to add Grade: (-1 to abort) : ");
             String studentId = sc.next();
             if (studentId.equals("-1")) break;
             System.out.print("Enter Grade: ");
             String grade = sc.next();
-            obj.addGrade(studentId, grade, couCode);
+            ProfessorOperations professorOperations = new ProfessorOperations();
+            professorOperations.addGrade(studentId, grade, couCode);
         }
-        System.out.println("Grade adeed succesfully");
+        System.out.println("Grade added succesfully");
 
     }
 
-    /**
-     * View Assigned Courses
-     * @param professorId
-     * @throws Exception
-     */
     public void viewAssignedCourses(String professorId) throws Exception {
-
-        List<Course> courseTaken = null;
-        courseTaken = obj.viewCoursesTaken(professorId);
-
-        System.out.println("Course under the professor with professor ID " + professorId + " are : ");
-        for (Course course : courseTaken) {
-            System.out.println(course.getCourseCode() + " : " + course.getName());
+        List<Course> coursesTaken = null;
+        ProfessorOperations professorOperations = new ProfessorOperations();
+        coursesTaken = professorOperations.viewCoursesTaken(professorId);
+        System.out.println("Courses under the professor with professor ID " + professorId + " are : ");
+        for (Course course : coursesTaken) {
+            System.out.println(course);
         }
-
-
     }
 
-    /**
-     * Register for Courses
-     * @throws Exception
-     */
     public void registerForCourses() throws Exception {
         //View all the available courses
         //Select the course which is not taken by another professor
-
         Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the Course ID : ");
+        String courseId = sc.next();
 
-        while (true) {
-            System.out.print("Enter the Course ID : ");
-            String courseId = sc.next();
-
-            System.out.print("Enter the semester : ");
-            String semester = sc.next();
-
-            obj.registerForCourse(professorId, courseId, semester);
-            viewAssignedCourses(professorId);
-
-            System.out.print("Press Y to select more courses : ");
-            String temp = sc.next();
-
-            if (temp != "Y") break;
-        }
-
+        ProfessorOperations professorOperations = new ProfessorOperations();
+        professorOperations.registerForCourse(professorId, courseId, CRSApplication.currentSemester);
+        viewAssignedCourses(professorId);
 
     }
 
