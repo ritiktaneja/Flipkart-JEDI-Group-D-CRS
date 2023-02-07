@@ -9,22 +9,34 @@ public class Professor extends User {
     private Department department;
     private Designation designation;
 
-    //Getting the faculty id
+    /**
+     * Method to Faculty ID
+     * @return faculty Id
+     */
     public String getFacultyId() {
         return super.getUserId();
     }
 
-    //getting the professor department
+    /**
+     * Method to get Department
+     * @return Professor department
+     */
     public Department getDepartment() {
         return department;
     }
 
-    //getting the designation of the current professor
+    /**
+     * Method to get professor designation
+     * @return
+     */
     public Designation getDesignation() {
         return designation;
     }
 
-    //Assigning the given inputs from the scanner
+    /**
+     * Professor Builder Function
+     * @param builder
+     */
     private Professor(ProfessorBuilder builder) {
         super(builder.facultyId, builder.name, builder.password);
         this.department = builder.department;
@@ -37,32 +49,55 @@ public class Professor extends User {
         return "Professor name = " + this.getName() + ", ID = " + this.getFacultyId() ;
     }
 
+    /**
+     * Professor builder class
+     */
     public static class ProfessorBuilder {
         private String facultyId, name, password;
         private Department department;
         private Designation designation;
 
-        //Assigning the object value
+        /**
+         * Set the faculty Id to current object
+         * @param facultyId
+         */
         public ProfessorBuilder setFacultyId(String facultyId) {
             this.facultyId = facultyId;
             return this;
         }
 
+        /**
+         * Set the Professor name to the current object
+         * @param name
+         */
         public ProfessorBuilder setName(String name) {
             this.name = name;
             return this;
         }
 
+        /**
+         * Set password for the current object
+         * @param password
+         * @return
+         */
         public ProfessorBuilder setPassword(String password) {
             this.password = password;
             return this;
         }
 
+        /**
+         * Assign department to the current professor
+         * @param department
+         */
         public ProfessorBuilder setDepartment(Department department) {
             this.department = department;
             return this;
         }
 
+        /**
+         * Set designation for the current object
+         * @param designation
+         */
         public ProfessorBuilder setDesignation(Designation designation) {
             this.designation = designation;
             return this;

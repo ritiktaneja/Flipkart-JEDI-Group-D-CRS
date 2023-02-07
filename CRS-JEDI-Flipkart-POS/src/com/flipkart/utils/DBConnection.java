@@ -1,7 +1,6 @@
 package com.flipkart.utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class DBConnection {
 
@@ -31,6 +30,14 @@ public class DBConnection {
         try {
             connection.close();
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void closeStatement(Statement statement) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

@@ -23,6 +23,7 @@ public class CourseCatalogDao {
     private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseCode=?";
     private static final String GET_COURSES_BY_PROFESSOR_ID = "SELECT * FROM courseCatalog WHERE professorId = ? ";
     private static final String GET_STUDENTS_BY_COURSE_ID = "SELECT * FROM RegisteredCourses WHERE CourseCode = ?";
+
     private PreparedStatement stmt;
 
     private static CourseCatalogDao instance = null;
@@ -55,6 +56,9 @@ public class CourseCatalogDao {
             return students;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            DBConnection.closeStatement(pstmt);
+            DBConnection.closeConnection(con);
         }
         return null;
 
@@ -75,7 +79,7 @@ public class CourseCatalogDao {
                 Course course = dao.get(courseId);
                 if (course != null) {
                     Professor professor = ProfessorDao.getInstance().get(professorId);
-                    if(professor != null)
+                    if (professor != null)
                         course.setProfessor(professor);
                     courses.add(course);
                 }
@@ -84,6 +88,7 @@ public class CourseCatalogDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
         return null;
@@ -114,6 +119,7 @@ public class CourseCatalogDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -147,6 +153,7 @@ public class CourseCatalogDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
         return null;
@@ -171,8 +178,32 @@ public class CourseCatalogDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
+    }
+
+    public Professor getProfessorByCourseId(String courseCode, String catalogId) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(GET_PROFESSOR);
+            stmt.setString(1, CRSApplication.currentSemester);
+            stmt.setString(2, courseCode);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                ProfessorDao professorDao = ProfessorDao.getInstance();
+                return professorDao.get(rs.getString("professorId"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
+        }
+        return null;
     }
 
     public int insert(CourseCatalog courseCatalog) {
@@ -193,6 +224,7 @@ public class CourseCatalogDao {
             return 0;
 //            throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -211,6 +243,7 @@ public class CourseCatalogDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -247,6 +280,9 @@ public class CourseCatalogDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -263,6 +299,9 @@ public class CourseCatalogDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }
@@ -295,6 +334,9 @@ public class CourseCatalogDao {
             System.out.println("No catalog found with this ID");
             e.printStackTrace();
             return 0;
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
     }
 

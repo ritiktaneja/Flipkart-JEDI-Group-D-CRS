@@ -1,9 +1,7 @@
 package com.flipkart.dao;
 
-import com.flipkart.bean.Course;
-import com.flipkart.bean.GradeCard;
-import com.flipkart.bean.RegisteredCourse;
-import com.flipkart.bean.Student;
+import com.flipkart.bean.*;
+import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
 
 import java.sql.*;
@@ -32,7 +30,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
     public List<RegisteredCourse> getRegisteredCourse(String studentId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
-        List<RegisteredCourse> adminList = new ArrayList<>();
+        List<RegisteredCourse> registeredCourses = new ArrayList<>();
         try {
             stmt = connection.prepareStatement(GET_ALL_OBJECTS);
             stmt.setString(1, studentId);
@@ -42,16 +40,23 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
                 String registeredCourseId = rs.getString("RegisteredCourseID");
                 RegisteredCourse.RegisteredCourseBuilder builder = new RegisteredCourse.RegisteredCourseBuilder();
                 Course course = CourseDao.getInstance().get(rs.getString("CourseCode"));
+
+                CourseCatalogDao courseCatalogDao = CourseCatalogDao.getInstance();
+                Professor professor = courseCatalogDao.getProfessorByCourseId(rs.getString("courseCode"), CRSApplication.currentSemester);
+                if (professor != null) {
+                    course.setProfessor(professor);
+                }
                 builder.setCourse(course);
                 Student student = StudentDao.getInstance().get(rs.getString("StudentId"));
                 builder.setStudent(student);
                 builder.setGrade(gradeCardDao.getGrade(registeredCourseId));
-                adminList.add(builder.build());
+                registeredCourses.add(builder.build());
             }
-            return adminList;
+            return registeredCourses;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -78,6 +83,9 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             return null;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }
@@ -121,6 +129,10 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             return rs;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(gradeStatement);
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -154,6 +166,9 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             return rs;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(preparedStatement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }

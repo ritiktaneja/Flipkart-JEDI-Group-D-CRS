@@ -38,6 +38,9 @@ public class PaymentDao {
             return statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }

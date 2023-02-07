@@ -4,11 +4,13 @@ import com.flipkart.bean.Admin;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
+import com.flipkart.dao.UserDao;
 import com.flipkart.data.MockDB;
 import com.flipkart.service.AdminOperations;
 import com.flipkart.service.SelfRegistrationOperations;
 import com.flipkart.service.UserOperations;
 
+import java.io.IOException;
 import java.util.*;
 
 public class CRSApplication {
@@ -20,9 +22,11 @@ public class CRSApplication {
 
         System.out.println("Welcome to Course Registration System for semester : " + currentSemester);
         Scanner sc = new Scanner(System.in);
-        int choice = 1;//sc.nextInt();
+        String choice = "";//sc.nextInt();
         int iterator;
+
         while (true) {
+            playMusic();
             System.out.println("********************************************************");
             System.out.println("*****************      Main Menu       *****************");
             System.out.println("********************************************************");
@@ -31,10 +35,10 @@ public class CRSApplication {
             System.out.println("3. Update Password");
             System.out.println("4. Logout");
             System.out.print("Enter your choice : ");
-            choice = sc.nextInt();
+            choice = sc.next();
             switch (choice) {
-                case 1:
-                    System.out.print("Enter your Username : ");
+                case "1":
+                    System.out.print("Enter your UserId : ");
                     String name = sc.next();
                     System.out.print("Enter your Password : ");
                     String passwd = sc.next();
@@ -73,34 +77,75 @@ public class CRSApplication {
                         System.out.println("Invalid Credentials, or user Not Verified");
                     }
                     break;
-                case 2:
+                case "2":
                     System.out.println("Enter details for registration: ");
-                    String name1, password, department;
+                    String name1, password, department="";
                     System.out.print("Enter Name : ");
                     name1 = sc.next();
                     System.out.print("Enter password : ");
                     password = sc.next();
-                    System.out.print("Enter Department : ");
-                    department = sc.next();
+                    while (true) {
+                        System.out.println("Enter Department : ");
+                        System.out.println("1. CSE");
+                        System.out.println("2. EEE");
+                        System.out.println("3. IT");
+                        System.out.println("4. CIVIL");
+                        System.out.println("5. MECH");
+                        System.out.print("Enter your choice : ");
+                        String choose = sc.next();
+                        switch (choose) {
+                            case "1":
+                                department = "CSE";
+                                break;
+                            case "2":
+                                department = "EEE";
+                                break;
+                            case "3":
+                                department = "IT";
+                                break;
+                            case "4":
+                                department = "CIVIL";
+                                break;
+                            case "5":
+                                department = "MECH";
+                                break;
+                            default:
+                                System.out.println("Please enter a correct option!");
+                        }
+                        if(department !="")
+                            break;
+
+                    }
                     SelfRegistrationOperations operations = new SelfRegistrationOperations();
                     Student student = operations.selfRegister(name1, password, currentSemester, department);
                     System.out.println(student);
                     System.out.println("Details added successfully. Waiting for admin approval");
                     break;
 
-                case 3:
-                    System.out.println("Enter details to update password: ");
+                case "3":
+                    System.out.print("Enter your UserId : ");
+                    String userName = sc.next();
+                    if (UserDao.getInstance().get(userName) == null) {
+                        System.out.println("UserId not found.");
+                        break;
+                    }
+                    System.out.print("Enter new Password : ");
+                    String userPassword = sc.next();
+                    UserDao.getInstance().updatePassword(userName, userPassword);
+                    System.out.println("Update Password Successful");
                     break;
 
-                case 4:
+                case "4":
                     System.exit(0);
                     break;
 
                 default:
-                    System.out.println("Invlaid Input!! Enter Again: ");
-                    choice = sc.nextInt();
+                    System.out.println("Invalid Input!! Enter Again: ");
             }
         }
+    }
+    private static void playMusic() {
+
     }
 
     private static User getRole(String id, String passwd) {

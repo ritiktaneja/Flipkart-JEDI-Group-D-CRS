@@ -8,17 +8,12 @@ public enum Designation {
     private int value;
 
     /**
-     *
+     * Method to set designation to the current object
      * @param value
      */
     private Designation(int value) {
         this.value = value;
     }
-
-    /**
-     *
-     * @return
-     */
     public int getValue() {
         return value;
     }

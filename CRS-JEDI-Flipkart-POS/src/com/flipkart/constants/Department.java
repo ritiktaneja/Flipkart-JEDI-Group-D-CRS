@@ -10,17 +10,12 @@ public enum Department {
     private int value;
 
     /**
-     *
+     * Method to set department to the current object
      * @param value
      */
     private Department(int value) {
         this.value = value;
     }
-
-    /**
-     *
-     * @return department
-     */
     public int getValue() {
         return value;
     }

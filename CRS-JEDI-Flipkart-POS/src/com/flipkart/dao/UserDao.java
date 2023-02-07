@@ -9,6 +9,7 @@ import com.flipkart.utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 public class UserDao implements DaoInterface<User> {
@@ -20,6 +21,7 @@ public class UserDao implements DaoInterface<User> {
     private static final String INSERT = "INSERT INTO user(userId,password) VALUES(?, ?)";
     private static final String UPDATE = "UPDATE user SET password=? WHERE userId=?";
     private static final String INSERT_IN_ROLE = "INSERT INTO ROLE (userID,role) VALUES(?,?)";
+    private static final String loginQuery = "SELECT * FROM user where userid = ? AND password = ?";
 
     private static UserDao instance = null;
 
@@ -34,26 +36,57 @@ public class UserDao implements DaoInterface<User> {
         return instance;
     }
 
+    public boolean updatePassword(String userId, String password) {
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(UPDATE);
+            stmt.setString(1, password);
+            stmt.setString(2, userId);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
+        }
+        return false;
+    }
+
     public User login(String userId, String password) {
-        User user = get(userId);
-        if (user == null) {
-            System.out.println("UserID or password is Incorrect");
+        User user = null;
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(loginQuery);
+            statement.setString(1, userId);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                User user1 = new User();
+                user1.setUserId(userId);
+                user = user1;
+            }
+        } catch (Exception e) {
             return null;
         }
-        AdminDao adminDao = AdminDao.getInstance();
-        ProfessorDao professorDao = ProfessorDao.getInstance();
-        StudentDao studentDao = StudentDao.getInstance();
-        Admin admin = adminDao.get(userId);
-        if (admin != null) {
-            return admin;
-        }
-        Professor professor = professorDao.get(userId);
-        if (professor != null) {
-            return professor;
-        }
-        Student student = studentDao.get(userId);
-        if (student != null) {
-            return student;
+        if (user != null) {
+            AdminDao adminDao = AdminDao.getInstance();
+            ProfessorDao professorDao = ProfessorDao.getInstance();
+            StudentDao studentDao = StudentDao.getInstance();
+            Admin admin = adminDao.get(userId);
+            if (admin != null) {
+                return admin;
+            }
+            Professor professor = professorDao.get(userId);
+            if (professor != null) {
+                return professor;
+            }
+            Student student = studentDao.get(userId);
+            if (student != null) {
+                return student;
+            }
         }
         return null;
     }
@@ -75,6 +108,9 @@ public class UserDao implements DaoInterface<User> {
             return null;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }
@@ -113,6 +149,10 @@ public class UserDao implements DaoInterface<User> {
             return 1;
         } catch (Exception e) {
             System.out.println("User with same ID present");
+        } finally {
+            DBConnection.closeStatement(roleStatement);
+            DBConnection.closeStatement(userStatement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }

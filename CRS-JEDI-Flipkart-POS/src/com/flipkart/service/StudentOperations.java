@@ -19,7 +19,13 @@ import java.util.UUID;
 
 public class StudentOperations extends UserOperations implements StudentServices {
 
-
+    /**
+     * using this method student can add course which they want study
+     * @param studentId
+     * @param courseCode
+     * @return
+     * @throws CourseNotRegisteredException
+     */
     public boolean addCourse(String studentId, String courseCode) throws CourseNotRegisteredException {
         Student student = null;
         try {
@@ -49,12 +55,23 @@ public class StudentOperations extends UserOperations implements StudentServices
 
     }
 
+    /**
+     * using this method student can drop course which they taken
+     * @param studentId
+     * @param courseCode
+     * @return
+     */
     public boolean dropCourse(String studentId, String courseCode) {
         RegisteredCoursesDao registeredCoursesDao = RegisteredCoursesDao.getInstance();
         registeredCoursesDao.dropCourse(studentId, courseCode);
         return true;
     }
 
+    /**
+     * using this method student can view course which is currently available
+     * @param studentId
+     * @return
+     */
     public List<Course> viewAvailableCourses(String studentId) {
         Student student = StudentDao.getInstance().get(studentId);
         if (student == null) return null;
@@ -62,11 +79,21 @@ public class StudentOperations extends UserOperations implements StudentServices
         return obj.getCourses();
     }
 
+    /**
+     * using this method student can view course which they taken
+     * @param studentId
+     * @return
+     */
     public List<RegisteredCourse> viewRegisteredCourses(String studentId) {
         RegisteredCoursesDao dao = RegisteredCoursesDao.getInstance();
         return dao.getRegisteredCourse(studentId);
     }
 
+    /**
+     * this method is calculating fee according they taken course
+     * @param studentId
+     * @return
+     */
     public long calculateFee(String studentId) {
         StudentDao dao = StudentDao.getInstance();
         int courses = dao.NumberOfCoursesTaken(studentId);
@@ -74,6 +101,11 @@ public class StudentOperations extends UserOperations implements StudentServices
         return courses * 100;
     }
 
+    /**
+     * this method show status of registration
+     * @param studentId
+     * @return
+     */
     public boolean getRegistrationStatus(String studentId) {
         return true; // TODO
     }

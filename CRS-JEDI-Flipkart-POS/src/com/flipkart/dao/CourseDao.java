@@ -49,6 +49,7 @@ public class CourseDao implements DaoInterface<Course> {
             System.out.println("Course Not Found");
             return null;
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -74,6 +75,7 @@ public class CourseDao implements DaoInterface<Course> {
             System.out.println("Course already exists with this ID");
 
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
         return 0;
@@ -124,6 +126,9 @@ public class CourseDao implements DaoInterface<Course> {
         } catch (Exception e) {
             System.out.println("Course Not Deleted");
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }

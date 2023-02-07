@@ -46,6 +46,9 @@ public class AdminDao implements DaoInterface<Admin> {
             return rs;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -59,7 +62,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     public String getCurrentSemester() {
         Connection connection = DBConnection.getConnection();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(GET_CURRENT_SEM);
             ResultSet rs = stmt.executeQuery(GET_CURRENT_SEM);
@@ -68,7 +71,10 @@ public class AdminDao implements DaoInterface<Admin> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            ;
+
+        } finally {
+            DBConnection.closeStatement(stmt);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }
@@ -85,6 +91,7 @@ public class AdminDao implements DaoInterface<Admin> {
             System.out.println("No Student found with this ID");
             e.printStackTrace();
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
         return 0;
@@ -103,12 +110,11 @@ public class AdminDao implements DaoInterface<Admin> {
                 builder.setAdminId(rs.getString("adminId"));
                 builder.setName(rs.getString("adminName"));
                 return builder.build();
-            } else {
-                throw new SQLException("Admin Not Found");
             }
         } catch (SQLException e) {
             System.out.println("Admin not found");
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
         return null;
@@ -133,6 +139,7 @@ public class AdminDao implements DaoInterface<Admin> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -153,6 +160,7 @@ public class AdminDao implements DaoInterface<Admin> {
             e.printStackTrace();
             return 0;
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -169,6 +177,7 @@ public class AdminDao implements DaoInterface<Admin> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -183,6 +192,7 @@ public class AdminDao implements DaoInterface<Admin> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }

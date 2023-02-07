@@ -31,6 +31,13 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         }
     }
 
+    /**
+     * this method adding course in catalog
+     * @param catalogId
+     * @param courseCode
+     * @param courseName
+     * @throws CourseNotAddedException
+     */
     public void addCourseToCatalog(String catalogId, String courseCode, String courseName) throws CourseNotAddedException {
         try {
             CourseCatalogDao courseCatalogDao = CourseCatalogDao.getInstance();
@@ -66,6 +73,12 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         }
     }
 
+    /**
+     * this method removing course from catalog
+     * @param catalogId
+     * @param courseId
+     * @throws CourseNotRemovedException
+     */
     public void removeCourseFromCatalog(String catalogId, String courseId) throws CourseNotRemovedException {
         try {
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
@@ -77,6 +90,11 @@ public class CourseCatalogOperations implements CourseCatalogServices {
 
     }
 
+    /**
+     * adding new Semester
+     * @param catalogId
+     * @throws CatalogNotAddedException
+     */
     public void addCatalog(String catalogId) throws CatalogNotAddedException {
        try {
            CourseCatalog catalog = getCatalogFromId(catalogId);
@@ -102,7 +120,12 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         }
     }
 
-
+    /**
+     * listing course which is in catalag
+     * @param catalogId
+     * @return
+     * @throws CatalogNotFoundException
+     */
     public List<Course> listCoursesInCatalog(String catalogId) throws CatalogNotFoundException {
         try {
             CourseCatalog catalog = getCatalogFromId(catalogId);

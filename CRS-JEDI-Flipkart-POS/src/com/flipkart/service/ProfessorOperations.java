@@ -20,6 +20,10 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     }
 
+    /**
+     * creating new instance of professor
+     * @return
+     */
     public static ProfessorOperations getInstance() {
         if (instance == null) {
             synchronized (ProfessorOperations.class) {
@@ -29,6 +33,13 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         return instance;
     }
 
+    /**
+     * using this method professor can view student which is part of his course
+     * @param semester
+     * @param courseId
+     * @return
+     * @throws CourseNotFoundException
+     */
 
     public List<Student> viewEnrolledStudents(String semester, String courseId) throws CourseNotFoundException {
         try {
@@ -40,6 +51,12 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     }
 
+    /**
+     * using this method professor can view course which taken by him
+     * @param professorId
+     * @return
+     * @throws ProfessorNotFoundException
+     */
     @Override
     public List<Course> viewCoursesTaken(String professorId) throws ProfessorNotFoundException {
         try {
@@ -50,6 +67,13 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         }
     }
 
+    /**
+     * using this method professor can register for course he want to take
+     * @param professorId
+     * @param courseId
+     * @param semester
+     * @throws CourseNotAssignedToProfessorException
+     */
     @Override
     public void registerForCourse(String professorId, String courseId, String semester) throws CourseNotAssignedToProfessorException {
         try {
@@ -64,7 +88,13 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         }
     }
 
-
+    /**
+     * using this method professor can assign grade to student which taken his course
+     * @param studentId
+     * @param grade
+     * @param courseCode
+     * @throws GradeNotAddedException
+     */
     public void addGrade(String studentId, String grade, String courseCode) throws GradeNotAddedException {
         try {
             GradeCardDao dao = GradeCardDao.getInstance();

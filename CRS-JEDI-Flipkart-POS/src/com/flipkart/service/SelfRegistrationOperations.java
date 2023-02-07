@@ -10,7 +10,14 @@ import java.util.UUID;
 
 public class SelfRegistrationOperations implements SelfRegistrationService {
 
-
+    /**
+     * using this method student can apply for registration
+     * @param name
+     * @param password
+     * @param semester
+     * @param department
+     * @return
+     */
     public Student selfRegister(String name, String password, String semester, String department) {
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
         studentBuilder.setName(name);

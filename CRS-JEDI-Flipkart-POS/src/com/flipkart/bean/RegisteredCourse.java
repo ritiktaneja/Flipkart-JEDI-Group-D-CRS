@@ -23,7 +23,7 @@ public class RegisteredCourse {
     private Grade grade;
 
     /**
-     *
+     * Get course object
      * @return Course
      */
     public Course getCourse() {
@@ -31,7 +31,7 @@ public class RegisteredCourse {
     }
 
     /**
-     *
+     * Method to get student object
      * @return student
      */
     public Student getStudent() {
@@ -45,7 +45,7 @@ public class RegisteredCourse {
     }
 
     /**
-     *
+     * Method to get grade of the current course
      * @return grade
      */
     public Grade getGrade() {
@@ -53,7 +53,7 @@ public class RegisteredCourse {
     }
 
     /**
-     *
+     * Method to set grade for the current object
      * @param grade
      */
     public void setGrade(Grade grade) {
@@ -61,7 +61,7 @@ public class RegisteredCourse {
     }
 
     /**
-     * Drop This Course
+     * Drop current Course
      */
     public boolean dropCourse() {
         this.grade = Grade.DROPPED;
@@ -69,7 +69,7 @@ public class RegisteredCourse {
     }
 
     /**
-     *
+     * Course builder class
      * @param builder
      */
     private RegisteredCourse(RegisteredCourseBuilder builder) {
@@ -81,7 +81,7 @@ public class RegisteredCourse {
     }
 
     /**
-     *
+     * Check if the object belongs to the current class
      * @param object
      * @return
      */

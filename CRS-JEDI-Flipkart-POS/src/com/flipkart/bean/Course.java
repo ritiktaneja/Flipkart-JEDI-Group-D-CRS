@@ -6,7 +6,7 @@ public class Course {
     private Professor professor;
 
     /**
-     *
+     * Method to course code
      * @return Course Code
      */
     public String getCourseCode() {
@@ -60,9 +60,9 @@ public class Course {
     }
 
     /**
-     *
+     * Method to check object belongs to same class
      * @param obj
-     * @return
+     * @return If the object belongs to same class
      */
     @Override
     public boolean equals(Object obj) {

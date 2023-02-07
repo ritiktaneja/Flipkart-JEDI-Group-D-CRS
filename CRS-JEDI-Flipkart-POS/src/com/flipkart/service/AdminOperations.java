@@ -13,21 +13,43 @@ import java.util.Scanner;
 public class AdminOperations extends UserOperations implements AdminServices {
     public CourseCatalogServices courseCatalogServices = new CourseCatalogOperations();
 
+    /**
+     * Using this method admin can add course in Catalog
+     * @param catalogId
+     * @param courseCode
+     * @param courseName
+     * @throws CourseNotAddedException
+     */
     public void addCourse(String catalogId, String courseCode, String courseName) throws CourseNotAddedException {
 
         courseCatalogServices.addCourseToCatalog(catalogId, courseCode, courseName);
 
     }
 
+    /**
+     * Using this method admin can delete course
+     * @param catalogId
+     * @param courseCode
+     * @throws CourseNotRemovedException
+     */
     public void deleteCourse(String catalogId, String courseCode) throws CourseNotRemovedException {
         courseCatalogServices.removeCourseFromCatalog(catalogId, courseCode);
     }
+
+    /**
+     * using this method admin can approve Student
+     * @param studentId
+     * @throws StudentNotApprovedException
+     */
 
     public void approveStudent(String studentId) throws StudentNotApprovedException {
         try {
             StudentDao studentDao = StudentDao.getInstance();
             Student student = studentDao.get(studentId);
-            System.out.println(student);
+            if (student == null) {
+                System.out.println("No student exist with this ID");
+                return;
+            }
             System.out.print("Are you sure you want to approve this student ? Type yes to confirm : ");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.next();
@@ -43,6 +65,13 @@ public class AdminOperations extends UserOperations implements AdminServices {
         }
     }
 
+    /**
+     * using this method admin can add professor
+     * @param professorId
+     * @param professorName
+     * @param password
+     * @throws ProfessorNotAddedException
+     */
     public void addProfessor(String professorId, String professorName, String password) throws ProfessorNotAddedException {
         try {
             ProfessorDao professorDao = ProfessorDao.getInstance();
@@ -66,6 +95,12 @@ public class AdminOperations extends UserOperations implements AdminServices {
         // Not required
     }
 
+    /**
+     * using this method admin can view courses
+     * @param catalogId
+     * @return
+     * @throws CatalogNotFoundException
+     */
     public List<Course> viewCourses(String catalogId) throws CatalogNotFoundException {
         try {
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
@@ -76,15 +111,27 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     }
 
+    /**
+     * using this method admin can view professor
+     * @return
+     */
     public List<Professor> viewProfessors() {
         ProfessorDao professorDao = ProfessorDao.getInstance();
         return professorDao.getAll();
     }
 
+    /**
+     * using this method admin can view Student
+     * @return
+     */
     public List<Student> viewStudents() {
         return MockDB.students;
     }
 
+    /**
+     * using this method admin can view Student which one's request still pending to approve
+     * @return
+     */
     public List<Student> viewPendingApprovals() {
         List<Student> unApprovedStudents = new ArrayList<>();
         StudentDao dao = StudentDao.getInstance();
@@ -102,6 +149,13 @@ public class AdminOperations extends UserOperations implements AdminServices {
         return adminDao.getAll();
     }
 
+    /**
+     * using this method admin can enroll itself
+     * @param adminId
+     * @param adminName
+     * @param password
+     * @throws AdminNotAddedException
+     */
     @Override
     public void addAdmin(String adminId, String adminName, String password) throws AdminNotAddedException {
         try {
@@ -118,11 +172,19 @@ public class AdminOperations extends UserOperations implements AdminServices {
         }
     }
 
+    /**
+     * using this method admin get info of current semester
+     * @return
+     */
     public static String getCurrentSemester() {
         AdminDao adminDao = AdminDao.getInstance();
         return adminDao.getCurrentSemester();
     }
 
+    /**
+     * using this method admin can update semester
+     * @param semester
+     */
     public void updateSemester(String semester) {
         AdminDao dao = AdminDao.getInstance();
         int rs = dao.updateSemester(semester);

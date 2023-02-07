@@ -48,6 +48,9 @@ public class SemesterRegistrationDao {
             return null;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }
@@ -72,6 +75,9 @@ public class SemesterRegistrationDao {
         } catch (Exception e) {
             System.out.println("Failed to register for this semester");
             e.printStackTrace();
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return 0;
     }
@@ -92,6 +98,9 @@ public class SemesterRegistrationDao {
             return null;
         } catch (Exception e) {
             System.out.println("Student with this id and semester exists");
+        } finally {
+            DBConnection.closeStatement(statement);
+            DBConnection.closeConnection(connection);
         }
         return null;
     }

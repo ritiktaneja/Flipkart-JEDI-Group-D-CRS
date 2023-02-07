@@ -60,6 +60,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
             System.out.println("No professor with this ID");
             e.printStackTrace();
         } finally {
+            DBConnection.closeStatement(professorStatement);
             DBConnection.closeConnection(connection);
         }
         return null;
@@ -90,6 +91,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
             e.printStackTrace();
             return null;
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -107,6 +109,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
         } catch (Exception e) {
             System.out.println("Professor with same ID present");
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
         return 0;
@@ -126,6 +129,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -140,6 +144,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }

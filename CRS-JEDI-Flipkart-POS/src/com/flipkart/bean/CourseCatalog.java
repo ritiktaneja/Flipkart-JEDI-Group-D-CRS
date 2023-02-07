@@ -3,6 +3,9 @@ package com.flipkart.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Course catalog class
+ */
 public class CourseCatalog {
 
 

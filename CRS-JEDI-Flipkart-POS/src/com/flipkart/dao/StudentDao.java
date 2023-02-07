@@ -75,6 +75,7 @@ public class StudentDao implements DaoInterface<Student> {
             e.printStackTrace();
             return null;
         } finally {
+            DBConnection.closeStatement(studentStatement);
             DBConnection.closeConnection(connection);
         }
         return null;
@@ -118,6 +119,7 @@ public class StudentDao implements DaoInterface<Student> {
             e.printStackTrace();
             return null;
         } finally {
+            DBConnection.closeStatement(studentStatement);
             DBConnection.closeConnection(connection);
         }
     }
@@ -144,6 +146,7 @@ public class StudentDao implements DaoInterface<Student> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
@@ -177,6 +180,7 @@ public class StudentDao implements DaoInterface<Student> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }

@@ -180,6 +180,7 @@ public class CRSAdminMenu {
     }
 
     private void approveStudent() throws Exception {
+        viewPendingAdmission();
         System.out.print("Enter the student Id that is to be approved : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String studentId = sc.nextLine();

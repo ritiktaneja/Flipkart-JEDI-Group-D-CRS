@@ -77,7 +77,7 @@ public class Payment {
     }
 
     /**
-     *
+     * Payment status
      * @return status
      */
     public boolean isStatus() {
@@ -85,7 +85,7 @@ public class Payment {
     }
 
     /**
-     * Method to set Status
+     * Method to set Payment Status
      * @param status
      */
     public void setStatus(boolean status) {
