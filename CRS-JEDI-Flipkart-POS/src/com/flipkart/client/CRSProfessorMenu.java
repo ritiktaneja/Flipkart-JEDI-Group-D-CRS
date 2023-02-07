@@ -16,6 +16,9 @@ import com.flipkart.constants.Grade;
 import com.flipkart.data.MockDB;
 import com.flipkart.service.*;
 
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
 public class CRSProfessorMenu {
 
     Scanner sc = new Scanner(System.in);
@@ -27,11 +30,18 @@ public class CRSProfessorMenu {
         professorId = facultyId;
     }
 
-    public void createMenu() {
+    public void createMenu(String name) {
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+
 
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Professor ******************");
         System.out.println("********************************************************");
+        System.out.println("\n\t Login Time : " + formattedDate + "\n");
+        System.out.println("\t Welcome to the Professor Menu, " + name + "\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -80,11 +90,12 @@ public class CRSProfessorMenu {
         String courseID = sc.next();
         List<Student> studentList = null;
         ProfessorOperations professorOperations = new ProfessorOperations();
-        studentList = professorOperations.viewEnrolledStudents(CRSApplication.currentSemester, courseID);
+        studentList = professorOperations.viewEnrolledStudents(CRSApplication.currentSemester.getCurrentSemester(), courseID);
         System.out.println("The enrolled students under" + courseID + " are : ");
-        for (Student student : studentList) {
-            System.out.println(student.getUserId() + " : " + student.getName());
-        }
+        studentList.forEach(student -> System.out.println(student.getUserId() + " : " + student.getName()));
+//        for (Student student : studentList) {
+//            System.out.println(student.getUserId() + " : " + student.getName());
+//        }
 
     }
 
@@ -118,9 +129,10 @@ public class CRSProfessorMenu {
         ProfessorOperations professorOperations = new ProfessorOperations();
         coursesTaken = professorOperations.viewCoursesTaken(professorId);
         System.out.println("Courses under the professor with professor ID " + professorId + " are : ");
-        for (Course course : coursesTaken) {
-            System.out.println(course);
-        }
+        coursesTaken.forEach(course -> System.out.println(course));
+//        for (Course course : coursesTaken) {
+//            System.out.println(course);
+//        }
     }
 
     public void registerForCourses() throws Exception {
@@ -131,7 +143,7 @@ public class CRSProfessorMenu {
         String courseId = sc.next();
 
         ProfessorOperations professorOperations = new ProfessorOperations();
-        professorOperations.registerForCourse(professorId, courseId, CRSApplication.currentSemester);
+        professorOperations.registerForCourse(professorId, courseId, CRSApplication.currentSemester.getCurrentSemester());
         viewAssignedCourses(professorId);
 
     }

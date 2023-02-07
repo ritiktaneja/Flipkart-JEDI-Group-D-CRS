@@ -188,7 +188,7 @@ public class CourseCatalogDao {
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(GET_PROFESSOR);
-            stmt.setString(1, CRSApplication.currentSemester);
+            stmt.setString(1, CRSApplication.currentSemester.getCurrentSemester());
             stmt.setString(2, courseCode);
 
             ResultSet rs = stmt.executeQuery();
@@ -214,7 +214,7 @@ public class CourseCatalogDao {
             List<Course> courses = courseCatalog.getCourses();
             System.out.println(courses.get(0));
             stmt.setString(1, courses.get(0).getCourseCode());
-            stmt.setString(2, CRSApplication.currentSemester);
+            stmt.setString(2, CRSApplication.currentSemester.getCurrentSemester());
             stmt.setString(3, null);
             CourseDao courseDao = CourseDao.getInstance();
             courseDao.insert(courses.get(0));

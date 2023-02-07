@@ -9,12 +9,14 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AdminOperations extends UserOperations implements AdminServices {
     public CourseCatalogServices courseCatalogServices = new CourseCatalogOperations();
 
     /**
      * Using this method admin can add course in Catalog
+     *
      * @param catalogId
      * @param courseCode
      * @param courseName
@@ -28,6 +30,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * Using this method admin can delete course
+     *
      * @param catalogId
      * @param courseCode
      * @throws CourseNotRemovedException
@@ -38,6 +41,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can approve Student
+     *
      * @param studentId
      * @throws StudentNotApprovedException
      */
@@ -67,6 +71,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can add professor
+     *
      * @param professorId
      * @param professorName
      * @param password
@@ -97,6 +102,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can view courses
+     *
      * @param catalogId
      * @return
      * @throws CatalogNotFoundException
@@ -113,6 +119,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can view professor
+     *
      * @return
      */
     public List<Professor> viewProfessors() {
@@ -122,6 +129,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can view Student
+     *
      * @return
      */
     public List<Student> viewStudents() {
@@ -130,16 +138,13 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can view Student which one's request still pending to approve
+     *
      * @return
      */
     public List<Student> viewPendingApprovals() {
         List<Student> unApprovedStudents = new ArrayList<>();
         StudentDao dao = StudentDao.getInstance();
-        for (Student student : dao.getAll()) {
-            if (student.isApproved() == false) {
-                unApprovedStudents.add(student);
-            }
-        }
+        unApprovedStudents = dao.getAll().stream().filter(student -> student.isApproved() == false).collect(Collectors.toList());
         return unApprovedStudents;
     }
 
@@ -151,6 +156,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin can enroll itself
+     *
      * @param adminId
      * @param adminName
      * @param password
@@ -174,15 +180,17 @@ public class AdminOperations extends UserOperations implements AdminServices {
 
     /**
      * using this method admin get info of current semester
+     *
      * @return
      */
-    public static String getCurrentSemester() {
+    public static Semester getCurrentSemester() {
         AdminDao adminDao = AdminDao.getInstance();
         return adminDao.getCurrentSemester();
     }
 
     /**
      * using this method admin can update semester
+     *
      * @param semester
      */
     public void updateSemester(String semester) {

@@ -42,7 +42,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
                 Course course = CourseDao.getInstance().get(rs.getString("CourseCode"));
 
                 CourseCatalogDao courseCatalogDao = CourseCatalogDao.getInstance();
-                Professor professor = courseCatalogDao.getProfessorByCourseId(rs.getString("courseCode"), CRSApplication.currentSemester);
+                Professor professor = courseCatalogDao.getProfessorByCourseId(rs.getString("courseCode"), CRSApplication.currentSemester.getCurrentSemester());
                 if (professor != null) {
                     course.setProfessor(professor);
                 }

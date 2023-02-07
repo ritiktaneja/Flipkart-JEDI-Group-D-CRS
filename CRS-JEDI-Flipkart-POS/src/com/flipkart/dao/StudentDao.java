@@ -134,7 +134,7 @@ public class StudentDao implements DaoInterface<Student> {
             stmt.setString(2, student.getName());
 
             SemesterRegistrationDao dao = SemesterRegistrationDao.getInstance();
-            int rs = dao.insert(student.getStudentId(), CRSApplication.currentSemester);
+            int rs = dao.insert(student.getStudentId(), CRSApplication.currentSemester.getCurrentSemester());
             if (rs == 1) {
                 System.out.println("Semester registration Successfully");
             }

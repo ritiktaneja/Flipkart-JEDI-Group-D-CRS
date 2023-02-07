@@ -13,6 +13,9 @@ import com.flipkart.constants.CRSColors;
 import com.flipkart.exception.CourseNotRegisteredException;
 import com.flipkart.service.*;
 
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
 public class CRSStudentMenu {
 
     Scanner sc = new Scanner(System.in);
@@ -24,10 +27,18 @@ public class CRSStudentMenu {
         this.studentId = sId;
     }
 
-    public void createMenu() {
+    public void createMenu(String name) {
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+
 
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Student ********************");
+        System.out.println("********************************************************");
+        System.out.println("\n\t Login Time : " + formattedDate + "\n");
+        System.out.println("\t Welcome to the Student Menu, " + name + "\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -99,17 +110,19 @@ public class CRSStudentMenu {
 
     public void viewAvailableCourses() {
         List<Course> ls = studentServices.viewAvailableCourses(studentId);
-        for (Course c : ls) {
-            System.out.println(c);
-        }
+        ls.forEach(course -> System.out.println(course));
+//        for (Course c : ls) {
+//            System.out.println(c);
+//        }
     }
 
     public void viewRegisteredCourses() {
         List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
+        ls.forEach(registeredCourse -> System.out.println(registeredCourse));
 
-        for (RegisteredCourse c : ls) {
-            System.out.println(c);
-        }
+//        for (RegisteredCourse c : ls) {
+//            System.out.println(c);
+//        }
 
     }
 
@@ -154,11 +167,11 @@ public class CRSStudentMenu {
                 case "1":
                     System.out.println("Redirecting to payment gateway . . . ");
                     System.out.println(CRSColors.GREEN + "Payment initiated." + CRSColors.RESET);
-                    paymentServices.initPayment(studentId, refId, "Online", fee, CRSApplication.currentSemester, "Pending", payDesc);
+                    paymentServices.initPayment(studentId, refId, "Online", fee, CRSApplication.currentSemester.getCurrentSemester(), "Pending", payDesc);
                     break;
                 case "2":
                     System.out.println(CRSColors.GREEN + "Payment initiated." + CRSColors.RESET);
-                    paymentServices.initPayment(studentId, refId, "Offline", fee, CRSApplication.currentSemester, "Pending", payDesc);
+                    paymentServices.initPayment(studentId, refId, "Offline", fee, CRSApplication.currentSemester.getCurrentSemester(), "Pending", payDesc);
                     break;
                 default:
                     System.out.println(CRSColors.RED + "You entered an Invalid Input" + CRSColors.RESET);

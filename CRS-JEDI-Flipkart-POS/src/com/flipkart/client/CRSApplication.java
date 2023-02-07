@@ -1,9 +1,6 @@
 package com.flipkart.client;
 
-import com.flipkart.bean.Admin;
-import com.flipkart.bean.Professor;
-import com.flipkart.bean.Student;
-import com.flipkart.bean.User;
+import com.flipkart.bean.*;
 import com.flipkart.dao.UserDao;
 import com.flipkart.data.MockDB;
 import com.flipkart.service.AdminOperations;
@@ -16,7 +13,8 @@ import java.util.*;
 
 public class CRSApplication {
 
-    public static String currentSemester;
+    public static Semester currentSemester;
+
 
     public static void main(String[] args) {
         currentSemester = AdminOperations.getCurrentSemester();
@@ -50,7 +48,7 @@ public class CRSApplication {
                         } else {
                             System.out.println("Welcome to Student Menu: ");
                             CRSStudentMenu stuobj = new CRSStudentMenu(student.getStudentId());
-                            stuobj.createMenu();
+                            stuobj.createMenu(name);
                         }
                         break;
                     } else if (user instanceof Admin) {
@@ -58,7 +56,7 @@ public class CRSApplication {
                             Admin a = (Admin) user;
                             System.out.println("Welcome to Admin Menu: ");
                             CRSAdminMenu stuobj = new CRSAdminMenu(a.getAdminId());
-                            stuobj.createMenu();
+                            stuobj.createMenu(name);
                         } catch (Exception e) {
 
                         }
@@ -68,7 +66,7 @@ public class CRSApplication {
                             Professor p = (Professor) user;
                             System.out.println("Welcome to Professor Menu: ");
                             CRSProfessorMenu stuobj = new CRSProfessorMenu(p.getFacultyId());
-                            stuobj.createMenu();
+                            stuobj.createMenu(name);
                         } catch (Exception e) {
 
                         }
@@ -79,7 +77,7 @@ public class CRSApplication {
                     break;
                 case "2":
                     System.out.println("Enter details for registration: ");
-                    String name1, password, department="";
+                    String name1, password, department = "";
                     System.out.print("Enter Name : ");
                     name1 = sc.next();
                     System.out.print("Enter password : ");
@@ -112,12 +110,12 @@ public class CRSApplication {
                             default:
                                 System.out.println("Please enter a correct option!");
                         }
-                        if(department !="")
+                        if (department != "")
                             break;
 
                     }
                     SelfRegistrationOperations operations = new SelfRegistrationOperations();
-                    Student student = operations.selfRegister(name1, password, currentSemester, department);
+                    Student student = operations.selfRegister(name1, password, currentSemester.getCurrentSemester(), department);
                     System.out.println(student);
                     System.out.println("Details added successfully. Waiting for admin approval");
                     break;
@@ -129,11 +127,10 @@ public class CRSApplication {
                     String userPassword = sc.next();
                     UserServices userObject = new UserOperations();
                     boolean result = userObject.updatePassword(userName, userPassword);
-                    if(result) {
+                    if (result) {
                         System.out.println("Update Password Successful");
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("Update Password Unsuccessful");
                         break;
                     }
@@ -147,6 +144,7 @@ public class CRSApplication {
             }
         }
     }
+
     private static void playMusic() {
 
     }

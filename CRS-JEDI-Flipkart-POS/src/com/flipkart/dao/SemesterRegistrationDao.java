@@ -28,7 +28,7 @@ public class SemesterRegistrationDao {
     }
 
     public Student getRegistrationStatus(String studentId) {
-        String semester = CRSApplication.currentSemester;
+        String semester = CRSApplication.currentSemester.getCurrentSemester();
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {

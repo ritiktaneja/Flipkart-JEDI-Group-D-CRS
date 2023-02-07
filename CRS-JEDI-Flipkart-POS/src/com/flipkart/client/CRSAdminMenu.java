@@ -11,6 +11,9 @@ import com.flipkart.service.AdminOperations;
 import java.util.List;
 import java.util.Scanner;
 
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
 public class CRSAdminMenu {
 
     AdminOperations adminOperations = new AdminOperations();
@@ -20,9 +23,18 @@ public class CRSAdminMenu {
         this.adminId = aId;
     }
 
-    public void createMenu() {
+    public void createMenu(String name) {
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+
+
         System.out.println("********************************************************");
         System.out.println("******************** Welcome Admin *********************");
+        System.out.println("********************************************************");
+        System.out.println("\n\t Login Time : " + formattedDate + "\n");
+        System.out.println("\t Welcome to the Admin Menu, " + name + "\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -39,6 +51,8 @@ public class CRSAdminMenu {
                 System.out.println("9. Show Pending Admissions");
                 System.out.println("10. Show Added Admins");
                 System.out.println("11. Update Semester");
+                System.out.println("12, Open Semester Registration");
+                System.out.println("13. Close Semester Registration");
                 System.out.println("12. Logout");
                 System.out.print("Enter your choice : ");
                 int choice;
@@ -79,6 +93,12 @@ public class CRSAdminMenu {
                         updateSemester();
                         break;
                     case 12:
+                        openSemesterRegistration();
+                        break;
+                    case 13:
+                        closeSemesterRegistration();
+                        break;
+                    case 14:
                         System.out.println("Heading to Main Menu . . .");
                         return;
                     default:
@@ -89,6 +109,14 @@ public class CRSAdminMenu {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    private void closeSemesterRegistration() {
+    }
+
+    private void openSemesterRegistration() {
+
+
     }
 
     private void updateSemester() {
@@ -104,9 +132,10 @@ public class CRSAdminMenu {
             System.out.println("No Student with pending admission");
             return;
         }
-        for (Student c : list) {
-            System.out.println(c);
-        }
+        list.forEach(student -> System.out.println(student));
+//        for (Student c : list) {
+//            System.out.println(c);
+//        }
     }
 
     private void showAddedAdmins() throws Exception {
@@ -115,9 +144,10 @@ public class CRSAdminMenu {
             System.out.println("No admin except you");
             return;
         }
-        for (Admin admin : admins) {
-            System.out.println(admin);
-        }
+        admins.forEach(admin -> System.out.println(admin));
+//        for (Admin admin : admins) {
+//            System.out.println(admin);
+//        }
 
     }
 
@@ -139,9 +169,10 @@ public class CRSAdminMenu {
         if (professors == null) {
             System.out.println("No Professor Added");
         }
-        for (Professor p : professors) {
-            System.out.println(p);
-        }
+        professors.forEach(professor -> System.out.println(professor));
+//        for (Professor p : professors) {
+//            System.out.println(p);
+//        }
     }
 
     private void viewPendingAdmission() {
@@ -150,20 +181,22 @@ public class CRSAdminMenu {
             System.out.println("No Student with pending addmission");
             return;
         }
-        for (Student c : list) {
-            System.out.println(c);
-        }
+        list.forEach(student -> System.out.println(student));
+//        for (Student c : list) {
+//            System.out.println(c);
+//        }
     }
 
     private void viewCoursesInCatalog() throws Exception {
-        List<Course> list = adminOperations.viewCourses(AdminOperations.getCurrentSemester());
+        List<Course> list = adminOperations.viewCourses(AdminOperations.getCurrentSemester().getCurrentSemester());
         if (list == null) {
             System.out.println("No course Exist in catalog");
             return;
         }
-        for (Course c : list) {
-            System.out.println(c);
-        }
+        list.forEach(course -> System.out.println(course));
+//        for (Course c : list) {
+//            System.out.println(c);
+//        }
     }
 
     private void addAdmin() throws Exception {
@@ -194,14 +227,14 @@ public class CRSAdminMenu {
         System.out.print("Enter the course name  : ");
         sc = new Scanner(System.in);
         String courseName = sc.next();
-        adminOperations.addCourse(CRSApplication.currentSemester, courseId, courseName);
+        adminOperations.addCourse(CRSApplication.currentSemester.getCurrentSemester(), courseId, courseName);
     }
 
     private void deleteCourseFromCatalog() throws Exception {
         System.out.print("Enter the course ID  : ");
         Scanner sc = new Scanner(System.in);
         String courseId = sc.next();
-        adminOperations.deleteCourse(AdminOperations.getCurrentSemester(), courseId);
+        adminOperations.deleteCourse(AdminOperations.getCurrentSemester().getCurrentSemester(), courseId);
 
     }
 }

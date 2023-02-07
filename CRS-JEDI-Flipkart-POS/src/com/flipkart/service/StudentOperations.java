@@ -79,7 +79,7 @@ public class StudentOperations extends UserOperations implements StudentServices
     public List<Course> viewAvailableCourses(String studentId) {
         Student student = StudentDao.getInstance().get(studentId);
         if (student == null) return null;
-        CourseCatalog obj = CourseCatalogDao.getInstance().get(CRSApplication.currentSemester);
+        CourseCatalog obj = CourseCatalogDao.getInstance().get(CRSApplication.currentSemester.getCurrentSemester());
         return obj.getCourses();
     }
 
