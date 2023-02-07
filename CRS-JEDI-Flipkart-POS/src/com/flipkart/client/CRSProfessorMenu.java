@@ -103,6 +103,7 @@ public class CRSProfessorMenu {
             System.out.print("Enter the student ID for which you want to add Grade: (-1 to abort) : ");
             String studentId = sc.next();
             if (studentId.equals("-1")) break;
+
             System.out.print("Enter Grade: ");
             String grade = sc.next();
             ProfessorOperations professorOperations = new ProfessorOperations();

@@ -9,6 +9,7 @@ import com.flipkart.data.MockDB;
 import com.flipkart.service.AdminOperations;
 import com.flipkart.service.SelfRegistrationOperations;
 import com.flipkart.service.UserOperations;
+import com.flipkart.service.UserServices;
 
 import java.io.IOException;
 import java.util.*;
@@ -23,7 +24,6 @@ public class CRSApplication {
         System.out.println("Welcome to Course Registration System for semester : " + currentSemester);
         Scanner sc = new Scanner(System.in);
         String choice = "";//sc.nextInt();
-        int iterator;
 
         while (true) {
             playMusic();
@@ -125,15 +125,18 @@ public class CRSApplication {
                 case "3":
                     System.out.print("Enter your UserId : ");
                     String userName = sc.next();
-                    if (UserDao.getInstance().get(userName) == null) {
-                        System.out.println("UserId not found.");
-                        break;
-                    }
                     System.out.print("Enter new Password : ");
                     String userPassword = sc.next();
-                    UserDao.getInstance().updatePassword(userName, userPassword);
-                    System.out.println("Update Password Successful");
-                    break;
+                    UserServices userObject = new UserOperations();
+                    boolean result = userObject.updatePassword(userName, userPassword);
+                    if(result) {
+                        System.out.println("Update Password Successful");
+                        break;
+                    }
+                    else {
+                        System.out.println("Update Password Unsuccessful");
+                        break;
+                    }
 
                 case "4":
                     System.exit(0);

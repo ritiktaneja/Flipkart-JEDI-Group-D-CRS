@@ -19,8 +19,13 @@ public class UserOperations implements UserServices {
      * @param newPassword
      * @return
      */
-    public boolean updatePassword(String oldPassword, String newPassword) {
+    public boolean updatePassword(String userName, String userPassword) {
         //TODO DAO Call
+        if (UserDao.getInstance().get(userName) == null) {
+            System.out.println("UserId not found.");
+            return false;
+        }
+        UserDao.getInstance().updatePassword(userName, userPassword);
         return true;
     }
 
