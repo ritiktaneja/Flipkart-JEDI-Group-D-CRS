@@ -7,23 +7,6 @@ import java.util.List;
  */
 public class Admin extends User {
 
-    public void addProfessor() {
-
-    }
-
-    public void assignCourse() {
-
-    }
-
-    public void approveStudent() {
-
-    }
-
-    public void addAdmin() {
-
-    }
-
-
     @Override
     public String toString() {
         return "Admin name = " + this.getName() + ", id = " + this.getAdminId();

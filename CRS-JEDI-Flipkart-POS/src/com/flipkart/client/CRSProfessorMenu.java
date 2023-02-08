@@ -31,6 +31,7 @@ public class CRSProfessorMenu {
 
     /**
      * Set professor id from the given input
+     *
      * @param facultyId
      */
     public CRSProfessorMenu(String facultyId) {
@@ -40,6 +41,7 @@ public class CRSProfessorMenu {
 
     /**
      * Professor Menu in the CRS application
+     *
      * @param name
      */
     public void createMenu(String name) {
@@ -96,6 +98,7 @@ public class CRSProfessorMenu {
 
     /**
      * View enrolled students with the course id
+     *
      * @param courseID
      * @throws Exception
      */
@@ -103,25 +106,15 @@ public class CRSProfessorMenu {
         List<Student> studentList = null;
         ProfessorOperations professorOperations = new ProfessorOperations();
         studentList = professorOperations.viewEnrolledStudents(CRSApplication.currentSemester.getCurrentSemester(), courseID);
-        System.out.println("\nThe enrolled students under " + CRSColors.GREEN + courseID + CRSColors.RESET + " are : \n");
-        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        String plus = "|";
-        String stars2 = "|                                                                      |";
-        System.out.println(stars);
-        System.out.println(stars2);
-        String namePlate = String.format("|%45s" + "%26s", "Enrolled Students", plus);
-        System.out.println(namePlate);
-        System.out.println(stars2);
-        studentList.forEach(student -> {
-            String c = String.format("|%35s" + "%20s" + "%16s", student.getName(), " (" + student.getStudentId() + ")", plus);
-            System.out.println(c);
-        });
-        System.out.println(stars);
-        System.out.println();
+        if (studentList == null || studentList.size() == 0) {
+            System.out.println("No Student Enrolled in this course");
+        } else
+            Student.printStudentList("Enrolled Students", studentList);
     }
 
     /**
      * View enrolled students in the given course
+     *
      * @throws Exception
      */
     public void viewEnrolledStudents() throws Exception {
@@ -136,6 +129,7 @@ public class CRSProfessorMenu {
 
     /**
      * Add grade for the current student
+     *
      * @throws Exception
      */
     public void addGrade() throws Exception {
@@ -165,6 +159,7 @@ public class CRSProfessorMenu {
 
     /**
      * View assigned courses for the current professor
+     *
      * @param professorId
      * @throws Exception
      */
@@ -172,13 +167,16 @@ public class CRSProfessorMenu {
         List<Course> coursesTaken = null;
         ProfessorOperations professorOperations = new ProfessorOperations();
         coursesTaken = professorOperations.viewCoursesTaken(professorId);
-        System.out.println("\nCourses under the professor with professor ID " + CRSColors.GREEN +  professorId +  CRSColors.RESET + " are : ");
-        coursesTaken.forEach(course -> System.out.println(course));
+        if (coursesTaken == null || coursesTaken.size() == 0) {
+            System.out.println("You haven't taken any course");
+        } else
+            Course.printCourseList("Assigned Courses", coursesTaken);
 
     }
 
     /**
      * Register for courses method for the professor
+     *
      * @throws Exception
      */
     public void registerForCourses() throws Exception {

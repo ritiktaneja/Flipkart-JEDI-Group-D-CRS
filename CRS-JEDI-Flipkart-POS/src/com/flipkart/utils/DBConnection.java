@@ -2,6 +2,9 @@ package com.flipkart.utils;
 
 import java.sql.*;
 
+/**
+ * DBconnection class
+ */
 public class DBConnection {
 
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
@@ -9,10 +12,16 @@ public class DBConnection {
     private static final String ID = "root";
     private static final String PASS = "";
 
-
+    /**
+     * DBconnection constructor
+     */
     private DBConnection() {
     }
 
+    /**
+     * Method to get Connection
+     * @return object of DBconnection
+     */
     public static Connection getConnection() {
         try {
             Connection DBConnection = null;
@@ -26,6 +35,10 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Method to close connection
+     * @param connection
+     */
     public static void closeConnection(Connection connection) {
         try {
             connection.close();
@@ -34,6 +47,10 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Method to close current statement
+     * @param statement
+     */
     public static void closeStatement(Statement statement) {
         try {
             statement.close();

@@ -25,6 +25,7 @@ public class CRSAdminMenu {
 
     /**
      * method of CRS admin menu
+     *
      * @param aId
      */
     public CRSAdminMenu(String aId) {
@@ -33,6 +34,7 @@ public class CRSAdminMenu {
 
     /**
      * Method to create Menu for CRS Application
+     *
      * @param name
      */
     public void createMenu(String name) {
@@ -146,7 +148,7 @@ public class CRSAdminMenu {
      */
     private void showRegisteredStudents() {
         List<Student> list = adminOperations.viewStudents();
-        if (list == null) {
+        if (list == null || list.size() == 0) {
             System.out.println(CRSColors.GREEN + "No Registered Student Found" + CRSColors.RESET);
             return;
         } else {
@@ -156,11 +158,12 @@ public class CRSAdminMenu {
 
     /**
      * Method to show added Admin
+     *
      * @throws Exception
      */
     private void showAddedAdmins() throws Exception {
         List<Admin> adminList = adminOperations.viewAdmins();
-        if (adminList == null) {
+        if (adminList == null || adminList.size() == 0) {
             System.out.println("No admin except you");
             return;
         } else {
@@ -170,10 +173,11 @@ public class CRSAdminMenu {
 
     /**
      * Method to add professor
+     *
      * @throws Exception
      */
     private void addProfessor() throws Exception {
-        System.out.print("Set professor Id ");// using semester as catalog id
+        System.out.print("Set professor Id : ");// using semester as catalog id
         Scanner sc = new Scanner(System.in);
         String professorId = sc.nextLine();
         System.out.print("Enter the Professor Name : ");
@@ -190,7 +194,7 @@ public class CRSAdminMenu {
      */
     private void showProfessor() {
         List<Professor> professors = adminOperations.viewProfessors();
-        if (professors == null) {
+        if (professors == null || professors.size() == 0) {
             System.out.println(CRSColors.RED + "No Professor Added" + CRSColors.RESET);
         } else {
             Professor.printProfessorList("Professors List", professors);
@@ -202,7 +206,7 @@ public class CRSAdminMenu {
      */
     private void viewPendingAdmission() {
         List<Student> list = adminOperations.viewPendingApprovals();
-        if (list == null) {
+        if (list == null || list.size() == 0) {
             System.out.println(CRSColors.GREEN + "No Student with pending admission" + CRSColors.RESET);
             return;
         } else {
@@ -213,11 +217,12 @@ public class CRSAdminMenu {
 
     /**
      * Method to view course in catalog
+     *
      * @throws Exception
      */
     private void viewCoursesInCatalog() throws Exception {
         List<Course> list = adminOperations.viewCourses(AdminOperations.getCurrentSemester().getCurrentSemester());
-        if (list == null) {
+        if (list == null || list.size() == 0) {
             System.out.println("No course Exist in catalog");
             return;
         } else {
@@ -227,6 +232,7 @@ public class CRSAdminMenu {
 
     /**
      * Method to add admin
+     *
      * @throws Exception
      */
     private void addAdmin() throws Exception {
@@ -244,6 +250,7 @@ public class CRSAdminMenu {
 
     /**
      * Method to approve student
+     *
      * @throws Exception
      */
     private void approveStudent() throws Exception {
@@ -256,10 +263,11 @@ public class CRSAdminMenu {
 
     /**
      * method to add course to catalog
+     *
      * @throws Exception
      */
     private void addCourseToCatalog() throws Exception {
-        System.out.print("Enter the course id  : ");
+        System.out.print("Enter the course Id  : ");
         Scanner sc = new Scanner(System.in);
         String courseId = sc.next();
         System.out.print("Enter the course name  : ");
@@ -270,6 +278,7 @@ public class CRSAdminMenu {
 
     /**
      * method to delete course from catalog
+     *
      * @throws Exception
      */
     private void deleteCourseFromCatalog() throws Exception {
