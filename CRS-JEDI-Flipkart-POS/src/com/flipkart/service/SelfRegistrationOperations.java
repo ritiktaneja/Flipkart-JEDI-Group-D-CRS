@@ -8,6 +8,9 @@ import com.flipkart.data.MockDB;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * SelfRegistrationOperations class
+ */
 public class SelfRegistrationOperations implements SelfRegistrationService {
 
     /**
@@ -16,7 +19,7 @@ public class SelfRegistrationOperations implements SelfRegistrationService {
      * @param password
      * @param semester
      * @param department
-     * @return
+     * @return object of student
      */
     public Student selfRegister(String name, String password, String semester, String department) {
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();

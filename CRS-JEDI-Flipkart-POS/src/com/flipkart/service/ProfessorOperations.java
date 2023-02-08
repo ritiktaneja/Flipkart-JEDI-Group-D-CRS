@@ -12,11 +12,16 @@ import com.flipkart.exception.ProfessorNotFoundException;
 
 import java.util.List;
 
-
+/**
+ * ProfessorOperation Class
+ */
 public class ProfessorOperations extends UserOperations implements ProfessorServices {
 
     private static volatile ProfessorOperations instance = null;
 
+    /**
+     * Professor operation default contructor
+     */
     public ProfessorOperations() {
 
     }
@@ -24,7 +29,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     /**
      * creating new instance of professor
      *
-     * @return
+     * @return Instance of professor operation
      */
     public static ProfessorOperations getInstance() {
         if (instance == null) {
@@ -36,11 +41,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     /**
-     * using this method professor can view student which is part of his course
+     * method to check enrolled students registered for that particular course
      *
      * @param semester
      * @param courseId
-     * @return
+     * @return list of student
      * @throws CourseNotFoundException
      */
 
@@ -55,10 +60,10 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     /**
-     * using this method professor can view course which taken by him
+     * Method to check courses taken by professor
      *
      * @param professorId
-     * @return
+     * @return list of course
      * @throws ProfessorNotFoundException
      */
     @Override
@@ -72,7 +77,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     /**
-     * using this method professor can register for course he want to take
+     * using this method professor can register for the course he want to take
      *
      * @param professorId
      * @param courseId
@@ -94,7 +99,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
     }
 
     /**
-     * using this method professor can assign grade to student which taken his course
+     * Method to add grade for a particular student
      *
      * @param studentId
      * @param grade
@@ -110,6 +115,11 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         }
     }
 
+    /**
+     * Get professor by id
+     * @param professorId
+     * @return professor object
+     */
     public Professor getProfessorById(String professorId) {
         ProfessorDao professorDao = ProfessorDao.getInstance();
         return professorDao.get(professorId);

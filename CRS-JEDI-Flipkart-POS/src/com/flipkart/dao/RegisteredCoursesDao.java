@@ -13,13 +13,16 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
     private static RegisteredCoursesDao instance = null;
 
-
+    /**
+     * Default constructor
+     */
     private RegisteredCoursesDao() {
 
     }
 
     /**
      * Get list of registered course corresponding to particular student id
+     *
      * @param studentId
      * @return list of registered course
      */
@@ -58,6 +61,11 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
     }
 
 
+    /**
+     * Get instance
+     *
+     * @return instance
+     */
     public static RegisteredCoursesDao getInstance() {
         if (instance == null) {
             instance = new RegisteredCoursesDao();
@@ -67,9 +75,10 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
     /**
      * Get unique registered course id for corresponding student with student id
+     *
      * @param studentId
      * @param courseId
-     * @return
+     * @return get registered course id
      */
     public String getRegisteredCourseId(String studentId, String courseId) {
         Connection connection = DBConnection.getConnection();
@@ -105,6 +114,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
     /**
      * Insert registered course in the given database
+     *
      * @param registeredCourse
      * @return status
      */
@@ -112,17 +122,14 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
     public int insert(RegisteredCourse registeredCourse) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
-        PreparedStatement gradeStatement = null;
+
         try {
             statement = connection.prepareStatement(RegisteredCoursesDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             CourseDao courseDao = CourseDao.getInstance();
             Course course = courseDao.get(registeredCourse.getCourse().getCourseCode());
             if (course == null) {
-                System.out.println("No course associated with this ID");
                 return 0;
             }
-            System.out.println(registeredCourse.getRegisteredCourseId());
-
             statement.setString(1, registeredCourse.getRegisteredCourseId());
             statement.setString(2, registeredCourse.getStudent().getStudentId());
             statement.setString(3, registeredCourse.getCourse().getCourseCode());
@@ -130,15 +137,12 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
             GradeCardDao gradeCardDao = GradeCardDao.getInstance();
             gradeCardDao.insert(registeredCourse);
-
             int rs = statement.executeUpdate();
-            System.out.println("Grade Inserted Successfully");
-            System.out.println("Student Registered for course Successfully");
             return rs;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Some error in registered Course insert");
         } finally {
-            DBConnection.closeStatement(gradeStatement);
+
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
@@ -146,6 +150,13 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
     }
 
 
+    /**
+     * Update course method
+     *
+     * @param studentId
+     * @param registeredCourse
+     * @return status
+     */
     @Override
     public int update(String studentId, RegisteredCourse registeredCourse) {
         // NOT REQUIRED
@@ -153,6 +164,12 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
     }
 
 
+    /**
+     * Delete course method
+     *
+     * @param registeredCourse
+     * @return status
+     */
     @Override
     public int delete(RegisteredCourse registeredCourse) {
         // NOT REQUIRED
@@ -161,9 +178,10 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
     /**
      * Drop particular course for a student
+     *
      * @param studentId
      * @param courseCode
-     * @return
+     * @return status
      */
     public int dropCourse(String studentId, String courseCode) {
         Connection connection = DBConnection.getConnection();

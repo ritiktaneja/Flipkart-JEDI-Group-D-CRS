@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CourseCatalogOperations class
+ */
 public class CourseCatalogOperations implements CourseCatalogServices {
 
     public List<CourseCatalog> viewAllCatalogs() {
@@ -23,6 +26,12 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         return catalogList;
     }
 
+    /**
+     * Get catalog from the id
+     * @param id
+     * @return
+     * @throws CatalogNotFoundException
+     */
     public CourseCatalog getCatalogFromId(String id) throws CatalogNotFoundException {
         try {
             return MockDB.getCatalogFromId(id);
@@ -32,7 +41,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
     }
 
     /**
-     * this method adding course in catalog
+     * Method for adding course in catalog
      * @param catalogId
      * @param courseCode
      * @param courseName
@@ -62,19 +71,15 @@ public class CourseCatalogOperations implements CourseCatalogServices {
             course.setCourseCode(courseCode);
             course.setName(courseName);
             course.setProfessor(null);
-
             catalog.addCourse(course);
-
-
             courseCatalogDao.insert(catalog);
-            System.out.println("Course Added to catalog Successfully");
         } catch (Exception e) {
             throw new CourseNotAddedException(catalogId, courseCode, courseName);
         }
     }
 
     /**
-     * this method removing course from catalog
+     * Method for removing course from catalog
      * @param catalogId
      * @param courseId
      * @throws CourseNotRemovedException
@@ -91,7 +96,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
     }
 
     /**
-     * adding new Semester
+     * Method for adding new Semester
      * @param catalogId
      * @throws CatalogNotAddedException
      */
@@ -109,6 +114,11 @@ public class CourseCatalogOperations implements CourseCatalogServices {
 
     }
 
+    /**
+     * Method to delete course from the catalog
+     * @param catalogId
+     * @throws CatalogNotRemovedException
+     */
     public void deleteCatalog(String catalogId) throws CatalogNotRemovedException {
         try {
             CourseCatalog catalog = getCatalogFromId(catalogId);
@@ -123,7 +133,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
     /**
      * listing course which is in catalag
      * @param catalogId
-     * @return
+     * @return list of Courses ID
      * @throws CatalogNotFoundException
      */
     public List<Course> listCoursesInCatalog(String catalogId) throws CatalogNotFoundException {

@@ -21,17 +21,18 @@ import java.util.UUID;
 public class StudentOperations extends UserOperations implements StudentServices {
 
     /**
-     * using this method student can add course which they want study
+     * using this method student can add course which they want
      *
      * @param studentId
      * @param courseCode
-     * @return
+     * @return add course status
      * @throws CourseNotRegisteredException
      */
     public boolean addCourse(String studentId, String courseCode) throws CourseNotRegisteredException {
         Student student = null;
         try {
             RegisteredCoursesDao registeredCoursesDao = RegisteredCoursesDao.getInstance();
+
             RegisteredCourse.RegisteredCourseBuilder builder = new RegisteredCourse.RegisteredCourseBuilder();
 
             Course course = new Course();
@@ -58,11 +59,11 @@ public class StudentOperations extends UserOperations implements StudentServices
     }
 
     /**
-     * using this method student can drop course which they taken
+     * using this method student can drop course which they have taken earlier
      *
      * @param studentId
      * @param courseCode
-     * @return
+     * @return drop course status
      */
     public boolean dropCourse(String studentId, String courseCode) {
         RegisteredCoursesDao registeredCoursesDao = RegisteredCoursesDao.getInstance();
@@ -84,10 +85,10 @@ public class StudentOperations extends UserOperations implements StudentServices
     }
 
     /**
-     * using this method student can view course which they taken
+     * using this method student can view course which they have taken
      *
      * @param studentId
-     * @return
+     * @return list of student's registered course
      */
     public List<RegisteredCourse> viewRegisteredCourses(String studentId) {
         RegisteredCoursesDao dao = RegisteredCoursesDao.getInstance();
@@ -95,10 +96,10 @@ public class StudentOperations extends UserOperations implements StudentServices
     }
 
     /**
-     * this method is calculating fee according they taken course
+     * Method to calculate fee for a particular student
      *
      * @param studentId
-     * @return
+     * @return fee calculation
      */
     public long calculateFee(String studentId) {
         StudentDao dao = StudentDao.getInstance();
@@ -108,10 +109,10 @@ public class StudentOperations extends UserOperations implements StudentServices
     }
 
     /**
-     * this method show status of registration
+     * Method to get registration status of particular student
      *
      * @param studentId
-     * @return
+     * @return registration status
      */
     public boolean getRegistrationStatus(String studentId) {
         return true; // TODO
@@ -122,6 +123,11 @@ public class StudentOperations extends UserOperations implements StudentServices
         return dao.get(studentId);
     }
 
+    /**
+     * Method to get student by student id
+     * @param studentId
+     * @return student object
+     */
     public Student getStudentByID(String studentId) {
             StudentDao studentDao = StudentDao.getInstance();
             return studentDao.get(studentId);

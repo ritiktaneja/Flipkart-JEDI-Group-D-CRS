@@ -8,6 +8,9 @@ import com.flipkart.constants.sqlconstants.*;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * CourseDao Class
+ */
 public class CourseDao implements DaoInterface<Course> {
 
     private static CourseDao instance = null;
@@ -17,10 +20,11 @@ public class CourseDao implements DaoInterface<Course> {
 
     /**
      * Get the instance of the course
+     *
      * @return course
      */
     public static CourseDao getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new CourseDao();
         }
         return instance;
@@ -28,6 +32,7 @@ public class CourseDao implements DaoInterface<Course> {
 
     /**
      * Get course from the course ID
+     *
      * @param id
      * @return course
      */
@@ -43,19 +48,16 @@ public class CourseDao implements DaoInterface<Course> {
                 Course course = new Course();
                 course.setCourseCode(id);
                 course.setName(rs.getString("CourseName"));
-
                 return course;
-            } else {
-                System.out.println("Course Not Found");
-                return null;
             }
         } catch (Exception e) {
-            System.out.println("Course Not Found");
+            System.out.println("Course Not Found in course GET");
             return null;
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
+        return null;
     }
 
     @Override
@@ -65,6 +67,7 @@ public class CourseDao implements DaoInterface<Course> {
 
     /**
      * Insert course the database
+     *
      * @param course
      */
     @Override
@@ -118,6 +121,7 @@ public class CourseDao implements DaoInterface<Course> {
 
     /**
      * Delete course from the given database
+     *
      * @param course
      * @return status
      */

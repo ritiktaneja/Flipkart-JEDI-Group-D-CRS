@@ -11,6 +11,9 @@ import java.time.temporal.JulianFields;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Course catalog class
+ */
 public class CourseCatalogDao {
 
 
@@ -255,7 +258,6 @@ public class CourseCatalogDao {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
-//            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);

@@ -8,6 +8,9 @@ import com.flipkart.exception.*;
 import javax.xml.catalog.Catalog;
 import java.util.List;
 
+/**
+ * CourseCatalogServices Class
+ */
 public interface CourseCatalogServices {
 
     List<CourseCatalog> viewAllCatalogs();

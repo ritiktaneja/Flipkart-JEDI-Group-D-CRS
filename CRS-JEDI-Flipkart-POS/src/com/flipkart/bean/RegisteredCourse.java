@@ -1,11 +1,16 @@
 package com.flipkart.bean;
 
+import com.flipkart.constants.CRSColors;
 import com.flipkart.constants.Grade;
 
+import java.util.List;
 import java.util.UUID;
 
+/**
+ * Registered class
+ */
 public class RegisteredCourse {
-  //  public int semester;
+    //  public int semester;
 
     public String getRegisteredCourseId() {
         return registeredCourseId;
@@ -24,6 +29,7 @@ public class RegisteredCourse {
 
     /**
      * Get course object
+     *
      * @return Course
      */
     public Course getCourse() {
@@ -32,6 +38,7 @@ public class RegisteredCourse {
 
     /**
      * Method to get student object
+     *
      * @return student
      */
     public Student getStudent() {
@@ -46,6 +53,7 @@ public class RegisteredCourse {
 
     /**
      * Method to get grade of the current course
+     *
      * @return grade
      */
     public Grade getGrade() {
@@ -54,6 +62,7 @@ public class RegisteredCourse {
 
     /**
      * Method to set grade for the current object
+     *
      * @param grade
      */
     public void setGrade(Grade grade) {
@@ -70,6 +79,7 @@ public class RegisteredCourse {
 
     /**
      * Course builder class
+     *
      * @param builder
      */
     private RegisteredCourse(RegisteredCourseBuilder builder) {
@@ -82,8 +92,9 @@ public class RegisteredCourse {
 
     /**
      * Check if the object belongs to the current class
+     *
      * @param object
-     * @return
+     * @return status of registration
      */
     @Override
     public boolean equals(Object object) {
@@ -91,11 +102,11 @@ public class RegisteredCourse {
             return true;
         }
 
-        if(!(object instanceof RegisteredCourse)) {
+        if (!(object instanceof RegisteredCourse)) {
             return false;
         }
         RegisteredCourse registeredCourse = (RegisteredCourse) (object);
-        return  this.getStudent() == registeredCourse.getStudent() && this.getCourse() == registeredCourse.getCourse();
+        return this.getStudent() == registeredCourse.getStudent() && this.getCourse() == registeredCourse.getCourse();
     }
 
     public static class RegisteredCourseBuilder {
@@ -105,26 +116,69 @@ public class RegisteredCourse {
 
         /**
          * Set Course
+         *
          * @param course
          */
-        public RegisteredCourseBuilder setCourse(Course course) { this.course = course; return this; }
+        public RegisteredCourseBuilder setCourse(Course course) {
+            this.course = course;
+            return this;
+        }
 
         /**
          * Set Student
+         *
          * @param student
          */
-        public RegisteredCourseBuilder setStudent(Student student) {this.student = student; return this;}
+        public RegisteredCourseBuilder setStudent(Student student) {
+            this.student = student;
+            return this;
+        }
 
         /**
          * Set Grade
+         *
          * @param grade
          */
-        public RegisteredCourseBuilder setGrade(Grade grade) {this.grade = grade; return this;}
+        public RegisteredCourseBuilder setGrade(Grade grade) {
+            this.grade = grade;
+            return this;
+        }
+
         public RegisteredCourse build() {
             return new RegisteredCourse(this);
         }
 
     }
 
+    /**
+     * Print all the registered courses
+     *
+     * @param header
+     * @param courseList
+     */
+    public static void printRegisteredCourseList(String header, List<RegisteredCourse> courseList) {
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        System.out.println(stars);
+        String namePlate = String.format("%45s", header);
+
+        System.out.println(namePlate + "\n");
+
+        String s = String.format("%-25s" + "%-15s" + "%-20s" + "%-10s", "Course", "Course Code", "Professor", "Grade");
+
+        System.out.println(s);
+        System.out.println("");
+        for (RegisteredCourse c : courseList) {
+            if (c.getCourse().getProfessor() == null) {
+                Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
+                builder.setName(CRSColors.RED + "NOT ASSIGNED TO PROFESSOR" + CRSColors.RESET);
+                c.getCourse().setProfessor(builder.build());
+            }
+            String stmt = String.format("%-25s" + "%-15s" + "%-20s" + "%-10s", c.getCourse().getName(), c.getCourse().getCourseCode(), c.getCourse().getProfessor().getName(), c.getGrade().toString());
+            System.out.println(stmt);
+        }
+
+        System.out.println(stars + "\n");
+
+    }
 
 }

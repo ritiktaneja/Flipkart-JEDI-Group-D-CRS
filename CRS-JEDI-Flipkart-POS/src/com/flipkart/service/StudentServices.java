@@ -7,6 +7,9 @@ import com.flipkart.exception.CourseNotRegisteredException;
 
 import java.util.List;
 
+/**
+ * StudentServices interface
+ */
 public interface StudentServices extends UserServices {
 
     boolean addCourse(String studentId, String courseCode) throws CourseNotRegisteredException;

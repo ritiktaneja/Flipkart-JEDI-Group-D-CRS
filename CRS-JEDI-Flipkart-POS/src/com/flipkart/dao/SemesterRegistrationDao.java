@@ -9,14 +9,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Semester registration Class
+ */
 public class SemesterRegistrationDao {
 
     private static SemesterRegistrationDao instance = null;
 
+    /**
+     * Default constructor for semester registration
+     */
     private SemesterRegistrationDao() {
 
     }
 
+    /**
+     * Get instance
+     * @return instance
+     */
     public static SemesterRegistrationDao getInstance() {
         if (instance == null) {
             instance = new SemesterRegistrationDao();

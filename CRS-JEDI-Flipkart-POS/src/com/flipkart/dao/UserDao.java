@@ -13,10 +13,16 @@ import java.sql.ResultSet;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
+/**
+ * UserDao Class
+ */
 public class UserDao implements DaoInterface<User> {
 
     private static UserDao instance = null;
 
+    /**
+     * Default constructor for user dao
+     */
     private UserDao() {
 
     }

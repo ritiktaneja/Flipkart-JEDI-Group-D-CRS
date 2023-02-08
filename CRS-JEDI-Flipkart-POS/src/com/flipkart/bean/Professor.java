@@ -3,6 +3,11 @@ package com.flipkart.bean;
 import com.flipkart.constants.Department;
 import com.flipkart.constants.Designation;
 
+import java.util.List;
+
+/**
+ * Professor class
+ */
 public class Professor extends User {
 
 
@@ -27,7 +32,7 @@ public class Professor extends User {
 
     /**
      * Method to get professor designation
-     * @return
+     * @return object of designation
      */
     public Designation getDesignation() {
         return designation;
@@ -78,7 +83,7 @@ public class Professor extends User {
         /**
          * Set password for the current object
          * @param password
-         * @return
+         * @return object of professor
          */
         public ProfessorBuilder setPassword(String password) {
             this.password = password;
@@ -103,9 +108,36 @@ public class Professor extends User {
             return this;
         }
 
+        /**
+         *
+         * @return object of professor
+         */
         public Professor build() {
             return new Professor(this);
         }
+
+    }
+
+    /**
+     * Print list of professsor
+     * @param header
+     * @param professorList
+     */
+    public static void printProfessorList(String header, List<Professor> professorList) {
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        System.out.println(stars);
+        String namePlate = String.format("%45s", header);
+        System.out.println(namePlate + "\n");
+        String s = String.format("%-25s" + "%-25s" + "%-20s", "Name", "ID", "Department");
+        System.out.println(s+ "\n");
+
+        for(Professor professor: professorList) {
+            String stmt = String.format("%-25s" + "%-25s" + "%-20s", professor.getName(), "" + professor.getFacultyId() + "", professor.getDepartment());
+            System.out.println(stmt);
+        }
+
+        System.out.println(stars+"\n");
+
     }
 }
 

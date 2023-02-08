@@ -1,5 +1,12 @@
 package com.flipkart.bean;
 
+import com.flipkart.constants.CRSColors;
+
+import java.util.List;
+
+/**
+ * Course Class
+ */
 public class Course {
     private String courseCode;
     private String Name;
@@ -71,5 +78,32 @@ public class Course {
 
         Course course = (Course) obj;
         return this.getCourseCode() == course.getCourseCode();
+    }
+
+    /**
+     * Print list of courses
+     * @param header
+     * @param courseList
+     */
+    public static void printCourseList(String header, List<Course> courseList) {
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        System.out.println(stars);
+        String namePlate = String.format("%45s", header);
+        System.out.println(namePlate + "\n");
+        String s = String.format("%-25s" + "%-25s" + "%-20s", "Course", "Course Code", "Professor");
+        System.out.println(s+ "\n");
+
+        for(Course c: courseList) {
+            if (c.getProfessor() == null) {
+                Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
+                builder.setName(CRSColors.RED + "NOT ASSIGNED TO PROFESSOR" + CRSColors.RESET);
+                c.setProfessor(builder.build());
+            }
+            String stmt = String.format("%-25s" + "%-25s" + "%-20s", c.getName(), "" + c.getCourseCode() + "", c.getProfessor().getName());
+            System.out.println(stmt);
+        }
+
+        System.out.println(stars+"\n");
+
     }
 }

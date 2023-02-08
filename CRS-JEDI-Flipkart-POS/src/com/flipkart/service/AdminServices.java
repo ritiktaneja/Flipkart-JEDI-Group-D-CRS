@@ -7,6 +7,9 @@ import com.flipkart.bean.Student;
 
 import java.util.List;
 
+/**
+ * AdminServices Class
+ */
 public interface AdminServices extends UserServices {
 
     void addCourse(String catalogId, String courseCode, String CourseName) throws Exception;

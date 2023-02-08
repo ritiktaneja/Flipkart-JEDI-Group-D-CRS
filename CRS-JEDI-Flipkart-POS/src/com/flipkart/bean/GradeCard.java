@@ -4,6 +4,9 @@ import com.flipkart.constants.Grade;
 
 import java.util.List;
 
+/**
+ * Grade Card
+ */
 public class GradeCard {
     private Student student;
     private List<RegisteredCourse> registeredCourses;
@@ -25,7 +28,7 @@ public class GradeCard {
     }
 
     /**
-     *
+     * Get list of registered course
      * @return Registered Courses
      */
     public List<RegisteredCourse> getRegisteredCourses() {

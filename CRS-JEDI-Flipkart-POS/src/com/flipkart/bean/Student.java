@@ -2,6 +2,11 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.Department;
 
+import java.util.List;
+
+/**
+ * Student Class
+ */
 public class Student extends User {
 
     private Department department;
@@ -11,6 +16,7 @@ public class Student extends User {
 
     /**
      * Method to get student id
+     *
      * @return student Id
      */
     public String getStudentId() {
@@ -19,6 +25,7 @@ public class Student extends User {
 
     /**
      * Method to get student department
+     *
      * @return student department
      */
     public Department getDepartment() {
@@ -27,6 +34,7 @@ public class Student extends User {
 
     /**
      * method to set student department
+     *
      * @param department
      */
     public void setDepartment(Department department) {
@@ -35,6 +43,7 @@ public class Student extends User {
 
     /**
      * Method to get semester details of the current student
+     *
      * @return
      */
     public String getSemester() {
@@ -43,6 +52,7 @@ public class Student extends User {
 
     /**
      * Method to set semester for the current student
+     *
      * @param semester
      */
     public void setSemester(String semester) {
@@ -51,6 +61,7 @@ public class Student extends User {
 
     /**
      * Method to check weather student is approved or not
+     *
      * @return Approval status
      */
     public boolean isApproved() {
@@ -66,6 +77,7 @@ public class Student extends User {
 
     /**
      * Student builder function
+     *
      * @param builder
      */
     private Student(StudentBuilder builder) {
@@ -77,7 +89,7 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return "Student name = " + this.getName() + ", id = " + this.getStudentId() + ", batch =  " + this.getSemester() + ", Department = " + this.getDepartment()
+        return "Student Name : " + this.getName() + ", Id : " + this.getStudentId() + ", Registered for Semester : " + this.getSemester() + ", Department : " + this.getDepartment()
                 ;
     }
 
@@ -89,7 +101,8 @@ public class Student extends User {
 
         /**
          * Method to check Approval status of the current object
-         * @return
+         *
+         * @return status of approval
          */
         public boolean getApprovalStatus() {
             return approvalStatus;
@@ -97,6 +110,7 @@ public class Student extends User {
 
         /**
          * Method to set student id to the current object
+         *
          * @param studentId
          */
         public StudentBuilder setStudentId(String studentId) {
@@ -106,8 +120,9 @@ public class Student extends User {
 
         /**
          * Method to set student name to the current object
+         *
          * @param name
-         * @return
+         * @return object of student
          */
         public StudentBuilder setName(String name) {
             this.name = name;
@@ -116,7 +131,9 @@ public class Student extends User {
 
         /**
          * Method to set password for the current object
+         *
          * @param password
+         * @return object of student
          */
         public StudentBuilder setPassword(String password) {
             this.password = password;
@@ -125,7 +142,9 @@ public class Student extends User {
 
         /**
          * Method to set semester for the current object
+         *
          * @param semester
+         * @return object of student
          */
         public StudentBuilder setSemester(String semester) {
             this.semester = semester;
@@ -134,7 +153,9 @@ public class Student extends User {
 
         /**
          * Method to set department for the current object
+         *
          * @param department
+         * @return object of student
          */
         public StudentBuilder setDepartment(Department department) {
             this.department = department;
@@ -143,6 +164,9 @@ public class Student extends User {
 
         /**
          * Method to set approval status for the current object
+         *
+         * @param aStatus
+         * @return object of student
          */
         public StudentBuilder setApprovalStatus(boolean aStatus) {
             this.approvalStatus = aStatus;
@@ -150,11 +174,34 @@ public class Student extends User {
         }
 
         /**
-         *
          * @return Current object
          */
         public Student build() {
             return new Student(this);
         }
+
+    }
+
+    /**
+     * student list
+     *
+     * @param header
+     * @param studentList
+     */
+    public static void printStudentList(String header, List<Student> studentList) {
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        System.out.println(stars);
+        String namePlate = String.format("%45s", header);
+        System.out.println(namePlate + "\n");
+        String s = String.format("%-25s" + "%-25s" + "%-20s", "Name", "ID", "Department");
+        System.out.println(s + "\n");
+
+        for (Student stud : studentList) {
+            String stmt = String.format("%-25s" + "%-25s" + "%-20s", stud.getName(), "" + stud.getStudentId() + "", stud.getDepartment());
+            System.out.println(stmt);
+        }
+
+        System.out.println(stars + "\n");
+
     }
 }

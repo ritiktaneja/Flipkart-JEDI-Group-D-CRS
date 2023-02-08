@@ -11,15 +11,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ProfessorDao Class
+ */
 public class ProfessorDao implements DaoInterface<Professor> {
 
 
     private static ProfessorDao instance = null;
 
+    /**
+     * ProfessorDao default constructor
+     */
     private ProfessorDao() {
 
     }
 
+    /**
+     * Get instance
+     * @return instance
+     */
     public static ProfessorDao getInstance() {
         if (instance == null) {
             instance = new ProfessorDao();
@@ -51,6 +61,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
                 builder.setFacultyId(rs.getString("professorId"));
                 builder.setName(rs.getString("professorName"));
+                builder.setDepartment(Department.valueOf(rs.getString("Department")));
                 return builder.build();
             } else {
                 return null;
@@ -86,6 +97,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
 
                 builder.setName(professorName);
                 builder.setFacultyId(professorId);
+                builder.setDepartment(Department.valueOf(rs.getString("Department")));
 
                 professorList.add(builder.build());
             }
@@ -102,7 +114,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
     /**
      * Insert current professor in the given database
      * @param professor
-     * @return
+     * @return status
      */
     public int insert(Professor professor) {
         Connection connection = DBConnection.getConnection();
@@ -111,6 +123,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
             stmt = connection.prepareStatement(ProfessorDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, professor.getFacultyId());
             stmt.setString(2, professor.getName());
+            stmt.setString(3, professor.getDepartment().toString());
             int result = stmt.executeUpdate();
             System.out.println("Professor Added Successfully");
             return result;

@@ -3,6 +3,10 @@ package com.flipkart.dao;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * DaoInterface
+ * @param <T>
+ */
 public interface DaoInterface<T> {
     T get(String id);
     List<T> getAll();

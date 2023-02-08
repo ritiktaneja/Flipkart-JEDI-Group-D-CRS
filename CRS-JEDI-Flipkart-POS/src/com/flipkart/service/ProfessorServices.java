@@ -12,6 +12,9 @@ import com.flipkart.exception.ProfessorNotFoundException;
 
 import java.util.List;
 
+/**
+ * ProfessorServices interface
+ */
 public interface ProfessorServices extends UserServices {
 
     public void addGrade(String studentId, String grade, String courseCode) throws GradeNotAddedException;

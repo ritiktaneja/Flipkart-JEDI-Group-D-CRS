@@ -1,5 +1,8 @@
 package com.flipkart.bean;
 
+/**
+ * User Class
+ */
 public class User {
     private String userId;
     private String name;
@@ -65,6 +68,9 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * User constructor
+     */
     public User() {
     }
 }

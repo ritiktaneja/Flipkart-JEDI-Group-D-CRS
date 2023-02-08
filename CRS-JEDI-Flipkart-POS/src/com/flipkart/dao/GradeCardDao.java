@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * GradeCardDao Class
+ */
 public class GradeCardDao {
 
 
@@ -65,7 +68,14 @@ public class GradeCardDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(GradeCardDaoConstants.UPDATE_GRADE);
-            preparedStatement.setString(1, grade);
+            Grade grade1 = Grade.IN_PROGRESS;
+            try{
+                grade1 = Grade.valueOf(grade);
+            } catch (Exception e) {
+                System.out.println("Invalid Grade");
+                return 0;
+            }
+            preparedStatement.setString(1, grade1.toString());
 
             RegisteredCoursesDao dao = RegisteredCoursesDao.getInstance();
             String registeredCourseId = dao.getRegisteredCourseId(studentId, courseCode);

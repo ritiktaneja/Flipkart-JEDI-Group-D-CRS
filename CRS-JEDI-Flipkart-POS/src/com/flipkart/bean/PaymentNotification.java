@@ -1,5 +1,8 @@
 package com.flipkart.bean;
 
+/**
+ * Payment Notification Class
+ */
 public class PaymentNotification {
     private Payment payment;
     private String notificationId;
@@ -18,7 +21,7 @@ public class PaymentNotification {
     }
 
     /**
-     *
+     * Method to get notification id
      * @return Notification Id
      */
     public String getNotificationId() {
@@ -35,7 +38,7 @@ public class PaymentNotification {
 
     /**
      * Get Notification Message
-     * @return
+     * @return notification message
      */
     public String getNotificationMessage() {
         return notificationMessage;

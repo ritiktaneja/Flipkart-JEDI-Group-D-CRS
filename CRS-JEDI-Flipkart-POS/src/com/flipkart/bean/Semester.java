@@ -1,5 +1,8 @@
 package com.flipkart.bean;
 
+/**
+ * Semester Class
+ */
 public class Semester {
     private int registrationOpeningStatus = 0;
     private String currentSemester;

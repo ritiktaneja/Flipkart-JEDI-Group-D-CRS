@@ -13,6 +13,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AdminDao Class
+ */
+
 public class AdminDao implements DaoInterface<Admin> {
 
     private static AdminDao instance = null;

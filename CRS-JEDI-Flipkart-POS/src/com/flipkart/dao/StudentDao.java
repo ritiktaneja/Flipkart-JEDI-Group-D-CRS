@@ -4,6 +4,7 @@ import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.client.CRSApplication;
+import com.flipkart.constants.Department;
 import com.flipkart.utils.DBConnection;
 import com.flipkart.constants.sqlconstants.*;
 
@@ -11,15 +12,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * StudentDao Class
+ */
 public class StudentDao implements DaoInterface<Student> {
 
 
     private static StudentDao instance = null;
 
+    /**
+     * Default constructor for student dao
+     */
     private StudentDao() {
 
     }
 
+    /**
+     * Get instance
+     * @return instance
+     */
     public static StudentDao getInstance() {
         if (instance == null) {
             instance = new StudentDao();
@@ -55,6 +66,7 @@ public class StudentDao implements DaoInterface<Student> {
                     Student.StudentBuilder builder = new Student.StudentBuilder();
                     builder.setStudentId(studentId);
                     builder.setName(rs.getString("studentName"));
+                    builder.setDepartment(Department.valueOf(rs.getString("Department")));
                     builder.setApprovalStatus(registrationStatus);
                     builder.setSemester(student.getSemester());
                     if (status) {
@@ -101,6 +113,7 @@ public class StudentDao implements DaoInterface<Student> {
 
                 Student.StudentBuilder builder = new Student.StudentBuilder();
                 builder.setStudentId(studentId);
+                builder.setDepartment(Department.valueOf(rs.getString("Department")));
                 builder.setName(rs.getString("studentName"));
 
 
@@ -139,7 +152,7 @@ public class StudentDao implements DaoInterface<Student> {
             stmt = connection.prepareStatement(StudentDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, student.getStudentId());
             stmt.setString(2, student.getName());
-
+            stmt.setString(3, student.getDepartment().toString());
             SemesterRegistrationDao dao = SemesterRegistrationDao.getInstance();
             int rs = dao.insert(student.getStudentId(), CRSApplication.currentSemester.getCurrentSemester());
             if (rs == 1) {
@@ -148,7 +161,6 @@ public class StudentDao implements DaoInterface<Student> {
             UserDao userDao = UserDao.getInstance();
             userDao.insert(student);
             int result = stmt.executeUpdate();
-            System.out.println("Student added successfully");
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -158,6 +170,12 @@ public class StudentDao implements DaoInterface<Student> {
         }
     }
 
+    /**
+     * Update student in the database
+     * @param id
+     * @param student
+     * @return
+     */
     public int update(String id, Student student) {
 //        Connection connection = DBConnection.getConnection();
 //        PreparedStatement stmt = null;

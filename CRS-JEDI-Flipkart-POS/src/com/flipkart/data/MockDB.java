@@ -7,6 +7,9 @@ import java.util.*;
 import com.flipkart.constants.Department;
 import com.flipkart.constants.Designation;
 
+/**
+ * MockDB Class
+ */
 public class MockDB {
     public static Map<Student, Set<RegisteredCourse>> registeredCourses = new HashMap<>();
     public static List<Student> students = new ArrayList<>();
@@ -14,6 +17,9 @@ public class MockDB {
     public static List<Admin> admins = new ArrayList<>();
     public static List<CourseCatalog> catalogs = new ArrayList<>();
 
+    /**
+     * Method to populate list of student , course
+     */
     public static void populateLists() {
 
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
@@ -75,7 +81,11 @@ public class MockDB {
         admins.add(adminBuilder.build());
     }
 
-
+    /**
+     * Method to get student information from student Id
+     * @param id
+     * @return object of student
+     */
     public static Student getStudentFromId(String id) {
         for(Student student : MockDB.students) {
             if(student.getStudentId().equals(id)) return student;
@@ -83,6 +93,11 @@ public class MockDB {
         return null;
     }
 
+    /**
+     * Method to get professor information from professor Id
+     * @param id
+     * @return object of professor
+     */
     public static Professor getProfessorFromId(String id) {
         for(Professor professor : MockDB.professors) {
             if(professor.getFacultyId().equals(id)) return professor;
@@ -90,6 +105,12 @@ public class MockDB {
         return null;
     }
 
+    /**
+     * Method to get course information from course Id
+     * @param catalogId
+     * @param courseCode
+     * @return object of course
+     */
     public static Course getCourseFromId(String catalogId, String courseCode) {
         CourseCatalog courseCatalog = null;
         for(CourseCatalog cc : catalogs) {
@@ -115,6 +136,11 @@ public class MockDB {
 //        }
 //    }
 
+    /**
+     * Method to get course information from course Id
+     * @param id
+     * @return object of course catalog
+     */
     public static CourseCatalog getCatalogFromId(String id) {
         for(CourseCatalog catalog : MockDB.catalogs) {
             if(catalog.getCatalogId().equals(id)) {

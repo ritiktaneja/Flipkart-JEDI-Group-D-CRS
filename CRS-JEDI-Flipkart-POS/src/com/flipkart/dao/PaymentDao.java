@@ -6,15 +6,25 @@ import com.flipkart.constants.sqlconstants.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * PaymentDao Class
+ */
 public class PaymentDao {
 
 
     private static PaymentDao instance = null;
 
+    /**
+     * Payment Dao default constructor
+     */
     private PaymentDao() {
 
     }
 
+    /**
+     * Get instance
+     * @return instance
+     */
     public static PaymentDao getInstance() {
         if (instance == null) {
             instance = new PaymentDao();

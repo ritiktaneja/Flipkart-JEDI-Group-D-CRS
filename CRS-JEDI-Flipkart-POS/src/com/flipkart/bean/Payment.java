@@ -2,6 +2,9 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.ModeOfPayment;
 
+/**
+ * Payment class
+ */
 public class Payment {
 
     private Student student;
@@ -29,7 +32,7 @@ public class Payment {
 	}
 
     /**
-     *
+     * Get student object
      * @return student
      */
 	public Student getStudent() {
@@ -45,7 +48,7 @@ public class Payment {
     }
 
     /**
-     *
+     * Get reference id
      * @return Reference Id
      */
     public String getReferenceId() {

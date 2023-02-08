@@ -8,16 +8,10 @@ import com.flipkart.dao.UserDao;
  */
 public class UserOperations implements UserServices {
     /**
-     *
-     * @param oldPassword
-     * @param newPassword
-     * @return Status of update password
-     */
-    /**
      * using this method user can update the password
      * @param oldPassword
      * @param newPassword
-     * @return
+     * @return status of update password
      */
     public boolean updatePassword(String userName, String userPassword) {
         //TODO DAO Call
@@ -35,7 +29,6 @@ public class UserOperations implements UserServices {
      * @param password
      * @return Status of user login
      */
-
     public User loginUser(String userId, String password) {
         UserDao userDao = UserDao.getInstance();
         return userDao.login(userId, password);

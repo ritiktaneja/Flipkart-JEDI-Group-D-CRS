@@ -1,5 +1,10 @@
 package com.flipkart.bean;
 
+import java.util.List;
+
+/**
+ * admin class
+ */
 public class Admin extends User {
 
     public void addProfessor() {
@@ -77,6 +82,28 @@ public class Admin extends User {
         public Admin build() {
             return new Admin(this);
         }
+    }
+
+    /**
+     * Print list of admins
+     * @param header
+     * @param adminList
+     */
+    public static void printAdminList(String header, List<Admin> adminList) {
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        System.out.println(stars);
+        String namePlate = String.format("%45s", header);
+        System.out.println(namePlate + "\n");
+        String s = String.format("%-35s" + "%-35s", "Name", "ID");
+        System.out.println(s+ "\n");
+
+        for(Admin admin: adminList) {
+            String stmt = String.format("%-35s" + "%-35s" , admin.getName(), "" + admin.getAdminId());
+            System.out.println(stmt);
+        }
+
+        System.out.println(stars+"\n");
+
     }
 
 }

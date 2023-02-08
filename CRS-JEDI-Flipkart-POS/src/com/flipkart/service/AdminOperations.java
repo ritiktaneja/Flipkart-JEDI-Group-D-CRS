@@ -1,6 +1,7 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.*;
+import com.flipkart.constants.CRSColors;
 import com.flipkart.dao.*;
 import com.flipkart.data.MockDB;
 import com.flipkart.exception.*;
@@ -11,6 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Admin Operation Class
+ */
 public class AdminOperations extends UserOperations implements AdminServices {
     public CourseCatalogServices courseCatalogServices = new CourseCatalogOperations();
 
@@ -40,7 +44,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     /**
-     * using this method admin can approve Student
+     * Using this method admin can approve Student
      *
      * @param studentId
      * @throws StudentNotApprovedException
@@ -60,7 +64,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
             if (input.equalsIgnoreCase("yes")) {
                 AdminDao adminDao = AdminDao.getInstance();
                 adminDao.approveStudent(studentId);
-                System.out.println("Student Registration approved Successfully");
+                System.out.println(CRSColors.GREEN + "\nStudent Registration approved Successfully\n" + CRSColors.RESET);
             } else {
                 System.out.println("Student Registration not approved");
             }
@@ -70,7 +74,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     /**
-     * using this method admin can add professor
+     * Using this method admin can add professor
      *
      * @param professorId
      * @param professorName
@@ -101,10 +105,10 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     /**
-     * using this method admin can view courses
+     * Using this method admin can view courses
      *
      * @param catalogId
-     * @return
+     * @return list of courses
      * @throws CatalogNotFoundException
      */
     public List<Course> viewCourses(String catalogId) throws CatalogNotFoundException {
@@ -118,9 +122,9 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     /**
-     * using this method admin can view professor
+     * Using this method admin can view professor
      *
-     * @return
+     * @return list of professor
      */
     public List<Professor> viewProfessors() {
         ProfessorDao professorDao = ProfessorDao.getInstance();
@@ -128,18 +132,22 @@ public class AdminOperations extends UserOperations implements AdminServices {
     }
 
     /**
-     * using this method admin can view Student
+     * Using this method admin can view Student
      *
-     * @return
+     * @return list of student
      */
     public List<Student> viewStudents() {
-        return MockDB.students;
+        return StudentDao.getInstance()
+                .getAll()
+                .stream()
+                .filter(student -> student.isApproved())
+                .collect(Collectors.toList());
     }
 
     /**
-     * using this method admin can view Student which one's request still pending to approve
+     * Using this method admin can view Student which one's request still pending to approve
      *
-     * @return
+     * @return list of student
      */
     public List<Student> viewPendingApprovals() {
         List<Student> unApprovedStudents = new ArrayList<>();
@@ -148,6 +156,11 @@ public class AdminOperations extends UserOperations implements AdminServices {
         return unApprovedStudents;
     }
 
+    /**
+     * View list of admin
+     *
+     * @return list of admin
+     */
     @Override
     public List<Admin> viewAdmins() {
         AdminDao adminDao = AdminDao.getInstance();
@@ -182,7 +195,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
     /**
      * using this method admin get info of current semester
      *
-     * @return
+     * @return Current semester
      */
     public static Semester getCurrentSemester() {
         AdminDao adminDao = AdminDao.getInstance();
@@ -204,6 +217,12 @@ public class AdminOperations extends UserOperations implements AdminServices {
         }
     }
 
+    /**
+     * Get admin by id
+     *
+     * @param adminId
+     * @return
+     */
     @Override
     public Admin getAdminById(String adminId) {
         AdminDao adminDao = AdminDao.getInstance();

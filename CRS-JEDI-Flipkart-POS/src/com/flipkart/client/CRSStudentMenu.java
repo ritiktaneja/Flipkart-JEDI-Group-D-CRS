@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.flipkart.bean.Course;
 
+import com.flipkart.bean.Professor;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.CRSColors;
@@ -16,6 +17,9 @@ import com.flipkart.service.*;
 import java.time.LocalDateTime; // Import the LocalDateTime class
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 
+/**
+ * CRS Student Menu
+ */
 public class CRSStudentMenu {
 
     Scanner sc = new Scanner(System.in);
@@ -26,8 +30,12 @@ public class CRSStudentMenu {
         this.studentId = sId;
     }
 
+    /**
+     * Student Menu class
+     *
+     * @param name
+     */
     public void createMenu(String name) {
-
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
@@ -35,21 +43,21 @@ public class CRSStudentMenu {
         Student student = studentServices.getStudentByID(studentId);
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Student ********************");
-        System.out.println("********************************************************");
+        System.out.println("********************************************************\n");
         System.out.println("\n\t Login Time : " + formattedDate + "\n");
         System.out.println("\t Hi, " + student.getName() + " (" + student.getStudentId() + "). Have a Good Day!\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
                 System.out.println("********************   Student Menu   ******************");
-                System.out.println("********************************************************");
-                System.out.println("1. Add Course");
-                System.out.println("2. Drop Course");
-                System.out.println("3. View Available courses");
-                System.out.println("4. View Registered Courses");
-                System.out.println("5. View Grade Card");
-                System.out.println("6. Pay fees");
-                System.out.println("7. Logout");
+                System.out.println("********************************************************\n");
+                System.out.println("\t1. Add Course");
+                System.out.println("\t2. Drop Course");
+                System.out.println("\t3. View Available courses");
+                System.out.println("\t4. View Registered Courses");
+                System.out.println("\t5. View Grade Card");
+                System.out.println("\t6. Pay fees");
+                System.out.println("\t7. Logout\n");
                 System.out.print("Enter your choice : ");
                 int choice;
                 Scanner sc = new Scanner(System.in);
@@ -74,113 +82,93 @@ public class CRSStudentMenu {
                         payFees();
                         break;
                     case 7:
-                        System.out.println("Heading to Main Menu . . .");
+                        System.out.println("\nHeading to Main Menu . . .");
                         return;
                     default:
-                        System.out.println("Enter a valid input");
+                        System.out.println("\nEnter a valid input");
                         break;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                //System.out.println(e.getMessage());
             }
         }
     }
 
+    /**
+     * Add course from the student menu
+     *
+     * @throws CourseNotRegisteredException
+     */
     public void addCourse() throws CourseNotRegisteredException {
+        viewAvailableCourses();
         List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
         if (ls.size() == 6) {
-            System.out.println("Maximum course registration limit reached!!. Drop a course to register.");
+            System.out.println(CRSColors.YELLOW + "\nMaximum course registration limit reached!!. Drop a course to register." + CRSColors.RESET);
+
             return;
         }
-        System.out.print("Enter the Course Code : ");
+        System.out.print("\nEnter the Course Code : ");
         String courseCode = sc.next();
         if (studentServices.addCourse(studentId, courseCode))
-            System.out.println("Course Added!");
+            System.out.println(CRSColors.GREEN + "Course Added!" + CRSColors.RESET);
         else
-            System.out.println("Course could not be Added!");
+            System.out.println(CRSColors.YELLOW + "Course could not be Added!" + CRSColors.RESET);
 
     }
 
+    /**
+     * Drop course from the given input in the menu
+     */
     public void dropCourse() {
         viewRegisteredCourses();
-        System.out.print("Give the Registered Course ID : ");
+        System.out.print("\nGive the Registered Course ID : ");
         String Id = sc.next();
         if (studentServices.dropCourse(studentId, Id))
-            System.out.println("Course Dropped!");
+            System.out.println(CRSColors.GREEN + "Course Dropped!" + CRSColors.RESET);
         else
-            System.out.println("Course could not be Dropped!");
+            System.out.println(CRSColors.YELLOW + "Course could not be Dropped!" + CRSColors.RESET);
 
     }
 
+    /**
+     * View available courses
+     */
     public void viewAvailableCourses() {
         List<Course> ls = studentServices.viewAvailableCourses(studentId);
-        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        String plus = "|";
-        String stars2 = "|                                                                      |";
-        System.out.println(stars);
-        System.out.println(stars2);
-        String namePlate = String.format("|%30s" + "%30s " + "%10s", "Available Courses", "", plus);
-        System.out.println(namePlate);
-        System.out.println(stars2);
-        ls.forEach(course -> {
-            String c = String.format("|%35s" + "%10s " + "%15s" + "%10s", course.getName(), "(" + course.getCourseCode() + ")->", course.getProfessor().getName(), plus);
-            System.out.println(c);
-        });
-        System.out.println(stars);
-        System.out.println();
+        Course.printCourseList("Available Courses", ls);
     }
 
+    /**
+     * View registered courses for the given student
+     */
     public void viewRegisteredCourses() {
+
         List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
-        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        String plus = "|";
-        String stars2 = "|                                                                      |";
-        System.out.println(stars);
-        System.out.println(stars2);
-        String namePlate = String.format("|%30s" + "%30s " + "%10s", "Available Courses", "", plus);
-        System.out.println(namePlate);
-        System.out.println(stars2);
-        ls.forEach(registeredCourse -> {
-            String c = String.format("|%35s" + "%10s " + "%15s" + "%10s", registeredCourse.getCourse().getName(), "(" + registeredCourse.getCourse().getCourseCode() + ")->", registeredCourse.getCourse().getProfessor().getName(), plus);
-            System.out.println(c);
-        });
-        System.out.println(stars);
-        System.out.println();
+        RegisteredCourse.printRegisteredCourseList("Registered Courses", ls);
     }
 
+    /**
+     * View grade card for the current student
+     */
     public void viewGradesCard() {
         Student student = studentServices.getStudentByID(studentId);
         List<RegisteredCourse> registeredCourses = studentServices.viewRegisteredCourses(studentId);
-        String name = student.getName();
-        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        String plus = "|";
-        String stars2 = "|                                                                      |";
-        System.out.println(stars);
-        System.out.println(stars2);
-        String namePlate = String.format("|%30s" + "%30s " + "%10s", "Student Name : " + name, "Student ID : " + studentId, plus);
-        System.out.println(namePlate);
-        System.out.println(stars2);
-        Iterator<RegisteredCourse> value = registeredCourses.iterator();
-        while (value.hasNext()) {
-            RegisteredCourse obj = (RegisteredCourse) value.next();
-            name = obj.getCourse().getName() + " (" + obj.getCourse().getCourseCode() + ")";
-            String coursePlate = String.format("|%35s" + "%10s " + "%25s", name, " :  " + obj.getGrade(), plus);
-            System.out.println(coursePlate);
-        }
-        System.out.println(stars);
-        System.out.println();
+        RegisteredCourse.printRegisteredCourseList("Grade Card", registeredCourses);
     }
 
+    /**
+     * Pay fee method for the current student
+     */
     public void payFees() {
 
         long fee = studentServices.calculateFee(studentId);
-        System.out.println("The total fee for the Student with Student ID: " + studentId + " is " + fee);
-        System.out.println("Would you like to pay now ? Type yes to confirm ");
+        System.out.println("\nThe total fee for the Student with Student ID: " + studentId + " is " + fee);
+        System.out.println("Would you like to pay now ? Type " + CRSColors.GREEN + "yes" + CRSColors.RESET + " to confirm ");
         Scanner sc = new Scanner(System.in);
         if (sc.next().equalsIgnoreCase("yes")) {
             System.out.println("Select payment method");
-            System.out.println("1. Online ");
-            System.out.println("2. Offline ");
+            System.out.println("\t1. Online ");
+            System.out.println("\t2. Offline ");
             System.out.print("Enter your choice : ");
             sc = new Scanner(System.in);
             String refId = String.valueOf(UUID.randomUUID()), status = "Initiated", payDesc = "Payment has been initiated . . . ";
@@ -188,16 +176,16 @@ public class CRSStudentMenu {
             switch (sc.next()) {
                 case "1":
                     System.out.println("Redirecting to payment gateway . . . ");
-                    System.out.println(CRSColors.GREEN + "Payment initiated." + CRSColors.RESET);
+                    System.out.println(CRSColors.GREEN + "Payment initiated.\n" + CRSColors.RESET);
                     paymentServices.initPayment(studentId, refId, "Online", fee, CRSApplication.currentSemester.getCurrentSemester(), "Pending", payDesc);
                     break;
                 case "2":
-                    System.out.println(CRSColors.GREEN + "Payment initiated." + CRSColors.RESET);
+                    System.out.println(CRSColors.GREEN + "Payment initiated.\n" + CRSColors.RESET);
                     paymentServices.initPayment(studentId, refId, "Offline", fee, CRSApplication.currentSemester.getCurrentSemester(), "Pending", payDesc);
                     break;
                 default:
-                    System.out.println(CRSColors.RED + "You entered an Invalid Input" + CRSColors.RESET);
-                    System.out.println(CRSColors.RED + "Payment aborted . . ." + CRSColors.RESET);
+                    System.out.println(CRSColors.YELLOW + "You entered an Invalid Input" + CRSColors.RESET);
+                    System.out.println(CRSColors.RED + "Payment aborted . . .\n" + CRSColors.RESET);
                     break;
             }
         } else {
