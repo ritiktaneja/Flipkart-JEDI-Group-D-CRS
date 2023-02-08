@@ -22,6 +22,8 @@ public interface ProfessorServices extends UserServices {
 
     public List<Course> viewCoursesTaken(String professorId) throws ProfessorNotFoundException;
 
-    public void registerForCourse(String professorId,String courseId, String semester) throws CourseNotAssignedToProfessorException;
+    public void registerForCourse(String professorId, String courseId, String semester) throws CourseNotAssignedToProfessorException;
 
+    public Professor getProfessorById(String professorId);
 }
+

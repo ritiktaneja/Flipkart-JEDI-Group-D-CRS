@@ -3,23 +3,22 @@ package com.flipkart.dao;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.*;
 import java.util.List;
 
 public class CourseDao implements DaoInterface<Course> {
-    private static final String DELETE = "DELETE FROM Course WHERE courseCode=?";
-    private static final String GET_ALL = "SELECT * FROM Course ORDER BY courseCode";
-    private static final String GET_BY_ID = "SELECT * FROM Course WHERE courseCode=?";
-    private static final String INSERT = "INSERT INTO Course(courseCode, courseName) VALUES(?, ?)";
-    private static final String UPDATE = "UPDATE Course SET courseName=? WHERE courseCode=?";
-
 
     private static CourseDao instance = null;
 
     private CourseDao() {
     }
 
+    /**
+     * Get the instance of the course
+     * @return course
+     */
     public static CourseDao getInstance() {
         if(instance == null) {
             instance = new CourseDao();
@@ -27,12 +26,17 @@ public class CourseDao implements DaoInterface<Course> {
         return instance;
     }
 
+    /**
+     * Get course from the course ID
+     * @param id
+     * @return course
+     */
     @Override
     public Course get(String id) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_BY_ID);
+            stmt = connection.prepareStatement(CourseDaoConstants.GET_BY_ID);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -59,12 +63,16 @@ public class CourseDao implements DaoInterface<Course> {
         return null;
     }
 
+    /**
+     * Insert course the database
+     * @param course
+     */
     @Override
     public int insert(Course course) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(INSERT);
+            stmt = connection.prepareStatement(CourseDaoConstants.INSERT);
             int result = 0;
             stmt.setString(1, course.getCourseCode());
             stmt.setString(2, course.getName());
@@ -108,12 +116,17 @@ public class CourseDao implements DaoInterface<Course> {
         return 0;
     }
 
+    /**
+     * Delete course from the given database
+     * @param course
+     * @return status
+     */
     @Override
     public int delete(Course course) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(DELETE);
+            stmt = connection.prepareStatement(CourseDaoConstants.DELETE);
             stmt.setString(1, course.getCourseCode());
             course = get(course.getCourseCode());
             if (course == null) {

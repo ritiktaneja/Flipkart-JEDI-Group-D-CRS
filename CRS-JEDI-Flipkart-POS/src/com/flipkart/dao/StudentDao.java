@@ -5,19 +5,13 @@ import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDao implements DaoInterface<Student> {
-
-    private static final String DELETE = "DELETE FROM student WHERE studentId=?";
-    private static final String GET_ALL = "SELECT * FROM student ORDER BY studentId";
-    private static final String GET_BY_ID = "SELECT * FROM student WHERE studentId=?";
-    private static final String INSERT = "INSERT INTO student(studentId, studentName) VALUES(?, ?)";
-    private static final String UPDATE = "UPDATE user SET password=? WHERE userId=?";
-    private static final String GET_USER = "SELECT * FROM user where userId = ?";
 
 
     private static StudentDao instance = null;
@@ -33,13 +27,17 @@ public class StudentDao implements DaoInterface<Student> {
         return instance;
     }
 
-
+    /**
+     * Get Student object from student id
+     * @param studentId
+     * @return
+     */
     @Override
     public Student get(String studentId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement studentStatement = null;
         try {
-            studentStatement = connection.prepareStatement(GET_BY_ID);
+            studentStatement = connection.prepareStatement(StudentDaoConstants.GET_BY_ID);
 
             studentStatement.setString(1, studentId);
 
@@ -81,6 +79,10 @@ public class StudentDao implements DaoInterface<Student> {
         return null;
     }
 
+    /**
+     * Get all student registered in the current semester from the database
+     * @return list of student
+     */
     @Override
     public List<Student> getAll() {
         Connection connection = DBConnection.getConnection();
@@ -90,7 +92,7 @@ public class StudentDao implements DaoInterface<Student> {
         List<Student> studentList = new ArrayList<>();
         try {
 
-            studentStatement = connection.prepareStatement(GET_ALL);
+            studentStatement = connection.prepareStatement(StudentDaoConstants.GET_ALL);
             ResultSet rs = studentStatement.executeQuery();
             while (rs.next()) {
                 String studentId = rs.getString("studentId");
@@ -124,12 +126,17 @@ public class StudentDao implements DaoInterface<Student> {
         }
     }
 
+    /**
+     * Insert student in the database
+     * @param student
+     * @return status
+     */
     public int insert(Student student) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            stmt = connection.prepareStatement(StudentDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, student.getStudentId());
             stmt.setString(2, student.getName());
 
@@ -170,11 +177,16 @@ public class StudentDao implements DaoInterface<Student> {
         return 0;
     }
 
+    /**
+     * Delete student from the database
+     * @param student
+     * @return status
+     */
     public int delete(Student student) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(DELETE);
+            stmt = connection.prepareStatement(StudentDaoConstants.DELETE);
             stmt.setString(1, student.getStudentId());
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -185,6 +197,11 @@ public class StudentDao implements DaoInterface<Student> {
         }
     }
 
+    /**
+     * Return number of courses taken by the given student
+     * @param studentId
+     * @return number of course
+     */
     public int NumberOfCoursesTaken(String studentId) {
         List<RegisteredCourse> regList = new ArrayList<>();
         regList = RegisteredCoursesDao.getInstance().getRegisteredCourse(studentId);

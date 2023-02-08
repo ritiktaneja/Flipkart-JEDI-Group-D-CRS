@@ -31,6 +31,11 @@ public interface AdminServices extends UserServices {
 
     void addAdmin(String adminId, String adminName, String password) throws Exception;
 
+    Admin getAdminById(String adminId) ;
+
+
+
+
 }
 
 

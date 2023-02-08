@@ -21,7 +21,6 @@ public class CRSStudentMenu {
     Scanner sc = new Scanner(System.in);
     StudentServices studentServices = new StudentOperations();
     String studentId;
-    public static final String ANSI_RED = "\u001B[31m";
 
     public CRSStudentMenu(String sId) {
         this.studentId = sId;
@@ -33,12 +32,12 @@ public class CRSStudentMenu {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
 
-
+        Student student = studentServices.getStudentByID(studentId);
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Student ********************");
         System.out.println("********************************************************");
         System.out.println("\n\t Login Time : " + formattedDate + "\n");
-        System.out.println("\t Welcome to the Student Menu, " + name + "\n");
+        System.out.println("\t Hi, " + student.getName() + " (" + student.getStudentId() + "). Have a Good Day!\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -88,7 +87,12 @@ public class CRSStudentMenu {
     }
 
     public void addCourse() throws CourseNotRegisteredException {
-        System.out.print("Give the Course Code : ");
+        List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
+        if (ls.size() == 6) {
+            System.out.println("Maximum course registration limit reached!!. Drop a course to register.");
+            return;
+        }
+        System.out.print("Enter the Course Code : ");
         String courseCode = sc.next();
         if (studentServices.addCourse(studentId, courseCode))
             System.out.println("Course Added!");
@@ -110,20 +114,38 @@ public class CRSStudentMenu {
 
     public void viewAvailableCourses() {
         List<Course> ls = studentServices.viewAvailableCourses(studentId);
-        ls.forEach(course -> System.out.println(course));
-//        for (Course c : ls) {
-//            System.out.println(c);
-//        }
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        String plus = "|";
+        String stars2 = "|                                                                      |";
+        System.out.println(stars);
+        System.out.println(stars2);
+        String namePlate = String.format("|%30s" + "%30s " + "%10s", "Available Courses", "", plus);
+        System.out.println(namePlate);
+        System.out.println(stars2);
+        ls.forEach(course -> {
+            String c = String.format("|%35s" + "%10s " + "%15s" + "%10s", course.getName(), "(" + course.getCourseCode() + ")->", course.getProfessor().getName(), plus);
+            System.out.println(c);
+        });
+        System.out.println(stars);
+        System.out.println();
     }
 
     public void viewRegisteredCourses() {
         List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
-        ls.forEach(registeredCourse -> System.out.println(registeredCourse));
-
-//        for (RegisteredCourse c : ls) {
-//            System.out.println(c);
-//        }
-
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        String plus = "|";
+        String stars2 = "|                                                                      |";
+        System.out.println(stars);
+        System.out.println(stars2);
+        String namePlate = String.format("|%30s" + "%30s " + "%10s", "Available Courses", "", plus);
+        System.out.println(namePlate);
+        System.out.println(stars2);
+        ls.forEach(registeredCourse -> {
+            String c = String.format("|%35s" + "%10s " + "%15s" + "%10s", registeredCourse.getCourse().getName(), "(" + registeredCourse.getCourse().getCourseCode() + ")->", registeredCourse.getCourse().getProfessor().getName(), plus);
+            System.out.println(c);
+        });
+        System.out.println(stars);
+        System.out.println();
     }
 
     public void viewGradesCard() {

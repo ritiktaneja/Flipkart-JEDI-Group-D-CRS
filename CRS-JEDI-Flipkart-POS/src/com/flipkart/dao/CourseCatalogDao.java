@@ -4,6 +4,7 @@ import com.flipkart.bean.*;
 import com.flipkart.bean.CourseCatalog;
 import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.*;
 import java.time.temporal.JulianFields;
@@ -11,18 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseCatalogDao {
-    private static final String DELETE = "DELETE FROM CourseCatalog WHERE catalogID=?";
-    private static final String GET_ALL = "SELECT * FROM CourseCatalog ORDER BY catalogId";
-    private static final String GET_BY_ID = "SELECT * FROM courseCatalog WHERE catalogId=?";
-    private static final String INSERT = "insert into coursecatalog(coursecode,catalogid,professorid) values(?,?,?);";
-    private static final String UPDATE = "UPDATE CourseCatalog SET name=?, password=?, WHERE catalogId=?";
-    private static final String GET_ALL_BY_CATALOG_ID = "SELECT * FROM CourseCatalog where catalogId = ?";
-    private static final String UPDATE_COURSE_IN_CATALOG = "UPDATE CourseCatalog SET professorID = ? WHERE courseCode =? and CatalogID = ?";
-    private static final String GET_CATALOG_ID_FROM_COURSE = "SELECT catalogID from CourseCatalog where courseCode = ?";
-    private static final String DELETE_COURSE_FROM_CATALOG = "DELETE FROM courseCatalog where catalogId=? and courseCode=?";
-    private static final String GET_PROFESSOR = "SELECT professorID FROM CourseCatalog WHERE catalogId=? AND courseCode=?";
-    private static final String GET_COURSES_BY_PROFESSOR_ID = "SELECT * FROM courseCatalog WHERE professorId = ? ";
-    private static final String GET_STUDENTS_BY_COURSE_ID = "SELECT * FROM RegisteredCourses WHERE CourseCode = ?";
+
 
     private PreparedStatement stmt;
 
@@ -39,13 +29,19 @@ public class CourseCatalogDao {
         return instance;
     }
 
-
+    /**
+     * this method getting enrolled student from database and putting it into list
+     *
+     * @param catalogId
+     * @param courseId
+     * @return
+     */
     public List<Student> getEnrolledStudents(String catalogId, String courseId) {
         Connection con = DBConnection.getConnection();
         PreparedStatement pstmt = null;
         List<Student> students = new ArrayList<>();
         try {
-            pstmt = con.prepareStatement(GET_STUDENTS_BY_COURSE_ID);
+            pstmt = con.prepareStatement(CourseCatalogDaoConstants.GET_STUDENTS_BY_COURSE_ID);
             pstmt.setString(1, courseId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -56,7 +52,7 @@ public class CourseCatalogDao {
             return students;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             DBConnection.closeStatement(pstmt);
             DBConnection.closeConnection(con);
         }
@@ -64,12 +60,18 @@ public class CourseCatalogDao {
 
     }
 
+    /**
+     * this method getting courses which  Assigned to professor from database and putting it into list
+     *
+     * @param professorId
+     * @return
+     */
     public List<Course> getAssignedCourses(String professorId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         List<Course> courses = null;
         try {
-            statement = connection.prepareStatement(GET_COURSES_BY_PROFESSOR_ID);
+            statement = connection.prepareStatement(CourseCatalogDaoConstants.GET_COURSES_BY_PROFESSOR_ID);
             statement.setString(1, professorId);
             ResultSet rs = statement.executeQuery();
             courses = new ArrayList<>();
@@ -94,11 +96,18 @@ public class CourseCatalogDao {
         return null;
     }
 
+    /**
+     * this method getting courses all from database and putting it into list
+     *
+     * @param id
+     * @return
+     */
+
     private List<Course> getAllCoursesByCatalogId(String id) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_ALL_BY_CATALOG_ID);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_ALL_BY_CATALOG_ID);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             List<Course> courses = new ArrayList<>();
@@ -124,11 +133,17 @@ public class CourseCatalogDao {
         }
     }
 
+    /**
+     * this method getting individual course catalog from database and putting it into list
+     *
+     * @param catalogId
+     * @return
+     */
     public CourseCatalog get(String catalogId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_BY_ID);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_BY_ID);
             stmt.setString(1, catalogId);
             ResultSet rs = stmt.executeQuery();
 
@@ -159,12 +174,17 @@ public class CourseCatalogDao {
         return null;
     }
 
+    /**
+     * this method getting course catalog from database and putting it into list
+     *
+     * @return
+     */
     public List<CourseCatalog> getAll() {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         List<CourseCatalog> courseCatalogList = new ArrayList<>();
         try {
-            stmt = connection.prepareStatement(GET_ALL);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_ALL);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 CourseCatalog catalog = new CourseCatalog();
@@ -183,11 +203,18 @@ public class CourseCatalogDao {
         }
     }
 
+    /**
+     * this method getting professor by using course Id
+     *
+     * @param courseCode
+     * @param catalogId
+     * @return
+     */
     public Professor getProfessorByCourseId(String courseCode, String catalogId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_PROFESSOR);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_PROFESSOR);
             stmt.setString(1, CRSApplication.currentSemester.getCurrentSemester());
             stmt.setString(2, courseCode);
 
@@ -206,11 +233,17 @@ public class CourseCatalogDao {
         return null;
     }
 
+    /**
+     * this method inserting course catalog in database
+     *
+     * @param courseCatalog
+     * @return
+     */
     public int insert(CourseCatalog courseCatalog) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             List<Course> courses = courseCatalog.getCourses();
             System.out.println(courses.get(0));
             stmt.setString(1, courses.get(0).getCourseCode());
@@ -229,15 +262,28 @@ public class CourseCatalogDao {
         }
     }
 
+    /**
+     * this method updating course catalog in database
+     *
+     * @param id
+     * @param courseCatalog
+     * @return
+     */
     public int update(String id, CourseCatalog courseCatalog) {
         return 0;
     }
 
+    /**
+     * this method updating course catalog in database
+     *
+     * @param courseCatalog
+     * @return
+     */
     public int delete(CourseCatalog courseCatalog) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(DELETE);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.DELETE);
             stmt.setString(1, courseCatalog.getCatalogId());
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -248,11 +294,17 @@ public class CourseCatalogDao {
         }
     }
 
+    /**
+     * using this method professor can register in courses
+     * @param course
+     * @param professor
+     * @return
+     */
     public int registerForCourse(Course course, Professor professor) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_PROFESSOR);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_PROFESSOR);
             String catalogId = getCatalogID(course.getCourseCode());
             if (catalogId == null) {
                 System.out.println("This course does not belongs to any catalog");
@@ -264,7 +316,7 @@ public class CourseCatalogDao {
             if (rs.next()) {
                 String assignedProfessorId = rs.getString("professorId");
                 if (assignedProfessorId == null) {
-                    stmt = connection.prepareStatement(UPDATE_COURSE_IN_CATALOG);
+                    stmt = connection.prepareStatement(CourseCatalogDaoConstants.UPDATE_COURSE_IN_CATALOG);
                     stmt.setString(1, professor.getFacultyId());
                     stmt.setString(2, course.getCourseCode());
                     stmt.setString(3, catalogId);
@@ -287,11 +339,16 @@ public class CourseCatalogDao {
         return 0;
     }
 
+    /**
+     * this method getting catalog Id from database
+     * @param courseId
+     * @return
+     */
     public String getCatalogID(String courseId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_CATALOG_ID_FROM_COURSE);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.GET_CATALOG_ID_FROM_COURSE);
             stmt.setString(1, courseId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -306,11 +363,17 @@ public class CourseCatalogDao {
         return null;
     }
 
+    /**
+     * this method deleting course from course catalog
+     * @param catalogId
+     * @param courseId
+     * @return
+     */
     public int deleteCourseFromCatalog(String catalogId, String courseId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(DELETE_COURSE_FROM_CATALOG);
+            stmt = connection.prepareStatement(CourseCatalogDaoConstants.DELETE_COURSE_FROM_CATALOG);
             stmt.setString(1, catalogId);
             stmt.setString(2, courseId);
             CourseDao courseDao = CourseDao.getInstance();

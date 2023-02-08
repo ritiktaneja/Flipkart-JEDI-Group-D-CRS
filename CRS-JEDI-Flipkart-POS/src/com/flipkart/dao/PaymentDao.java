@@ -1,6 +1,7 @@
 package com.flipkart.dao;
 
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +10,6 @@ public class PaymentDao {
 
 
     private static PaymentDao instance = null;
-
-    private static final String PAYMENT_INIT = "INSERT INTO PAYMENT (StudentId, ReferenceId, ModeOfPayment, Amount, Semester, PaymentStatus, PaymentDescription) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private PaymentDao() {
 
@@ -23,11 +22,22 @@ public class PaymentDao {
         return instance;
     }
 
+    /**
+     * Insert payment details in the given database
+     * @param studentId
+     * @param referenceId
+     * @param modeOfPayment
+     * @param amount
+     * @param semester
+     * @param paymentStatus
+     * @param paymentDescription
+     * @return
+     */
     public int insert(String studentId, String referenceId, String modeOfPayment, double amount, String semester, String paymentStatus, String paymentDescription) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(PAYMENT_INIT);
+            statement = connection.prepareStatement(PaymentDaoConstants.PAYMENT_INIT);
             statement.setString(1, studentId);
             statement.setString(2, referenceId);
             statement.setString(3, modeOfPayment);

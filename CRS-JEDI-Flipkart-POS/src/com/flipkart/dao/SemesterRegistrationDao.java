@@ -3,6 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.Student;
 import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +12,6 @@ import java.sql.ResultSet;
 public class SemesterRegistrationDao {
 
     private static SemesterRegistrationDao instance = null;
-
-    private static final String GET_STATUS = "SELECT * FROM semesterRegistration WHERE studentId = ? and semester = ?";
-    private static final String INSERT = "INSERT INTO semesterRegistration(studentId, semester,status) VALUES(?,?,?)";
-    private static final String GET = "SELECT * FROM semesterRegistration WHERE studentId = ? AND semester = ?";
 
     private SemesterRegistrationDao() {
 
@@ -27,12 +24,17 @@ public class SemesterRegistrationDao {
         return instance;
     }
 
+    /**
+     * Get registration status corresponding to particular student id
+     * @param studentId
+     * @return student
+     */
     public Student getRegistrationStatus(String studentId) {
         String semester = CRSApplication.currentSemester.getCurrentSemester();
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(GET_STATUS);
+            statement = connection.prepareStatement(SemesterRegistrationDaoConstants.GET_STATUS);
             statement.setString(1, studentId);
             statement.setString(2, semester);
             ResultSet rs = statement.executeQuery();
@@ -55,11 +57,17 @@ public class SemesterRegistrationDao {
         return null;
     }
 
+    /**
+     * Insert student in the current semester database
+     * @param studentId
+     * @param semester
+     * @return status
+     */
     public int insert(String studentId, String semester) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(INSERT);
+            statement = connection.prepareStatement(SemesterRegistrationDaoConstants.INSERT);
 
             Student student = get(studentId, semester);
             if (student == null) {
@@ -82,11 +90,17 @@ public class SemesterRegistrationDao {
         return 0;
     }
 
+    /**
+     * Get student with particular student id and semester
+     * @param studentId
+     * @param semester
+     * @return student
+     */
     public Student get(String studentId, String semester) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(GET);
+            statement = connection.prepareStatement(SemesterRegistrationDaoConstants.GET);
             statement.setString(1, studentId);
             statement.setString(2, semester);
             ResultSet rs = statement.executeQuery();

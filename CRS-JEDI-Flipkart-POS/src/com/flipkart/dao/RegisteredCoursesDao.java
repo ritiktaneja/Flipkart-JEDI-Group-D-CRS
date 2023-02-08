@@ -3,22 +3,13 @@ package com.flipkart.dao;
 import com.flipkart.bean.*;
 import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
-
-    private static final String INSERT = "INSERT INTO RegisteredCourses (RegisteredCourseID,studentId, courseCode,timeadded) VALUES(?,?,?,?)";
-
-
-    private static final String GET_ALL_OBJECTS = "SELECT * FROM registeredCourses WHERE studentId = ?";
-
-    private static final String DELETE = "DELETE FROM registeredCourses WHERE studentId = ? and CourseCode = ?";
-
-    private static final String GET_STUDENTS_IN_COURSE = "SELECT * FROM registeredCourses WHERE courseCode  = ?";
-    private static final String GET = "SELECT * FROM registeredCourses WHERE studentId = ? AND courseCode  = ?";
 
     private static RegisteredCoursesDao instance = null;
 
@@ -27,12 +18,17 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
 
     }
 
+    /**
+     * Get list of registered course corresponding to particular student id
+     * @param studentId
+     * @return list of registered course
+     */
     public List<RegisteredCourse> getRegisteredCourse(String studentId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         List<RegisteredCourse> registeredCourses = new ArrayList<>();
         try {
-            stmt = connection.prepareStatement(GET_ALL_OBJECTS);
+            stmt = connection.prepareStatement(RegisteredCoursesDaoConstants.GET_ALL_OBJECTS);
             stmt.setString(1, studentId);
             ResultSet rs = stmt.executeQuery();
             GradeCardDao gradeCardDao = GradeCardDao.getInstance();
@@ -61,6 +57,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
         }
     }
 
+
     public static RegisteredCoursesDao getInstance() {
         if (instance == null) {
             instance = new RegisteredCoursesDao();
@@ -68,11 +65,17 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
         return instance;
     }
 
+    /**
+     * Get unique registered course id for corresponding student with student id
+     * @param studentId
+     * @param courseId
+     * @return
+     */
     public String getRegisteredCourseId(String studentId, String courseId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(GET);
+            statement = connection.prepareStatement(RegisteredCoursesDaoConstants.GET);
             statement.setString(1, studentId);
             statement.setString(2, courseId);
             ResultSet rs = statement.executeQuery();
@@ -100,13 +103,18 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
         return null;
     }
 
+    /**
+     * Insert registered course in the given database
+     * @param registeredCourse
+     * @return status
+     */
     @Override
     public int insert(RegisteredCourse registeredCourse) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         PreparedStatement gradeStatement = null;
         try {
-            statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(RegisteredCoursesDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             CourseDao courseDao = CourseDao.getInstance();
             Course course = courseDao.get(registeredCourse.getCourse().getCourseCode());
             if (course == null) {
@@ -137,6 +145,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
         return 0;
     }
 
+
     @Override
     public int update(String studentId, RegisteredCourse registeredCourse) {
         // NOT REQUIRED
@@ -150,11 +159,17 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
         return 0;
     }
 
+    /**
+     * Drop particular course for a student
+     * @param studentId
+     * @param courseCode
+     * @return
+     */
     public int dropCourse(String studentId, String courseCode) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement = connection.prepareStatement(RegisteredCoursesDaoConstants.DELETE);
             preparedStatement.setString(1, studentId);
             preparedStatement.setString(2, courseCode);
             int rs = preparedStatement.executeUpdate();

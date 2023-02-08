@@ -178,6 +178,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
         }
     }
 
+
     /**
      * using this method admin get info of current semester
      *
@@ -202,4 +203,11 @@ public class AdminOperations extends UserOperations implements AdminServices {
             System.out.println("Semester not updated");
         }
     }
+
+    @Override
+    public Admin getAdminById(String adminId) {
+        AdminDao adminDao = AdminDao.getInstance();
+        return adminDao.get(adminId);
+    }
+
 }

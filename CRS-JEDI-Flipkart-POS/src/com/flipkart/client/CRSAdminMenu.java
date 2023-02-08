@@ -29,12 +29,12 @@ public class CRSAdminMenu {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
 
-
+        Admin admin = adminOperations.getAdminById(adminId);
         System.out.println("********************************************************");
         System.out.println("******************** Welcome Admin *********************");
         System.out.println("********************************************************");
         System.out.println("\n\t Login Time : " + formattedDate + "\n");
-        System.out.println("\t Welcome to the Admin Menu, " + name + "\n");
+        System.out.println("\t Hi, " + admin.getName() + " (" + admin.getAdminId() + "). Have a Good Day!\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -50,10 +50,10 @@ public class CRSAdminMenu {
                 System.out.println("8. Show registered students");
                 System.out.println("9. Show Pending Admissions");
                 System.out.println("10. Show Added Admins");
-                System.out.println("11. Update Semester");
+                System.out.println("11. Add new Semester");
                 System.out.println("12, Open Semester Registration");
                 System.out.println("13. Close Semester Registration");
-                System.out.println("12. Logout");
+                System.out.println("14. Logout");
                 System.out.print("Enter your choice : ");
                 int choice;
                 Scanner sc = new Scanner(System.in);
@@ -112,11 +112,11 @@ public class CRSAdminMenu {
     }
 
     private void closeSemesterRegistration() {
+        System.out.println("Under Development");
     }
 
     private void openSemesterRegistration() {
-
-
+        System.out.println("Under Development");
     }
 
     private void updateSemester() {

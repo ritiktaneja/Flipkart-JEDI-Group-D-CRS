@@ -36,12 +36,12 @@ public class CRSProfessorMenu {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
 
-
+        Professor professor = obj.getProfessorById(professorId);
         System.out.println("********************************************************");
         System.out.println("******************* Welcome Professor ******************");
         System.out.println("********************************************************");
         System.out.println("\n\t Login Time : " + formattedDate + "\n");
-        System.out.println("\t Welcome to the Professor Menu, " + name + "\n");
+        System.out.println("\t Hi, " + professor.getName() + " (" + professor.getFacultyId() + "). Have a Good Day!\n");
         while (true) {
             try {
                 System.out.println("********************************************************");
@@ -83,19 +83,27 @@ public class CRSProfessorMenu {
     }
 
     public void viewEnrolledStudents() throws Exception {
-        System.out.print("The courses taken by you are: ");
-        viewAssignedCourses(professorId);
+//        System.out.print("The courses taken by you are: ");
+//        viewAssignedCourses(professorId);
 
         System.out.print("Enter the Course code for which you want to see enrolled students : ");
         String courseID = sc.next();
         List<Student> studentList = null;
         ProfessorOperations professorOperations = new ProfessorOperations();
         studentList = professorOperations.viewEnrolledStudents(CRSApplication.currentSemester.getCurrentSemester(), courseID);
-        System.out.println("The enrolled students under" + courseID + " are : ");
-        studentList.forEach(student -> System.out.println(student.getUserId() + " : " + student.getName()));
-//        for (Student student : studentList) {
-//            System.out.println(student.getUserId() + " : " + student.getName());
-//        }
+        System.out.println("The enrolled students under " + courseID + " are : ");
+        String stars = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        String plus = "|";
+        String stars2 = "|                                                                      |";
+        System.out.println(stars);
+        System.out.println(stars2);
+        String namePlate = String.format("|%45s" + "%26s", "Enrolled Students", plus);
+        System.out.println(namePlate);
+        System.out.println(stars2);
+        studentList.forEach(student -> {
+            String c = String.format("|%35s" + "%10s" + "%25s", student.getName(), " (" + student.getStudentId() + ")", plus);
+            System.out.println(c);
+        });
 
     }
 
@@ -130,9 +138,7 @@ public class CRSProfessorMenu {
         coursesTaken = professorOperations.viewCoursesTaken(professorId);
         System.out.println("Courses under the professor with professor ID " + professorId + " are : ");
         coursesTaken.forEach(course -> System.out.println(course));
-//        for (Course course : coursesTaken) {
-//            System.out.println(course);
-//        }
+
     }
 
     public void registerForCourses() throws Exception {

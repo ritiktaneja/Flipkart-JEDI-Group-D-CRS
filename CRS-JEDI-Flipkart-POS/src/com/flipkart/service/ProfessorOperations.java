@@ -3,6 +3,7 @@ package com.flipkart.service;
 import com.flipkart.bean.*;
 import com.flipkart.dao.CourseCatalogDao;
 import com.flipkart.dao.GradeCardDao;
+import com.flipkart.dao.ProfessorDao;
 import com.flipkart.dao.RegisteredCoursesDao;
 import com.flipkart.exception.CourseNotAssignedToProfessorException;
 import com.flipkart.exception.CourseNotFoundException;
@@ -22,6 +23,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     /**
      * creating new instance of professor
+     *
      * @return
      */
     public static ProfessorOperations getInstance() {
@@ -35,6 +37,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     /**
      * using this method professor can view student which is part of his course
+     *
      * @param semester
      * @param courseId
      * @return
@@ -53,6 +56,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     /**
      * using this method professor can view course which taken by him
+     *
      * @param professorId
      * @return
      * @throws ProfessorNotFoundException
@@ -69,6 +73,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     /**
      * using this method professor can register for course he want to take
+     *
      * @param professorId
      * @param courseId
      * @param semester
@@ -90,6 +95,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
 
     /**
      * using this method professor can assign grade to student which taken his course
+     *
      * @param studentId
      * @param grade
      * @param courseCode
@@ -104,5 +110,9 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
         }
     }
 
+    public Professor getProfessorById(String professorId) {
+        ProfessorDao professorDao = ProfessorDao.getInstance();
+        return professorDao.get(professorId);
+    }
 
 }

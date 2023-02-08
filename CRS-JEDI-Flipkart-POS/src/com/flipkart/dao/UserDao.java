@@ -5,6 +5,7 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.utils.DBConnection;
+import com.flipkart.constants.sqlconstants.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,21 +15,16 @@ import java.util.List;
 
 public class UserDao implements DaoInterface<User> {
 
-
-    private static final String DELETE = "DELETE FROM user WHERE userId=?";
-    private static final String GET_ALL = "SELECT * FROM user ORDER BY userId";
-    private static final String GET_BY_ID = "SELECT * FROM user WHERE userId=?";
-    private static final String INSERT = "INSERT INTO user(userId,password) VALUES(?, ?)";
-    private static final String UPDATE = "UPDATE user SET password=? WHERE userId=?";
-    private static final String INSERT_IN_ROLE = "INSERT INTO ROLE (userID,role) VALUES(?,?)";
-    private static final String loginQuery = "SELECT * FROM user where userid = ? AND password = ?";
-
     private static UserDao instance = null;
 
     private UserDao() {
 
     }
 
+    /**
+     * Get new user instance
+     * @return user
+     */
     public static UserDao getInstance() {
         if (instance == null) {
             instance = new UserDao();
@@ -36,11 +32,17 @@ public class UserDao implements DaoInterface<User> {
         return instance;
     }
 
+    /**
+     * Update password for the current user
+     * @param userId
+     * @param password
+     * @return Password change status
+     */
     public boolean updatePassword(String userId, String password) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(UPDATE);
+            stmt = connection.prepareStatement(UserDaoConstants.UPDATE);
             stmt.setString(1, password);
             stmt.setString(2, userId);
             stmt.executeUpdate();
@@ -54,12 +56,18 @@ public class UserDao implements DaoInterface<User> {
         return false;
     }
 
+    /**
+     * User login authentication in CRS application
+     * @param userId
+     * @param password
+     * @return user object
+     */
     public User login(String userId, String password) {
         User user = null;
         Connection connection = DBConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(loginQuery);
+            statement = connection.prepareStatement(UserDaoConstants.loginQuery);
             statement.setString(1, userId);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
@@ -91,12 +99,17 @@ public class UserDao implements DaoInterface<User> {
         return null;
     }
 
+    /**
+     * Get user with the user id
+     * @param userId
+     * @return user
+     */
     @Override
     public User get(String userId) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement(GET_BY_ID);
+            stmt = connection.prepareStatement(UserDaoConstants.GET_BY_ID);
             stmt.setString(1, userId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -120,14 +133,18 @@ public class UserDao implements DaoInterface<User> {
         return null;
     }
 
+    /**
+     * Entry of user and role in the database
+     * @param user
+     */
     @Override
     public int insert(User user) {
         Connection connection = DBConnection.getConnection();
         PreparedStatement userStatement = null;
         PreparedStatement roleStatement = null;
         try {
-            userStatement = connection.prepareStatement(INSERT);
-            roleStatement = connection.prepareStatement(INSERT_IN_ROLE);
+            userStatement = connection.prepareStatement(UserDaoConstants.INSERT);
+            roleStatement = connection.prepareStatement(UserDaoConstants.INSERT_IN_ROLE);
 
             userStatement.setString(1, user.getUserId());
             userStatement.setString(2, user.getPassword());
@@ -158,10 +175,17 @@ public class UserDao implements DaoInterface<User> {
     }
 
     @Override
+    /**
+     * Update user in the database
+     */
     public int update(String id, User user) {
         return 0;
     }
 
+    /**
+     * Delete user from the database
+     * @param user
+     */
     @Override
     public int delete(User user) {
         return 0;
