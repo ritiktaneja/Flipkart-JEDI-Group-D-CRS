@@ -57,12 +57,11 @@ public class PaymentDao {
             statement.setString(7, paymentDescription);
             return statement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
     }
 
 }

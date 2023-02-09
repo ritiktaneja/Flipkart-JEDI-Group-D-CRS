@@ -2,15 +2,29 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.ModeOfPayment;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Payment class
  */
 public class Payment {
 
+    @NotBlank
     private Student student;
+
+    @NotBlank
     private String referenceId;
+
+    @NotBlank
     private float amount;
+
+    @NotBlank
     private boolean status;
+
+    @NotBlank
     private ModeOfPayment modeOfPayment;
     //mode of payment -> online and offline
     //Type of payment using either option

@@ -3,13 +3,21 @@ package com.flipkart.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Course catalog class
  */
 public class CourseCatalog {
 
 
+    @NotBlank
     private String catalogId;
+
+    @NotNull
     private List<Course> courses = new ArrayList<>();
 
     /**

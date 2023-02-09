@@ -18,9 +18,8 @@ public interface AdminServices extends UserServices {
 
     void approveStudent(String studentId) throws Exception;
 
-    void addProfessor(String professorId, String professorName, String password) throws Exception;
+    void addProfessor(String professorId, String professorName, String password,String department) throws Exception;
 
-    void assignCourse(String courseCode, String professorId) throws Exception;
 
     List<Course> viewCourses(String catalogId) throws Exception;
 
@@ -34,9 +33,9 @@ public interface AdminServices extends UserServices {
 
     void addAdmin(String adminId, String adminName, String password) throws Exception;
 
-    Admin getAdminById(String adminId) ;
+    Admin getAdminById(String adminId);
 
-
+    void updateSemester(String semester);
 
 
 }

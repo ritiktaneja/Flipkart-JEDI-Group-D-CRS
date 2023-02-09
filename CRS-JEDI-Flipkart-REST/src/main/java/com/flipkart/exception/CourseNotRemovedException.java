@@ -12,7 +12,8 @@ public class CourseNotRemovedException extends  Exception{
      * @param catalogId
      * @param courseCode
      */
-    public CourseNotRemovedException(String catalogId, String courseCode) {
+    public CourseNotRemovedException(String catalogId, String courseCode, String message) {
+        super(message);
         this.catalogId = catalogId;
         this.courseCode = courseCode;
     }

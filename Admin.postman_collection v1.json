@@ -1,0 +1,436 @@
+{
+	"id": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+	"name": "Admin",
+	"description": "Admin APIs\n",
+	"order": [
+		"80263689-09c3-7a89-dfcc-3af9fd024027",
+		"3a96af74-d31c-adef-8d7a-4593e4ca879d",
+		"0df2b4ba-01f8-5caf-77bc-7e8878354764",
+		"633c5d1e-c84f-e760-beda-7fdd09954a91",
+		"2ad3255a-0811-103d-e6aa-ca3c4b518e0a",
+		"f1904fc4-2ee4-a5ce-26d0-4a639962e641",
+		"d46bdb42-d5a5-3a56-529b-197381de6316",
+		"cf7ca07c-c9ca-b2f3-a872-bb3096b4c0dd",
+		"6b406732-adae-b3cd-8237-6a69e09832b9",
+		"0f03161e-e44f-df7f-26c0-8248fcb4441f",
+		"19273845-5764-f0b6-132c-0426f615ac3b"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1675875704413,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "0df2b4ba-01f8-5caf-77bc-7e8878354764",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/addProfessor/?professorId=69&professorName=Viraj&password=1234&department=CSE",
+			"queryParams": [
+				{
+					"key": "professorId",
+					"value": "69",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "professorName",
+					"value": "Viraj",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "1234",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "department",
+					"value": "CSE",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": "AD-1001"
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": "AD-1001"
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675877601229,
+			"name": "Add Professor",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "0f03161e-e44f-df7f-26c0-8248fcb4441f",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/viewPendingAdmission/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876771096,
+			"name": "view Pending Admissions",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "19273845-5764-f0b6-132c-0426f615ac3b",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/updateSemester/?semester",
+			"queryParams": [
+				{
+					"key": "semester",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "PUT",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876869841,
+			"name": "update Semester",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "2ad3255a-0811-103d-e6aa-ca3c4b518e0a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/approveStudent/?studentId=123",
+			"queryParams": [
+				{
+					"key": "studentId",
+					"value": "123",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "1234",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "PUT",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876856747,
+			"name": "approve Student",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "3a96af74-d31c-adef-8d7a-4593e4ca879d",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/addCourseToCatalog/?courseId=CS-999&courseName=LCS",
+			"queryParams": [
+				{
+					"key": "courseId",
+					"value": "CS-999",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "courseName",
+					"value": "LCS",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": "AD-1001"
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": "AD-1001"
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876915357,
+			"name": "Add Course To Catalog",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "633c5d1e-c84f-e760-beda-7fdd09954a91",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/addAdmin/?adminName=ABC&password=1234",
+			"queryParams": [
+				{
+					"key": "adminName",
+					"value": "ABC",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "1234",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876854227,
+			"name": "Add Admin",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "6b406732-adae-b3cd-8237-6a69e09832b9",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/showRegisteredStudents/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876758115,
+			"name": "show Registered Students",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "80263689-09c3-7a89-dfcc-3af9fd024027",
+			"headers": "",
+			"headerData": [],
+			"url": "",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"data": null,
+			"dataMode": "params",
+			"name": "Get Admins",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1675875718623,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "cf7ca07c-c9ca-b2f3-a872-bb3096b4c0dd",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/viewCoursesInCatalog/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876744991,
+			"name": "view Courses in Catalog",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "d46bdb42-d5a5-3a56-529b-197381de6316",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/showProfessor/?courseId",
+			"queryParams": [
+				{
+					"key": "courseId",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876720555,
+			"name": "show Professor",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		},
+		{
+			"id": "f1904fc4-2ee4-a5ce-26d0-4a639962e641",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/admin/:adminId/deleteCourseFromCatalog/?courseId",
+			"queryParams": [
+				{
+					"key": "courseId",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"adminId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "adminId",
+					"value": ""
+				}
+			],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675876859884,
+			"name": "delete Course",
+			"description": "",
+			"collectionId": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+			"responses": []
+		}
+	]
+}

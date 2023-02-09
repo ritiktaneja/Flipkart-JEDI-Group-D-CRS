@@ -13,7 +13,8 @@ public class GradeNotAddedException extends Exception{
      * @param courseCode
      * @param grade
      */
-    public GradeNotAddedException(String studentId, String courseCode, String grade) {
+    public GradeNotAddedException(String studentId, String courseCode, String grade, String message) {
+        super(message);
         this.studentId = studentId;
         this.courseCode = courseCode;
         this.grade = grade;

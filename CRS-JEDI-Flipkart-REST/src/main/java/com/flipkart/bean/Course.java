@@ -4,12 +4,23 @@ import com.flipkart.constants.CRSColors;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Course Class
  */
 public class Course {
+
+    @NotBlank
     private String courseCode;
+
+    @NotBlank
     private String Name;
+
+    @NotBlank
     private Professor professor;
 
     /**

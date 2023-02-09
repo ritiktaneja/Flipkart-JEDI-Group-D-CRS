@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.*;
 import com.flipkart.constants.CRSColors;
+import com.flipkart.constants.Department;
 import com.flipkart.dao.*;
 import com.flipkart.data.MockDB;
 import com.flipkart.exception.*;
@@ -55,22 +56,16 @@ public class AdminOperations extends UserOperations implements AdminServices {
             StudentDao studentDao = StudentDao.getInstance();
             Student student = studentDao.get(studentId);
             if (student == null) {
-                System.out.println("No student exist with this ID");
-                return;
+                throw new Exception();
             }
-            System.out.print("Are you sure you want to approve this student ? Type yes to confirm : ");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.next();
-            if (input.equalsIgnoreCase("yes")) {
-                AdminDao adminDao = AdminDao.getInstance();
-                adminDao.approveStudent(studentId);
-                System.out.println(CRSColors.GREEN + "\nStudent Registration approved Successfully\n" + CRSColors.RESET);
-            } else {
-                System.out.println("Student Registration not approved");
-            }
-        } catch (Exception e) {
-            throw new StudentNotApprovedException(studentId);
+            AdminDao adminDao = AdminDao.getInstance();
+            adminDao.approveStudent(studentId);
+            System.out.println(CRSColors.GREEN + "\nStudent Registration approved Successfully\n" + CRSColors.RESET);
+        } catch (
+                Exception e) {
+            throw new StudentNotApprovedException(studentId, e.getMessage());
         }
+
     }
 
     /**
@@ -81,7 +76,8 @@ public class AdminOperations extends UserOperations implements AdminServices {
      * @param password
      * @throws ProfessorNotAddedException
      */
-    public void addProfessor(String professorId, String professorName, String password) throws ProfessorNotAddedException {
+    @Override
+    public void addProfessor(String professorId, String professorName, String password, String department) throws ProfessorNotAddedException {
         try {
             ProfessorDao professorDao = ProfessorDao.getInstance();
 
@@ -90,13 +86,17 @@ public class AdminOperations extends UserOperations implements AdminServices {
             builder.setFacultyId(professorId);
             builder.setName(professorName);
             builder.setPassword(password);
-
+            Department departmentObj = Department.valueOf(department);
+            if (departmentObj == null) {
+                throw new Exception();
+            }
+            builder.setDepartment(departmentObj);
             UserDao dao = UserDao.getInstance();
             dao.insert(builder.build());
             professorDao.insert(builder.build());
 
         } catch (Exception e) {
-            throw new ProfessorNotAddedException(professorId, professorName, password);
+            throw new ProfessorNotAddedException(professorId, professorName, password, e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
             return dao.get(catalogId).getCourses();
         } catch (Exception e) {
-            throw new CatalogNotFoundException(catalogId);
+            throw new CatalogNotFoundException(catalogId, e.getMessage());
         }
 
     }
@@ -136,6 +136,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
      *
      * @return list of student
      */
+    @Override
     public List<Student> viewStudents() {
         return StudentDao.getInstance()
                 .getAll()
@@ -187,7 +188,7 @@ public class AdminOperations extends UserOperations implements AdminServices {
             UserDao userDao = UserDao.getInstance();
             userDao.insert(builder.build());
         } catch (Exception e) {
-            throw new AdminNotAddedException(adminId, adminName, password);
+            throw new AdminNotAddedException(adminId, adminName, password, e.getMessage());
         }
     }
 

@@ -53,7 +53,7 @@ public class StudentOperations extends UserOperations implements StudentServices
             else
                 return false;
         } catch (Exception e) {
-            throw new CourseNotRegisteredException(studentId, courseCode);
+            throw new CourseNotRegisteredException(studentId, courseCode, e.getMessage());
         }
 
     }

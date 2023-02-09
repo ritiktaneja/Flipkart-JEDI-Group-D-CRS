@@ -1,11 +1,22 @@
 package com.flipkart.bean;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Payment Notification Class
  */
 public class PaymentNotification {
+
+    @NotBlank
     private Payment payment;
+
+    @NotBlank
     private String notificationId;
+
+    @NotBlank
     private String notificationMessage;
 
     public Payment getPayment() {

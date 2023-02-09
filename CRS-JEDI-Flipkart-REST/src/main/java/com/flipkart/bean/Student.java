@@ -4,14 +4,23 @@ import com.flipkart.constants.Department;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Student Class
  */
 public class Student extends User {
 
+    @NotBlank
     private Department department;
 
+    @NotBlank
     private boolean approvalStatus;
+
+    @NotBlank
     private String semester;
 
     /**

@@ -54,12 +54,12 @@ public class UserDao implements DaoInterface<User> {
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return false;
+
     }
 
     /**
@@ -126,12 +126,12 @@ public class UserDao implements DaoInterface<User> {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 
     @Override
@@ -171,13 +171,13 @@ public class UserDao implements DaoInterface<User> {
             System.out.println("Role Added Successfully");
             return 1;
         } catch (Exception e) {
-            System.out.println("User with same ID present");
+            throw new RuntimeException("User with same ID present");
         } finally {
             DBConnection.closeStatement(roleStatement);
             DBConnection.closeStatement(userStatement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 
     @Override

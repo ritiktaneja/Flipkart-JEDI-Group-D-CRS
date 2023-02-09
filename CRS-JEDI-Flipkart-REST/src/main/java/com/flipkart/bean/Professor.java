@@ -3,15 +3,24 @@ package com.flipkart.bean;
 import com.flipkart.constants.Department;
 import com.flipkart.constants.Designation;
 
+
 import java.util.List;
 
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 /**
  * Professor class
  */
 public class Professor extends User {
 
 
+    @NotNull
     private Department department;
+
+    @NotNull
     private Designation designation;
 
     /**

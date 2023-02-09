@@ -10,7 +10,9 @@ public class CatalogNotFoundException extends Exception{
      * Catalog not found exception method
      * @param id
      */
-    public CatalogNotFoundException(String id) {
+    public CatalogNotFoundException(String id, String message) {
+
+        super(message);
         this.id = id;
     }
 }

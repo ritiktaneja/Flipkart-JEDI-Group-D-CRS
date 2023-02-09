@@ -21,7 +21,7 @@ public class SelfRegistrationOperations implements SelfRegistrationService {
      * @param department
      * @return object of student
      */
-    public Student selfRegister(String name, String password, String semester, String department) {
+    public Student selfRegister(String name, String password, String semester, String department) throws Exception {
         Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
         studentBuilder.setName(name);
         studentBuilder.setPassword(password);

@@ -51,8 +51,8 @@ public class CourseDao implements DaoInterface<Course> {
                 return course;
             }
         } catch (Exception e) {
-            System.out.println("Course Not Found in course GET");
-            return null;
+            throw new RuntimeException("Course Not Found in course GET");
+
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -83,13 +83,12 @@ public class CourseDao implements DaoInterface<Course> {
             System.out.println("Course added successfully");
             return result;
         } catch (Exception e) {
-            System.out.println("Course already exists with this ID");
-
+            throw new RuntimeException("Course already exists with this ID");
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 
     @Override
@@ -141,12 +140,12 @@ public class CourseDao implements DaoInterface<Course> {
             System.out.println("Course Deleted Successfully");
             return 1;
         } catch (Exception e) {
-            System.out.println("Course Not Deleted");
-            e.printStackTrace();
+           throw new RuntimeException("Course Not Deleted");
+
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 }

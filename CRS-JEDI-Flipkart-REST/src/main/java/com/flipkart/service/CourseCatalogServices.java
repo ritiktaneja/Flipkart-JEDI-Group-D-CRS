@@ -5,7 +5,6 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.CourseCatalog;
 import com.flipkart.exception.*;
 
-import javax.xml.catalog.Catalog;
 import java.util.List;
 
 /**

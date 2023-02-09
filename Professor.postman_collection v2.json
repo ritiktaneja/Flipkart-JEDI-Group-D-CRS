@@ -1,0 +1,167 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Professor",
+		"_postman_id": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+		"description": "ProfessorAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetEnrolledStudents",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/professor/:professorId/getEnrolledStudents?courseCode=CS-101",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"professor",
+						":professorId",
+						"getEnrolledStudents"
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "CS-101",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "professorId",
+							"value": "PR-1001"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "viewAssignedCourses",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/professor/:professorId/viewAssignedCourses/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"professor",
+						":professorId",
+						"viewAssignedCourses",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "professorId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "registerCourse",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/professor/:professorId/registerCourse/?courseCode",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"professor",
+						":professorId",
+						"registerCourse",
+						""
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "professorId",
+							"value": ""
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "addGrade",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/professor/:professorId/addGrade/?courseCode&studentId&grade",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"professor",
+						":professorId",
+						"addGrade",
+						""
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "studentId",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "grade",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "professorId",
+							"value": ""
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

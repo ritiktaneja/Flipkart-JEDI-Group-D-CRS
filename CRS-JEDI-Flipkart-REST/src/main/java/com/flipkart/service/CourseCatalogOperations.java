@@ -8,7 +8,7 @@ import com.flipkart.data.MockDB;
 import com.flipkart.exception.*;
 
 
-import javax.xml.catalog.Catalog;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         try {
             return MockDB.getCatalogFromId(id);
         } catch(Exception e) {
-            throw new CatalogNotFoundException(id);
+            throw new CatalogNotFoundException(id, e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
             catalog.addCourse(course);
             courseCatalogDao.insert(catalog);
         } catch (Exception e) {
-            throw new CourseNotAddedException(catalogId, courseCode, courseName);
+            throw new CourseNotAddedException(catalogId, courseCode, courseName, e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
             dao.deleteCourseFromCatalog(catalogId, courseId);
         } catch(Exception e) {
-            throw new CourseNotRemovedException(catalogId, courseId);
+            throw new CourseNotRemovedException(catalogId, courseId, e.getMessage());
         }
 
 
@@ -109,7 +109,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
                MockDB.catalogs.add(catalog1);
            }
        } catch (Exception e) {
-           throw new CatalogNotAddedException(catalogId);
+           throw new CatalogNotAddedException(catalogId, e.getMessage());
        }
 
     }
@@ -126,7 +126,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
                 MockDB.catalogs.remove(catalog);
             }
         } catch(Exception e) {
-            throw new CatalogNotRemovedException(catalogId);
+            throw new CatalogNotRemovedException(catalogId, e.getMessage());
         }
     }
 
@@ -144,7 +144,7 @@ public class CourseCatalogOperations implements CourseCatalogServices {
             }
             return null;
         } catch (Exception e) {
-            throw new CatalogNotFoundException(catalogId);
+            throw new CatalogNotFoundException(catalogId, e.getMessage());
         }
     }
 

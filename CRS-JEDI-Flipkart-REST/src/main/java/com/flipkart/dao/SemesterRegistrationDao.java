@@ -59,12 +59,11 @@ public class SemesterRegistrationDao {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return null;
     }
 
     /**
@@ -91,13 +90,12 @@ public class SemesterRegistrationDao {
                 return 0;
             }
         } catch (Exception e) {
-            System.out.println("Failed to register for this semester");
-            e.printStackTrace();
+            throw new RuntimeException("Failed to register for this semester" + e.getMessage());
+
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
     }
 
     /**
@@ -121,11 +119,11 @@ public class SemesterRegistrationDao {
             }
             return null;
         } catch (Exception e) {
-            System.out.println("Student with this id and semester exists");
+            throw new RuntimeException("Student with this id and semester exists");
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 }

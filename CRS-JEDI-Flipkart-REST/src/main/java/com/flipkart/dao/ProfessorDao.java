@@ -67,13 +67,13 @@ public class ProfessorDao implements DaoInterface<Professor> {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("No professor with this ID");
-            e.printStackTrace();
+           throw new RuntimeException("No professor with this ID");
+
         } finally {
             DBConnection.closeStatement(professorStatement);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 
     /**
@@ -91,20 +91,16 @@ public class ProfessorDao implements DaoInterface<Professor> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
-
                 String professorName = rs.getString("professorName");
                 String professorId = rs.getString("professorId");
-
                 builder.setName(professorName);
                 builder.setFacultyId(professorId);
                 builder.setDepartment(Department.valueOf(rs.getString("Department")));
-
                 professorList.add(builder.build());
             }
             return professorList;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -125,15 +121,15 @@ public class ProfessorDao implements DaoInterface<Professor> {
             stmt.setString(2, professor.getName());
             stmt.setString(3, professor.getDepartment().toString());
             int result = stmt.executeUpdate();
-            System.out.println("Professor Added Successfully");
             return result;
         } catch (Exception e) {
-            System.out.println("Professor with same ID present");
+
+            throw new RuntimeException("Professor with same ID present");
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 
     /**
@@ -174,7 +170,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
             stmt.setString(1, professor.getFacultyId());
             return stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);

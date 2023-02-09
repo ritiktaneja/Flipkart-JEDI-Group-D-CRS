@@ -54,12 +54,12 @@ public class CourseCatalogDao {
             }
             return students;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(pstmt);
             DBConnection.closeConnection(con);
         }
-        return null;
+
 
     }
 
@@ -91,12 +91,12 @@ public class CourseCatalogDao {
             }
             return courses;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 
     /**
@@ -169,12 +169,12 @@ public class CourseCatalogDao {
             }
             return catalog;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 
     /**
@@ -228,7 +228,7 @@ public class CourseCatalogDao {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -256,8 +256,8 @@ public class CourseCatalogDao {
             courseDao.insert(courses.get(0));
             return stmt.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+            throw new RuntimeException(e);
+
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -333,7 +333,7 @@ public class CourseCatalogDao {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -357,7 +357,7 @@ public class CourseCatalogDao {
                 return rs.getString("catalogId");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -396,9 +396,9 @@ public class CourseCatalogDao {
             System.out.println("Course Not found in this catalog");
             return 0;
         } catch (Exception e) {
-            System.out.println("No catalog found with this ID");
-            e.printStackTrace();
-            return 0;
+
+            throw new RuntimeException("No catalog found with this ID");
+
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);

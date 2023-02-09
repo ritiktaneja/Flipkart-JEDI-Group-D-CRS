@@ -14,6 +14,6 @@ public interface SelfRegistrationService {
       * @param semester
       * @param department
       */
-     Student selfRegister(String name, String password, String semester, String department);
+     Student selfRegister(String name, String password, String semester, String department) throws Exception;
 
 }

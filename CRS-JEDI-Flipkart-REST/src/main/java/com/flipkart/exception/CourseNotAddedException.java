@@ -12,7 +12,8 @@ public class CourseNotAddedException extends Exception {
      * @param courseCode
      * @param courseName
      */
-    public CourseNotAddedException(String courseId, String courseCode, String courseName) {
+    public CourseNotAddedException(String courseId, String courseCode, String courseName, String message) {
+        super(message);
         this.courseId = courseId;
         this.courseCode = courseCode;
         this.courseName = courseName;

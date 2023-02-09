@@ -12,7 +12,8 @@ public class CourseNotAssignedToProfessorException extends  Exception{
      * @param cc
      * @param professorId
      */
-    public CourseNotAssignedToProfessorException(String catalogId, String cc, String professorId) {
+    public CourseNotAssignedToProfessorException(String catalogId, String cc, String professorId, String message) {
+        super(message);
         this.courseCode = cc;
         this.professorId = professorId;
     }

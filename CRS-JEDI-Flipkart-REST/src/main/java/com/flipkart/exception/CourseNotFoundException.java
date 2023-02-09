@@ -11,7 +11,8 @@ public class CourseNotFoundException extends Exception{
      * @param catalogId
      * @param courseCode
      */
-    public CourseNotFoundException(String catalogId, String courseCode) {
+    public CourseNotFoundException(String catalogId, String courseCode, String message) {
+        super(message);
         this.catalogId = catalogId;
         this.courseCode = courseCode;
     }

@@ -6,6 +6,11 @@ import com.flipkart.constants.Grade;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Registered class
  */
@@ -20,11 +25,19 @@ public class RegisteredCourse {
         this.registeredCourseId = registeredCourseId;
     }
 
+    @NotBlank
     private String registeredCourseId;
+
+    @NotBlank
     private static int index = 0;
+
+    @NotBlank
     private Course course;
+
+    @NotBlank
     private Student student;
 
+    @NotBlank
     private Grade grade;
 
     /**

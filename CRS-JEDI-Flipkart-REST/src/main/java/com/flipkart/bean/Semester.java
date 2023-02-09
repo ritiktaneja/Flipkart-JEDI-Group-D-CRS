@@ -1,10 +1,19 @@
 package com.flipkart.bean;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Semester Class
  */
 public class Semester {
+
+    @NotBlank
     private int registrationOpeningStatus = 0;
+
+    @NotBlank
     private String currentSemester;
 
     public int getRegistrationOpeningStatus() {

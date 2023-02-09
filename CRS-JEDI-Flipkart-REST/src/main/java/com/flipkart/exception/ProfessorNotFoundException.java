@@ -10,7 +10,9 @@ public class ProfessorNotFoundException extends Exception{
      * Professor not found exception Method
      * @param profId
      */
-    public ProfessorNotFoundException(String profId) {
+    public ProfessorNotFoundException(String profId, String message) {
+
+        super(message);
         this.professorId = profId;
     }
 }

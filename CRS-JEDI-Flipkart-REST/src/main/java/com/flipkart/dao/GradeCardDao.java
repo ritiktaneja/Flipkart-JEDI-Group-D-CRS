@@ -48,7 +48,7 @@ public class GradeCardDao {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
@@ -85,12 +85,12 @@ public class GradeCardDao {
             System.out.println("Grade updated Successfully");
             return rs;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(preparedStatement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 
     /**
@@ -111,12 +111,12 @@ public class GradeCardDao {
             }
             return Grade.NOT_CLEAR;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(preparedStatement);
             DBConnection.closeConnection(connection);
         }
-        return null;
+
     }
 
 

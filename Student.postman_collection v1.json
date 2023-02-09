@@ -1,0 +1,250 @@
+{
+	"id": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+	"name": "Student",
+	"description": "Student APIs",
+	"order": [
+		"d481592c-6aa3-762f-5865-474a99827dac",
+		"2fbaa598-1003-5c07-6208-e8e72a8096f2",
+		"b69d9e87-219e-1dc0-1945-b20b9a51e110",
+		"87702b76-182d-2b2a-098f-46aa6acc8a31",
+		"231842cd-d537-92e3-fbdd-8734d6400baf",
+		"204c6aad-5b97-2702-180c-884339137ee0",
+		"5e747ff5-ea08-8dfb-98f2-65dce585fafe"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1675876266480,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "204c6aad-5b97-2702-180c-884339137ee0",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/viewGradesCard/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882464452,
+			"name": "view Grades Card",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		},
+		{
+			"id": "231842cd-d537-92e3-fbdd-8734d6400baf",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/viewRegisteredCourses/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882402826,
+			"name": "view registered Courses",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		},
+		{
+			"id": "2fbaa598-1003-5c07-6208-e8e72a8096f2",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/addCourse/?courseCode",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882332932,
+			"name": "Semester Registration",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "d481592c-6aa3-762f-5865-474a99827dac"
+		},
+		{
+			"id": "5e747ff5-ea08-8dfb-98f2-65dce585fafe",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/payFees/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882479379,
+			"name": "pay fees",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		},
+		{
+			"id": "87702b76-182d-2b2a-098f-46aa6acc8a31",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/viewAvailableCourses/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882385998,
+			"name": "view available courses",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		},
+		{
+			"id": "b69d9e87-219e-1dc0-1945-b20b9a51e110",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/dropCourse/?courseCode",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882364626,
+			"name": "drop course",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		},
+		{
+			"id": "d481592c-6aa3-762f-5865-474a99827dac",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/student/:studentId/addCourse/?courseCode",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"studentId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "studentId",
+					"value": ""
+				}
+			],
+			"method": "POST",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882332932,
+			"name": "addCourse",
+			"description": "",
+			"collectionId": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+			"responses": []
+		}
+	]
+}

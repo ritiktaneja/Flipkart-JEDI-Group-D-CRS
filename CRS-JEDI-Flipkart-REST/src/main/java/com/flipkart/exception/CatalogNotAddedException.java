@@ -10,7 +10,10 @@ public class CatalogNotAddedException extends Exception{
      * Catalog Not added exception method
      * @param catalogName
      */
-    public CatalogNotAddedException(String catalogName) {
+    public CatalogNotAddedException(String catalogName, String message) {
+
+        super(message);
         this.catalogName = catalogName;
+
     }
 }

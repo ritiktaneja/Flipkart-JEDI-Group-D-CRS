@@ -54,7 +54,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
             return dao.getEnrolledStudents(semester, courseId);
         } catch (Exception e) {
-            throw new CourseNotFoundException(semester, courseId);
+            throw new CourseNotFoundException(semester, courseId, e.getMessage());
         }
 
     }
@@ -72,7 +72,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
             CourseCatalogDao courseCatalogDao = CourseCatalogDao.getInstance();
             return courseCatalogDao.getAssignedCourses(professorId);
         } catch (Exception e) {
-            throw new ProfessorNotFoundException(professorId);
+            throw new ProfessorNotFoundException(professorId, e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
             CourseCatalogDao dao = CourseCatalogDao.getInstance();
             dao.registerForCourse(course, builder.build());
         } catch (Exception e) {
-            throw new CourseNotAssignedToProfessorException(semester, courseId, professorId);
+            throw new CourseNotAssignedToProfessorException(semester, courseId, professorId, e.getMessage());
         }
     }
 
@@ -111,7 +111,7 @@ public class ProfessorOperations extends UserOperations implements ProfessorServ
             GradeCardDao dao = GradeCardDao.getInstance();
             dao.updateGrade(studentId, grade, courseCode);
         } catch (Exception e) {
-            throw new GradeNotAddedException(studentId, courseCode, grade);
+            throw new GradeNotAddedException(studentId, courseCode, grade, e.getMessage());
         }
     }
 

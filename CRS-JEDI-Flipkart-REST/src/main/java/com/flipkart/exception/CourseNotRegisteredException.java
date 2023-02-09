@@ -11,7 +11,8 @@ public class CourseNotRegisteredException extends  Exception{
      * @param studentId
      * @param courseCode
      */
-    public CourseNotRegisteredException(String studentId, String courseCode) {
+    public CourseNotRegisteredException(String studentId, String courseCode, String message) {
+        super(message);
         this.studentId = studentId;
         this.courseCode = courseCode;
     }

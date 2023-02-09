@@ -94,12 +94,11 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return null;
     }
 
     @Override
@@ -140,13 +139,13 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             int rs = statement.executeUpdate();
             return rs;
         } catch (Exception e) {
-            System.out.println("Some error in registered Course insert");
+            throw  new RuntimeException(e);
         } finally {
 
             DBConnection.closeStatement(statement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 
 
@@ -198,11 +197,11 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             }
             return rs;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(preparedStatement);
             DBConnection.closeConnection(connection);
         }
-        return 0;
+
     }
 }

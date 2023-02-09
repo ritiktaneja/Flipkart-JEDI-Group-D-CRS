@@ -76,19 +76,19 @@ public class StudentDao implements DaoInterface<Student> {
                     }
                     return builder.build();
                 } else {
-                    System.out.println("Student not found");
+
                     return null;
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("Student not found");
         } finally {
             DBConnection.closeStatement(studentStatement);
             DBConnection.closeConnection(connection);
         }
         return null;
+
     }
 
     /**
@@ -131,8 +131,7 @@ public class StudentDao implements DaoInterface<Student> {
             }
             return studentList;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+           throw new RuntimeException(e.getMessage());
         } finally {
             DBConnection.closeStatement(studentStatement);
             DBConnection.closeConnection(connection);

@@ -14,9 +14,11 @@ public class ProfessorNotAddedException extends Exception {
      * @param name
      * @param password
      */
-    public ProfessorNotAddedException(String id, String name, String password) {
+    public ProfessorNotAddedException(String id, String name, String password, String message) {
+        super(message);
         this.profId = profId;
         this.profName = profName;
         this.password = password;
     }
+
 }

@@ -10,7 +10,9 @@ public class CatalogNotRemovedException extends  Exception{
      * Catalog not removed exception method
      * @param id
      */
-    public CatalogNotRemovedException(String id) {
+    public CatalogNotRemovedException(String id, String message) {
+
+        super(message);
         this.catalogId = id;
     }
 }

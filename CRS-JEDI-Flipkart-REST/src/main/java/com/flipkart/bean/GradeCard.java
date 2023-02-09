@@ -4,11 +4,20 @@ import com.flipkart.constants.Grade;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Grade Card
  */
 public class GradeCard {
+
+    @NotBlank
     private Student student;
+
+    @NotNull
     private List<RegisteredCourse> registeredCourses;
 
     /**
