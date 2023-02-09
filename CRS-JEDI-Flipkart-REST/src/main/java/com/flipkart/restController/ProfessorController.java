@@ -7,7 +7,9 @@ import com.flipkart.bean.Student;
 import com.flipkart.client.CRSApplication;
 import com.flipkart.service.ProfessorOperations;
 import com.flipkart.service.ProfessorServices;
+import com.flipkart.utils.BasicAuthorizer;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +22,7 @@ import java.util.List;
 @Path("/professor/{professorId}/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({BasicAuthorizer.PROFESSOR_ROLE})
 public class ProfessorController {
     private ProfessorServices professorServices;
 
@@ -78,7 +81,7 @@ public class ProfessorController {
     @PUT
     @Path("/addGrade")
     public Response addGrade(@QueryParam("courseCode") String courseCode,
-                             @QueryParam("studentID") String studentID,
+                             @QueryParam("studentId") String studentID,
                              @QueryParam("grade") String grade) {
         try {
             professorServices.addGrade(studentID, grade, courseCode);

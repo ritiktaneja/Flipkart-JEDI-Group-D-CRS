@@ -100,12 +100,10 @@ public class CRSStudentMenu {
      * @throws CourseNotRegisteredException
      */
     public void addCourse() throws CourseNotRegisteredException {
-        viewAvailableCourses();
+        //viewAvailableCourses();
         List<RegisteredCourse> ls = studentServices.viewRegisteredCourses(studentId);
         if (ls.size() == 6) {
             System.out.println(CRSColors.YELLOW + "\nMaximum course registration limit reached!!. Drop a course to register." + CRSColors.RESET);
-
-            return;
         }
         System.out.print("\nEnter the Course Code : ");
         String courseCode = sc.next();

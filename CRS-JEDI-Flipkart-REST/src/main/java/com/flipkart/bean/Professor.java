@@ -54,12 +54,14 @@ public class Professor extends User {
     private Professor(ProfessorBuilder builder) {
         super(builder.facultyId, builder.name, builder.password);
         this.department = builder.department;
-        this.designation = builder.designation;
+        if(builder.designation != null)
+            this.designation = builder.designation;
+        else
+            this.designation = Designation.PROFESSOR;
     }
 
     @Override
     public String toString() {
-        //Printing the current object of the class
         return "Professor name = " + this.getName() + ", ID = " + this.getFacultyId() ;
     }
 

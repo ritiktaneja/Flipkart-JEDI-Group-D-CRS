@@ -3,11 +3,12 @@ package com.flipkart.bean;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 
 /**
  * User Class
  */
-public class User {
+public class User implements Principal {
 
     @NotBlank
     private String userId;
@@ -73,7 +74,10 @@ public class User {
     public User(String userId, String name, String password) {
         this.userId = userId;
         this.name = name;
-        this.password = password;
+        if(password != null)
+            this.password = password;
+        else
+            this.password = "REDACTED";
     }
 
     /**

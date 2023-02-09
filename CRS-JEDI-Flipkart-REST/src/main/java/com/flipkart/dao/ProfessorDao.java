@@ -93,6 +93,7 @@ public class ProfessorDao implements DaoInterface<Professor> {
                 Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
                 String professorName = rs.getString("professorName");
                 String professorId = rs.getString("professorId");
+                builder.setPassword("REDACTED");
                 builder.setName(professorName);
                 builder.setFacultyId(professorId);
                 builder.setDepartment(Department.valueOf(rs.getString("Department")));

@@ -3,10 +3,7 @@ package com.flipkart.service;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.Department;
 import com.flipkart.dao.StudentDao;
-import com.flipkart.data.MockDB;
 
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * SelfRegistrationOperations class

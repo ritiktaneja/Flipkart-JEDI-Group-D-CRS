@@ -5,6 +5,8 @@ import com.flipkart.client.CRSApplication;
 import com.flipkart.service.SelfRegistrationOperations;
 
 import javax.annotation.Nonnull;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

@@ -27,6 +27,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method is updating semester info
+     *
      * @param semester
      * @return
      */
@@ -50,6 +51,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * getting admin instance
+     *
      * @return
      */
     public static AdminDao getInstance() {
@@ -61,6 +63,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method use for getting info about current semester
+     *
      * @return
      */
     public Semester getCurrentSemester() {
@@ -76,7 +79,7 @@ public class AdminDao implements DaoInterface<Admin> {
                 return semester;
             }
         } catch (Exception e) {
-           throw new RuntimeException("Unable to get current semester");
+            throw new RuntimeException("Unable to get current semester");
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -86,6 +89,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method use for approve student request for registration
+     *
      * @param studentID
      * @return
      */
@@ -109,6 +113,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method creating admin
+     *
      * @param id
      * @return
      */
@@ -124,6 +129,7 @@ public class AdminDao implements DaoInterface<Admin> {
                 Admin.AdminBuilder builder = new Admin.AdminBuilder();
                 builder.setAdminId(rs.getString("adminId"));
                 builder.setName(rs.getString("adminName"));
+                builder.setPassword("REDACTED");
                 return builder.build();
             }
         } catch (SQLException e) {
@@ -137,6 +143,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method fetching admin from database and insert into list
+     *
      * @return
      */
     @Override
@@ -151,6 +158,7 @@ public class AdminDao implements DaoInterface<Admin> {
                 Admin.AdminBuilder builder = new Admin.AdminBuilder();
                 builder.setAdminId(rs.getString("adminId"));
                 builder.setName(rs.getString("adminName"));
+                builder.setPassword("REDACTED");
                 adminList.add(builder.build());
             }
             return adminList;
@@ -165,6 +173,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method inserting admin into database
+     *
      * @param admin
      * @return
      */
@@ -177,10 +186,9 @@ public class AdminDao implements DaoInterface<Admin> {
             stmt.setString(2, admin.getName());
             stmt.setString(3, CRSApplication.currentSemester.getCurrentSemester());
             int result = stmt.executeUpdate();
-            System.out.println("Admin Added Successfully");
             return result;
         } catch (Exception e) {
-           throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage());
 
         } finally {
             DBConnection.closeStatement(stmt);
@@ -190,6 +198,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method updating admin into database
+     *
      * @param id
      * @param admin
      * @return
@@ -213,6 +222,7 @@ public class AdminDao implements DaoInterface<Admin> {
 
     /**
      * this method deleting admin from database
+     *
      * @param admin
      * @return
      */

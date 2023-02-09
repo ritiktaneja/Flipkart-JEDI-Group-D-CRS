@@ -161,15 +161,22 @@ public class CourseCatalogDao {
                 String courseId = rs.getString("CourseCode");
                 String professorId = rs.getString("ProfessorID");
                 Course course = courseDao.get(courseId);
-
-                Professor professor = professorDao.get(professorId);
-                if (professor != null)
-                    course.setProfessor(professor);
-                catalog.addCourse(course);
+                if (course != null) {
+                    Professor professor = professorDao.get(professorId);
+                    if (professor == null) {
+                        Professor.ProfessorBuilder builder = new Professor.ProfessorBuilder();
+                        builder.setName("NO PROFESSOR ASSOCIATED");
+                        builder.setFacultyId("UNDEFINED");
+                        course.setProfessor(builder.build());
+                    } else {
+                        course.setProfessor(professor);
+                    }
+                    catalog.addCourse(course);
+                }
             }
             return catalog;
         } catch (Exception e) {
-           throw new RuntimeException(e);
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -228,7 +235,7 @@ public class CourseCatalogDao {
             }
 
         } catch (Exception e) {
-           throw new RuntimeException(e);
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
@@ -298,6 +305,7 @@ public class CourseCatalogDao {
 
     /**
      * using this method professor can register in courses
+     *
      * @param course
      * @param professor
      * @return
@@ -343,6 +351,7 @@ public class CourseCatalogDao {
 
     /**
      * this method getting catalog Id from database
+     *
      * @param courseId
      * @return
      */
@@ -367,6 +376,7 @@ public class CourseCatalogDao {
 
     /**
      * this method deleting course from course catalog
+     *
      * @param catalogId
      * @param courseId
      * @return
@@ -379,31 +389,16 @@ public class CourseCatalogDao {
             stmt.setString(1, catalogId);
             stmt.setString(2, courseId);
             CourseDao courseDao = CourseDao.getInstance();
-
             Course course = new Course();
             course.setCourseCode(courseId);
-            int rs = courseDao.delete(course);
-            if (rs == 1) {
-                CourseCatalog catalog = get(catalogId);
-                if (catalog == null) {
-                    System.out.println("No catalog associated with this ID");
-                    return 0;
-                }
-                stmt.executeUpdate();
-                System.out.println("Course Removed from catalog Successfully");
-                return 1;
-            }
-            System.out.println("Course Not found in this catalog");
-            return 0;
+            courseDao.delete(course);
+            return stmt.executeUpdate();
         } catch (Exception e) {
-
             throw new RuntimeException("No catalog found with this ID");
-
         } finally {
             DBConnection.closeStatement(stmt);
             DBConnection.closeConnection(connection);
         }
     }
-
 
 }

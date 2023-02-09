@@ -91,8 +91,6 @@ public class CourseCatalogOperations implements CourseCatalogServices {
         } catch(Exception e) {
             throw new CourseNotRemovedException(catalogId, courseId, e.getMessage());
         }
-
-
     }
 
     /**

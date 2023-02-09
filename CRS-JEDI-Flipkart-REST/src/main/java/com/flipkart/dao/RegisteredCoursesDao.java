@@ -5,6 +5,7 @@ import com.flipkart.client.CRSApplication;
 import com.flipkart.utils.DBConnection;
 import com.flipkart.constants.sqlconstants.*;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,20 +127,25 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             statement = connection.prepareStatement(RegisteredCoursesDaoConstants.INSERT, Statement.RETURN_GENERATED_KEYS);
             CourseDao courseDao = CourseDao.getInstance();
             Course course = courseDao.get(registeredCourse.getCourse().getCourseCode());
-            if (course == null) {
-                return 0;
+            if (course != null) {
+                String regCourseId = getRegisteredCourseId(registeredCourse.getStudent().getStudentId(), registeredCourse.getCourse().getCourseCode());
+                if (regCourseId == null) {
+                    statement.setString(1, registeredCourse.getRegisteredCourseId());
+                    statement.setString(2, registeredCourse.getStudent().getStudentId());
+                    statement.setString(3, registeredCourse.getCourse().getCourseCode());
+                    statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+                    GradeCardDao gradeCardDao = GradeCardDao.getInstance();
+                    gradeCardDao.insert(registeredCourse);
+                    int rs = statement.executeUpdate();
+                    return rs;
+                } else {
+                    throw new RuntimeException("Course not registered");
+                }
+            } else {
+                throw new RuntimeException("Course Doesn't exist");
             }
-            statement.setString(1, registeredCourse.getRegisteredCourseId());
-            statement.setString(2, registeredCourse.getStudent().getStudentId());
-            statement.setString(3, registeredCourse.getCourse().getCourseCode());
-            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-
-            GradeCardDao gradeCardDao = GradeCardDao.getInstance();
-            gradeCardDao.insert(registeredCourse);
-            int rs = statement.executeUpdate();
-            return rs;
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         } finally {
 
             DBConnection.closeStatement(statement);
@@ -197,7 +203,7 @@ public class RegisteredCoursesDao implements DaoInterface<RegisteredCourse> {
             }
             return rs;
         } catch (Exception e) {
-           throw new RuntimeException(e);
+            throw new RuntimeException(e);
         } finally {
             DBConnection.closeStatement(preparedStatement);
             DBConnection.closeConnection(connection);

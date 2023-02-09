@@ -1,30 +1,33 @@
 package com.flipkart.restController;
 
 
-import com.flipkart.App;
+
 import com.flipkart.bean.*;
+import com.flipkart.bean.Error;
 import com.flipkart.client.CRSApplication;
-import com.flipkart.constants.Department;
+
 import com.flipkart.service.AdminOperations;
 import com.flipkart.service.AdminServices;
-import com.flipkart.service.ProfessorServices;
-import org.xml.sax.SAXException;
+import com.flipkart.utils.BasicAuthorizer;
+import io.dropwizard.auth.Auth;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.validation.Validator;
-import java.io.IOException;
+import javax.ws.rs.core.SecurityContext;
 import java.util.List;
+import java.util.Optional;
 
-@Path("/admin/{adminId}/")
+@Path("/admin/{adminId}")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({BasicAuthorizer.ADMIN_ROLE})
 public class AdminController {
 
-    private AdminServices adminOperations = new AdminOperations();
-    private String adminId;
-
+    private final AdminServices adminOperations = new AdminOperations();
+    private final String adminId;
     public AdminController(@PathParam("adminId") String adminId) {
         this.adminId = adminId;
     }
@@ -51,7 +54,6 @@ public class AdminController {
                     .status(Response.Status.BAD_REQUEST)
                     .entity(e.getMessage())
                     .build();
-            //return Response.status(Response.Status.BAD_REQUEST).entity().build();
         }
     }
 
@@ -88,7 +90,7 @@ public class AdminController {
     public Response deleteCourseFromCatalog(@QueryParam("courseId") String courseId) {
         try {
             adminOperations.deleteCourse(CRSApplication.currentSemester.getCurrentSemester(), courseId);
-            return Response.status(Response.Status.CREATED).build();
+            return Response.ok().build();
         } catch (Exception e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -123,7 +125,7 @@ public class AdminController {
         } catch (Exception e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
+                    .entity(new Error(e.getMessage()))
                     .build();
         }
     }

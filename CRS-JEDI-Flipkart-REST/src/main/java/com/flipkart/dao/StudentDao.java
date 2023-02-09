@@ -65,6 +65,7 @@ public class StudentDao implements DaoInterface<Student> {
                 if (rs.next()) {
                     Student.StudentBuilder builder = new Student.StudentBuilder();
                     builder.setStudentId(studentId);
+                    builder.setPassword("REDACTED");
                     builder.setName(rs.getString("studentName"));
                     builder.setDepartment(Department.valueOf(rs.getString("Department")));
                     builder.setApprovalStatus(registrationStatus);
@@ -113,6 +114,7 @@ public class StudentDao implements DaoInterface<Student> {
 
                 Student.StudentBuilder builder = new Student.StudentBuilder();
                 builder.setStudentId(studentId);
+                builder.setPassword("REDACTED");
                 builder.setDepartment(Department.valueOf(rs.getString("Department")));
                 builder.setName(rs.getString("studentName"));
 

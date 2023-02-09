@@ -2,25 +2,30 @@ package com.flipkart.restController;
 
 
 import com.flipkart.bean.Course;
+import com.flipkart.bean.Error;
 import com.flipkart.bean.RegisteredCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.client.CRSApplication;
-import com.flipkart.service.SelfRegistrationOperations;
-import com.flipkart.service.SelfRegistrationService;
-import com.flipkart.service.StudentOperations;
-import com.flipkart.service.StudentServices;
+import com.flipkart.service.*;
+import com.flipkart.utils.BasicAuthorizer;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.UUID;
+
+import static com.mysql.cj.MysqlType.JSON;
 
 @Path("/student/{studentId}/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({BasicAuthorizer.STUDENT_ROLE})
 public class StudentController {
 
     private StudentServices studentServices = new StudentOperations();
+    private PaymentServices paymentServices = new PaymentOperations();
     private SelfRegistrationService selfRegistrationService = new SelfRegistrationOperations();
     private String studentId;
 
@@ -54,7 +59,7 @@ public class StudentController {
         } catch (Exception e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
+                    .entity(new Error(e.getMessage()))
                     .build();
         }
     }
@@ -68,7 +73,7 @@ public class StudentController {
         } catch (Exception e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
+                    .entity(new WebApplicationException(e.getMessage()))
                     .build();
         }
     }
@@ -117,7 +122,40 @@ public class StudentController {
 
     @POST
     @Path("/payFees")
-    public Response payFees() {
-        return Response.ok().build();
+    public Response payFess(@QueryParam("modeOfPayment") String modeOfPayment, @QueryParam("amount") double amount) {
+        {
+            try {
+                String referenceId = String.valueOf(UUID.randomUUID());
+                String status = "Initiated";
+                String description = "Payment has been initiated";
+                long fees = studentServices.calculateFee(studentId);
+                if (fees != amount) {
+                    throw new Exception();
+                }
+                paymentServices.initPayment(studentId, referenceId, modeOfPayment, amount, CRSApplication.currentSemester.getCurrentSemester(), status, description);
+                return Response.ok().build();
+            } catch (Exception e) {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(e.getMessage())
+                        .build();
+            }
+        }
+    }
+
+    @POST
+    @Path("/showFees")
+    public Response showFees() {
+        {
+            try {
+                long fees = studentServices.calculateFee(studentId);
+                return Response.ok(fees).build();
+            } catch (Exception e) {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(new String(e.getMessage()))
+                        .build();
+            }
+        }
     }
 }

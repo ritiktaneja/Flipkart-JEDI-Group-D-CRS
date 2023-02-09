@@ -29,6 +29,7 @@ com/flipkart/exception/CourseNotAssignedToProfessorException.class
 com/flipkart/App.class
 com/flipkart/bean/GradeCard.class
 com/flipkart/constants/SQLConstants.class
+com/flipkart/utils/BasicAuthorizer.class
 com/flipkart/bean/CourseCatalog.class
 com/flipkart/exception/StudentNotApprovedException.class
 com/flipkart/bean/Course.class
@@ -48,6 +49,7 @@ com/flipkart/service/AdminServices.class
 com/flipkart/constants/sqlconstants/PaymentDaoConstants.class
 com/flipkart/dao/UserDao.class
 com/flipkart/constants/sqlconstants/ProfessorDaoConstants.class
+com/flipkart/utils/BasicAuthenticator.class
 com/flipkart/service/PaymentOperations.class
 com/flipkart/client/CRSApplication.class
 com/flipkart/dao/GradeCardDao.class
@@ -59,6 +61,7 @@ com/flipkart/bean/Admin$1.class
 com/flipkart/constants/Department.class
 com/flipkart/exception/CourseNotRemovedException.class
 com/flipkart/constants/sqlconstants/SemesterRegistrationDaoConstants.class
+com/flipkart/bean/Error.class
 com/flipkart/dao/SemesterRegistrationDao.class
 com/flipkart/dao/PaymentDao.class
 com/flipkart/bean/Professor$ProfessorBuilder.class
