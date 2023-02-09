@@ -1,0 +1,418 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Admin",
+		"_postman_id": "4f46f988-3bf5-1f3c-e878-f677662c6ee3",
+		"description": "Admin APIs\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Admins",
+			"request": {
+				"url": "",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Course To Catalog",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/addCourseToCatalog/?courseId=CS-999&courseName=LCS",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"addCourseToCatalog",
+						""
+					],
+					"query": [
+						{
+							"key": "courseId",
+							"value": "CS-999",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "courseName",
+							"value": "LCS",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": "AD-1001"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Professor",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/addProfessor/?professorId=69&professorName=Viraj&password=1234&department=CSE",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"addProfessor",
+						""
+					],
+					"query": [
+						{
+							"key": "professorId",
+							"value": "69",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "professorName",
+							"value": "Viraj",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "department",
+							"value": "CSE",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": "AD-1001"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Admin",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/addAdmin/?adminName=ABC&password=1234",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"addAdmin",
+						""
+					],
+					"query": [
+						{
+							"key": "adminName",
+							"value": "ABC",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "approve Student",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/approveStudent/?studentId=123",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"approveStudent",
+						""
+					],
+					"query": [
+						{
+							"key": "studentId",
+							"value": "123",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete Course",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/deleteCourseFromCatalog/?courseId",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"deleteCourseFromCatalog",
+						""
+					],
+					"query": [
+						{
+							"key": "courseId",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "show Professor",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/showProfessor/?courseId",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"showProfessor",
+						""
+					],
+					"query": [
+						{
+							"key": "courseId",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view Courses in Catalog",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/viewCoursesInCatalog/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"viewCoursesInCatalog",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "show Registered Students",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/showRegisteredStudents/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"showRegisteredStudents",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view Pending Admissions",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/viewPendingAdmission/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"viewPendingAdmission",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update Semester",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/admin/:adminId/updateSemester/?semester",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"admin",
+						":adminId",
+						"updateSemester",
+						""
+					],
+					"query": [
+						{
+							"key": "semester",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "adminId",
+							"value": ""
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

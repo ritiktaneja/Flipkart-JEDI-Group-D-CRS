@@ -1,0 +1,172 @@
+{
+	"id": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+	"name": "Professor",
+	"description": "ProfessorAPIs",
+	"order": [
+		"fc469ec5-2a61-76eb-2290-c58a330da173",
+		"4f714784-5604-53ad-e305-0400c2fbdcfa",
+		"34c626a0-d8ed-3e59-5394-06807a8025bb",
+		"7eb084c7-9137-ad32-914a-52b32d350d46"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1675875448152,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "34c626a0-d8ed-3e59-5394-06807a8025bb",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/professor/:professorId/registerCourse/?courseCode",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"professorId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "professorId",
+					"value": ""
+				}
+			],
+			"method": "PUT",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882195831,
+			"name": "registerCourse",
+			"description": "",
+			"collectionId": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+			"responses": []
+		},
+		{
+			"id": "4f714784-5604-53ad-e305-0400c2fbdcfa",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/professor/:professorId/viewAssignedCourses/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {
+				"professorId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "professorId",
+					"value": ""
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882158346,
+			"name": "viewAssignedCourses",
+			"description": "",
+			"collectionId": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+			"responses": []
+		},
+		{
+			"id": "7eb084c7-9137-ad32-914a-52b32d350d46",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/professor/:professorId/addGrade/?courseCode&studentId&grade",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "studentId",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "grade",
+					"value": "",
+					"equals": false,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"professorId": ""
+			},
+			"pathVariableData": [
+				{
+					"key": "professorId",
+					"value": ""
+				}
+			],
+			"method": "PUT",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675882222131,
+			"name": "addGrade",
+			"description": "",
+			"collectionId": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+			"responses": []
+		},
+		{
+			"id": "fc469ec5-2a61-76eb-2290-c58a330da173",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{HOST}}:{{PORT}}/professor/:professorId/getEnrolledStudents?courseCode=CS-101",
+			"queryParams": [
+				{
+					"key": "courseCode",
+					"value": "CS-101",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {
+				"professorId": "PR-1001"
+			},
+			"pathVariableData": [
+				{
+					"key": "professorId",
+					"value": "PR-1001"
+				}
+			],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1675883202901,
+			"name": "GetEnrolledStudents",
+			"description": "",
+			"collectionId": "47d8c4ed-1a93-2739-945a-3d3d46066e6c",
+			"responses": []
+		}
+	]
+}

@@ -1,0 +1,249 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Student",
+		"_postman_id": "78d56259-cc37-0ab4-2657-234165e0d3cd",
+		"description": "Student APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addCourse",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/addCourse/?courseCode",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"addCourse",
+						""
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Semester Registration",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/addCourse/?courseCode",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"addCourse",
+						""
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "drop course",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/dropCourse/?courseCode",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"dropCourse",
+						""
+					],
+					"query": [
+						{
+							"key": "courseCode",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view available courses",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/viewAvailableCourses/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"viewAvailableCourses",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view registered Courses",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/viewRegisteredCourses/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"viewRegisteredCourses",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view Grades Card",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/viewGradesCard/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"viewGradesCard",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "pay fees",
+			"request": {
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/student/:studentId/payFees/",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"student",
+						":studentId",
+						"payFees",
+						""
+					],
+					"query": [],
+					"variable": [
+						{
+							"key": "studentId",
+							"value": ""
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

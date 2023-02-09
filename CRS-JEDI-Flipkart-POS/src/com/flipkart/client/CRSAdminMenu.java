@@ -65,9 +65,7 @@ public class CRSAdminMenu {
                 System.out.println("\t9. Show Pending Admissions");
                 System.out.println("\t10. Show Added Admins");
                 System.out.println("\t11. Add new Semester");
-                System.out.println("\t12, Open Semester Registration");
-                System.out.println("\t13. Close Semester Registration");
-                System.out.println("\t14. Logout\n");
+                System.out.println("\t12. Logout\n");
                 System.out.print("Enter your choice : ");
                 int choice;
                 Scanner sc = new Scanner(System.in);
@@ -107,12 +105,6 @@ public class CRSAdminMenu {
                         updateSemester();
                         break;
                     case 12:
-                        openSemesterRegistration();
-                        break;
-                    case 13:
-                        closeSemesterRegistration();
-                        break;
-                    case 14:
                         System.out.println("\nHeading to Main Menu . . .");
                         return;
                     default:
